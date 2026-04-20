@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy – FindMyNight</title>
+    <meta name="description" content="Informativa sulla privacy di FindMyNight: dati raccolti, cookie, Firebase, mappe e diritti (GDPR). Ultimo aggiornamento consultabile in pagina.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://findmynight.info/privacy.html">
+    <link rel="icon" href="immagini_locali/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="immagini_locali/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="immagini_locali/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="immagini_locali/apple-touch-icon.png">
+    <meta name="theme-color" content="#07060f">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="FindMyNight">
+    <meta property="og:locale" content="it_IT">
+    <meta property="og:title" content="Privacy Policy – FindMyNight">
+    <meta property="og:description" content="Come trattiamo i dati su FindMyNight: cookie, servizi tecnici e i tuoi diritti.">
+    <meta property="og:url" content="https://findmynight.info/privacy.html">
+    <meta property="og:image" content="https://findmynight.info/fmn-og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://findmynight.info/fmn-og-image.png">
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"WebPage","name":"Privacy Policy — FindMyNight","url":"https://findmynight.info/privacy.html","description":"Informativa privacy e cookie FindMyNight.","isPartOf":{"@type":"WebSite","name":"FindMyNight","url":"https://findmynight.info/"}}
+    </script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="fmn-chat-widget.css">
+    <style>
+        :root {
+            --bg: #07060f;
+            --bg2: #0e0c1c;
+            --bg3: #13112a;
+            --accent: #a855f7;
+            --accent2: #ec4899;
+            --accent3: #06b6d4;
+            --text: #f1f0fa;
+            --muted: #8880a8;
+            --border: rgba(168, 85, 247, 0.18);
+            --card: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.65;
+            overflow-x: hidden;
+            padding-left: env(safe-area-inset-left, 0px);
+            padding-right: env(safe-area-inset-right, 0px);
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.4;
+        }
+
+        /* ─── NAV (come index) ─── */
+        nav.site-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: calc(1rem + env(safe-area-inset-top, 0px)) max(5vw, env(safe-area-inset-right, 0px)) 1rem max(5vw, env(safe-area-inset-left, 0px));
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 0.75rem;
+            background: rgba(7, 6, 15, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 0.5px solid var(--border);
+        }
+
+        .nav-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        a.logo {
+            text-decoration: none;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            min-width: 0;
+            flex-shrink: 0;
+        }
+
+        .logo-text {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.3rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-beta {
+            flex-shrink: 0;
+            align-self: center;
+            margin-left: 0.1rem;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            color: rgba(233, 213, 255, 0.98);
+            padding: 0.2rem 0.48rem;
+            border-radius: 999px;
+            border: 0.5px solid rgba(168, 85, 247, 0.42);
+            background: rgba(168, 85, 247, 0.16);
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        .logo img {
+            width: 26px;
+            height: 26px;
+            flex: 0 0 auto;
+            filter: drop-shadow(0 10px 20px rgba(168, 85, 247, 0.35));
+        }
+
+        .nav-menu-btn {
+            display: none;
+            position: relative;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            border: 0.5px solid var(--card-border);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.06);
+            cursor: pointer;
+            flex-shrink: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .nav-menu-btn span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            border-radius: 2px;
+            background: rgba(241, 240, 250, 0.9);
+            transition:
+                transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.22s ease,
+                top 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+                left 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+                margin 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+            transform-origin: center;
+        }
+
+        .site-nav.nav-open .nav-menu-btn {
+            gap: 0;
+        }
+
+        .site-nav.nav-open .nav-menu-btn span:nth-child(1),
+        .site-nav.nav-open .nav-menu-btn span:nth-child(3) {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 20px;
+            margin-left: -10px;
+            margin-top: -1px;
+        }
+
+        .site-nav.nav-open .nav-menu-btn span:nth-child(1) {
+            transform: rotate(45deg);
+        }
+
+        .site-nav.nav-open .nav-menu-btn span:nth-child(2) {
+            position: absolute;
+            left: 50%;
+            width: 0;
+            height: 0;
+            margin: 0;
+            opacity: 0;
+            transform: scale(0);
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .site-nav.nav-open .nav-menu-btn span:nth-child(3) {
+            transform: rotate(-45deg);
+        }
+
+        .nav-menu-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1899;
+            background: var(--bg);
+        }
+
+        .site-nav.nav-open .nav-menu-backdrop {
+            display: block;
+        }
+
+        nav ul.nav-main-list {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            margin: 0 0 0 auto;
+            padding: 0;
+            min-width: 0;
+        }
+
+        nav ul.nav-main-list a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 400;
+            letter-spacing: 0.01em;
+            transition: color 0.2s;
+        }
+
+        nav ul.nav-main-list a:hover {
+            color: var(--text);
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--accent), var(--accent2)) !important;
+            color: #fff !important;
+            padding: 0.55rem 1.3rem !important;
+            border-radius: 100px;
+            font-size: 0.85rem !important;
+            font-weight: 500 !important;
+            -webkit-text-fill-color: #fff !important;
+            transition: opacity 0.2s !important;
+        }
+
+        .nav-cta:hover {
+            opacity: 0.85 !important;
+        }
+
+        .legal-wrap {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: calc(5.25rem + env(safe-area-inset-top, 0px)) max(5vw, env(safe-area-inset-left, 0px)) 5rem max(5vw, env(safe-area-inset-right, 0px));
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 1024px) {
+            .nav-menu-btn {
+                display: inline-flex;
+            }
+
+            .site-nav.nav-open {
+                z-index: 1900;
+                background: transparent;
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
+                padding-top: 0;
+                padding-bottom: 0;
+            }
+
+            .site-nav.nav-open .nav-top {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 1903;
+                flex: none;
+                width: 100%;
+                max-width: none;
+                box-sizing: border-box;
+                padding: calc(0.9rem + env(safe-area-inset-top, 0px)) max(4.5vw, env(safe-area-inset-right, 0px)) 0.9rem max(4.5vw, env(safe-area-inset-left, 0px));
+                margin: 0;
+                background: var(--bg);
+                border-bottom: 0.5px solid var(--border);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+            }
+
+            nav ul.nav-main-list {
+                position: fixed;
+                top: 0;
+                right: 0;
+                z-index: 1901;
+                width: min(19.5rem, 86vw);
+                max-width: 100%;
+                min-width: 0;
+                flex-shrink: 0;
+                height: 100vh;
+                height: 100dvh;
+                margin: 0;
+                padding: calc(4.85rem + env(safe-area-inset-top, 0px)) 1.35rem calc(2rem + env(safe-area-inset-bottom, 0px));
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                background: var(--bg);
+                border-left: 0.5px solid rgba(168, 85, 247, 0.28);
+                box-shadow: -12px 0 48px rgba(0, 0, 0, 0.45);
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                transform: translateX(102%);
+                transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+            }
+
+            .site-nav.nav-open ul.nav-main-list {
+                transform: translateX(0);
+            }
+
+            nav ul.nav-main-list li {
+                border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
+            }
+
+            nav ul.nav-main-list li:last-child {
+                border-bottom: none;
+            }
+
+            nav ul.nav-main-list a {
+                display: flex;
+                align-items: center;
+                min-height: 48px;
+                padding: 0.35rem 0;
+                font-size: 1rem;
+            }
+
+            nav ul.nav-main-list li:last-child {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                padding-top: 0.35rem;
+                padding-bottom: 0.25rem;
+            }
+
+            nav ul.nav-main-list a.nav-cta {
+                display: inline-flex !important;
+                align-items: center;
+                justify-content: center;
+                width: auto;
+                max-width: 100%;
+                min-height: 44px;
+                padding: 0.5rem 1.15rem !important;
+                box-sizing: border-box;
+                margin-left: -0.45rem;
+                margin-right: auto;
+            }
+
+            nav.site-nav {
+                padding: calc(0.9rem + env(safe-area-inset-top, 0px)) max(4.5vw, env(safe-area-inset-right, 0px)) 0.9rem max(4.5vw, env(safe-area-inset-left, 0px));
+            }
+
+            .logo-text {
+                font-size: 1.12rem;
+            }
+
+            .logo-beta {
+                font-size: 0.56rem;
+                padding: 0.16rem 0.4rem;
+            }
+        }
+
+        .legal-wrap h1 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: clamp(1.75rem, 4vw, 2.25rem);
+            letter-spacing: -0.02em;
+            margin-bottom: 0.35rem;
+        }
+
+        .legal-meta {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-bottom: 2.25rem;
+        }
+
+        .legal-wrap h2 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 1.15rem;
+            margin: 2rem 0 0.75rem;
+            color: var(--text);
+        }
+
+        .legal-wrap p,
+        .legal-wrap li {
+            font-size: 0.95rem;
+            color: rgba(241, 240, 250, 0.88);
+            margin-bottom: 0.85rem;
+        }
+
+        .legal-wrap ul {
+            margin: 0.5rem 0 1rem 1.25rem;
+        }
+
+        .legal-wrap li {
+            margin-bottom: 0.45rem;
+        }
+
+        .legal-wrap a {
+            color: var(--accent3);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .legal-wrap a:hover {
+            color: #67e8f9;
+        }
+
+        footer {
+            border-top: 0.5px solid var(--card-border);
+            padding: 2rem 5vw 3rem;
+            text-align: center;
+        }
+
+        footer a {
+            font-size: 0.85rem;
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: var(--text);
+        }
+
+        /* ─── COOKIE BANNER (essenziali) ─── */
+        .cookie-banner {
+            position: fixed;
+            left: max(16px, env(safe-area-inset-left, 0px));
+            right: max(16px, env(safe-area-inset-right, 0px));
+            bottom: max(16px, env(safe-area-inset-bottom, 0px));
+            z-index: 2000;
+            display: none;
+            background: rgba(14, 12, 28, 0.88);
+            border: 0.5px solid rgba(168, 85, 247, 0.28);
+            box-shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(18px);
+            border-radius: 16px;
+            padding: 0.95rem 0.95rem;
+        }
+        .cookie-banner.visible { display: flex; }
+        .cookie-banner .cookie-inner { display: flex; gap: 0.9rem; width: 100%; align-items: flex-start; }
+        .cookie-banner .cookie-text { flex: 1; min-width: 0; }
+        .cookie-banner .cookie-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.95rem; margin-bottom: 0.25rem; }
+        .cookie-banner .cookie-desc { color: rgba(255,255,255,0.72); font-size: 0.86rem; line-height: 1.45; }
+        .cookie-banner .cookie-desc a { color: #22d3ee; text-decoration: none; }
+        .cookie-banner .cookie-desc a:hover { text-decoration: underline; }
+        .cookie-banner .cookie-actions { display: flex; gap: 0.6rem; align-items: center; flex: 0 0 auto; }
+        .cookie-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 0.5px solid rgba(255,255,255,0.14);
+            background: rgba(255,255,255,0.06);
+            color: var(--text);
+            border-radius: 12px;
+            padding: 0.65rem 0.9rem;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+        .cookie-btn.primary { border: none; background: linear-gradient(135deg, #a855f7, #ec4899); }
+        @media (max-width: 520px) {
+            .cookie-banner .cookie-inner { flex-direction: column; align-items: stretch; }
+            .cookie-banner .cookie-actions { justify-content: flex-end; }
+            .cookie-btn { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite" aria-label="Cookie e preferenze">
+        <div class="cookie-inner">
+            <div class="cookie-text">
+                <div class="cookie-title">Cookie e statistiche</div>
+                <div class="cookie-desc">
+                    Cookie e memorizzazione locale necessari al funzionamento di FindMyNight. In modo facoltativo puoi attivare
+                    <strong>Google Analytics 4</strong> (ID <code>G-4B41LWXFR3</code>) per statistiche sulle visite. Dettagli nella
+                    <a href="privacy.html">Privacy Policy</a>.
+                </div>
+            </div>
+            <div class="cookie-actions">
+                <button type="button" class="cookie-btn" id="cookieEssentialBtn">Solo necessari</button>
+                <button type="button" class="cookie-btn primary" id="cookieStatsBtn">Accetto anche le statistiche</button>
+            </div>
+        </div>
+    </div>
+    <nav class="site-nav" id="siteNav">
+        <div class="nav-top">
+            <a href="index.html" class="logo">
+                <img src="logo.png" alt="" width="26" height="26" decoding="async" />
+                <span class="logo-text">FindMyNight</span>
+                <span class="logo-beta" title="Sito in beta: funzioni e contenuti in evoluzione" aria-label="Beta">beta</span>
+            </a>
+            <button type="button" class="nav-menu-btn" id="navMenuBtn" aria-expanded="false" aria-controls="navMainList" aria-label="Apri menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <div class="nav-menu-backdrop" id="navMenuBackdrop" aria-hidden="true"></div>
+        <ul id="navMainList" class="nav-main-list">
+            <li><a href="locali.html">Locali</a></li>
+            <li><a href="index.html#features">Funzionalità</a></li>
+            <li><a href="index.html#how">Come funziona</a></li>
+            <li><a href="index.html#pricing">Prezzi</a></li>
+            <li><a href="chat.html">Chat</a></li>
+            <li><a href="partner.html">Area Partner</a></li>
+            <li><a href="index.html#cta" class="nav-cta">Inizia gratis →</a></li>
+        </ul>
+    </nav>
+
+    <main class="legal-wrap">
+        <h1>Privacy policy</h1>
+        <p class="legal-meta">Ultimo aggiornamento: 18 aprile 2026</p>
+
+        <p>
+            La presente informativa descrive come vengono trattati i dati personali quando utilizzi il sito web
+            FindMyNight (di seguito, il “Sito”). Il trattamento avviene nel rispetto del Regolamento (UE) 2016/679
+            (“GDPR”) e della normativa italiana applicabile in materia di privacy.
+        </p>
+
+        <h2>1. Titolare del trattamento</h2>
+        <p>
+            Il titolare del trattamento dei dati personali è la <strong>persona fisica</strong> responsabile del progetto
+            <strong>FindMyNight</strong>, con domicilio nella <strong>Provincia di Bergamo (Italia)</strong>. Il Sito è
+            gestito come progetto personale; non è indicata una ragione sociale o partita IVA in questa pagina. Per
+            richieste relative alla privacy e all’esercizio dei diritti:
+            <strong><a href="mailto:findmynight.info@gmail.com">findmynight.info@gmail.com</a></strong>.
+        </p>
+
+        <h2>2. Tipologie di dati trattati</h2>
+        <p>In base alle funzioni del Sito possono essere trattati, tra gli altri:</p>
+        <ul>
+            <li>
+                <strong>Dati di navigazione e di utilizzo del Sito</strong> (ad es. pagine visitate, orario approssimativo
+                della richiesta, identificativi tecnici della sessione lato browser), tramite strumenti necessari al
+                funzionamento del Sito e, se acconsenti dal banner cookie, tramite <strong>Google Analytics 4</strong>
+                (ID misurazione <code>G-4B41LWXFR3</code>) per statistiche aggregate sulle visite.
+            </li>
+            <li>
+                <strong>Posizione geografica</strong>, solo se decidi di usare la funzione “Usa la mia posizione” e
+                concedi il permesso nel browser: in quel caso il Sito può utilizzare coordinate approssimative per
+                centrare la mappa e cercare locali nelle vicinanze. Puoi revocare il permesso dalle impostazioni del
+                browser in qualsiasi momento.
+            </li>
+            <li>
+                <strong>Contenuti che inserisci volontariamente</strong> nei campi di ricerca (es. nome di un locale o di
+                un indirizzo): tali testi possono essere inviati a servizi esterni di geocoding per ottenere coordinate
+                (vedi sezione 4).
+            </li>
+            <li>
+                <strong>Account e Area Partner (Firebase Authentication)</strong>: email e credenziali per l’accesso
+                riservato ai gestori; UID e dati di profilo minimi gestiti da Google Firebase secondo la loro informativa.
+            </li>
+            <li>
+                <strong>Dati pubblicati dai partner (Firebase Firestore / Storage)</strong>: es. nome locale, stato
+                apertura, messaggi per gli utenti, immagini caricate, eventi, recensioni collegate al locale, ecc.
+            </li>
+            <li>
+                <strong>Recensioni pubbliche</strong>: voto, nickname opzionale, testo opzionale, identificativo tecnico
+                del dispositivo (per limitare una recensione per locale per dispositivo), salvati su Firestore.
+            </li>
+            <li>
+                <strong>Chat</strong>: messaggi e metadati necessari alla conversazione salvati in Firestore, associati
+                all’account con cui invii (ove richiesto).
+            </li>
+            <li>
+                <strong>Valutazione dell’idea (modulo volontario)</strong>: voto numerico, commento ed email opzionali,
+                URL di provenienza, identificativo tecnico sul dispositivo e marca temporale inviati alla raccolta
+                Firestore <code>ideaFeedback</code> (solo creazione da sito; lettura aggregata riservata al titolare
+                dopo accesso con account amministratore, non pubblicata sul sito).
+            </li>
+        </ul>
+        <p>
+            La consultazione di mappe e pagine informative può avvenire senza account. Le funzioni sopra (partner,
+            recensioni, chat) richiedono invece trattamenti aggiuntivi come descritto nelle sezioni seguenti.
+        </p>
+
+        <h2>3. Finalità e basi giuridiche</h2>
+        <ul>
+            <li>
+                <strong>Erogazione del servizio informativo</strong> (mostrare locali sulla mappa, calcolare distanze,
+                aprire indicazioni stradali): interesse legittimo del titolare e, per la geolocalizzazione,
+                <strong>consenso</strong> espresso tramite il browser quando richiesto.
+            </li>
+            <li>
+                <strong>Sicurezza, corretto funzionamento e prevenzione abusi</strong>: interesse legittimo.
+            </li>
+            <li>
+                <strong>Adempimenti di legge</strong> o difesa in sede giudiziaria: obbligo legale / interesse legittimo,
+                a seconda dei casi.
+            </li>
+            <li>
+                <strong>Area Partner e gestione del locale</strong>: esecuzione del rapporto con il gestore / contratto o
+                misure precontrattuali; per alcuni trattamenti può operare anche il consenso ove richiesto (es. comunicazioni).
+            </li>
+            <li>
+                <strong>Recensioni e chat</strong>: consenso o esecuzione del servizio richiesto dall’utente (pubblicazione
+                del messaggio o della recensione), salvo diversa qualificazione giuridica applicabile al caso concreto.
+            </li>
+            <li>
+                <strong>Statistiche di navigazione (Google Analytics 4)</strong>, ove attivato: <strong>consenso</strong>
+                espresso tramite il banner cookie (“Accetto anche le statistiche”).
+            </li>
+        </ul>
+
+        <h2>4. Servizi di terze parti</h2>
+        <p>
+            Per fornire mappe e dati sui locali, il Sito può effettuare richieste di rete verso fornitori esterni. Il
+            trattamento dei dati da parte di tali fornitori è regolato dalle rispettive informative privacy. Esempi di
+            servizi utilizzati o integrabili nella configurazione del Sito:
+        </p>
+        <ul>
+            <li>
+                <strong>OpenStreetMap / contributori OSM</strong> (visualizzazione mappe tramite Leaflet e tile server OSM):
+                <a href="https://wiki.openstreetmap.org/wiki/Privacy_Policy" rel="noopener noreferrer" target="_blank">policy OSM</a>.
+            </li>
+            <li>
+                <strong>API Overpass</strong> (interrogazione dati cartografici sui punti di interesse):
+                dipendente dall’istanza utilizzata; le richieste includono un’area geografica (bounding box / raggio).
+            </li>
+            <li>
+                <strong>Nominatim (OpenStreetMap Foundation)</strong> o altri geocoder per convertire indirizzi o nomi di
+                luoghi in coordinate:
+                <a href="https://operations.osmfoundation.org/policies/nominatim/" rel="noopener noreferrer" target="_blank">uso accettabile Nominatim</a>.
+            </li>
+            <li>
+                <strong>Google Maps / Places</strong>, se abilitata una chiave API nel Sito per arricchire recensioni o
+                ricerche: i dati trasmessi e le finalità sono descritti nella
+                <a href="https://policies.google.com/privacy" rel="noopener noreferrer" target="_blank">Privacy Policy di Google</a>.
+            </li>
+            <li>
+                <strong>Google Analytics 4</strong> (opzionale, solo se scegli “Accetto anche le statistiche” sul banner):
+                misurazione con ID <code>G-4B41LWXFR3</code>; informativa Google:
+                <a href="https://policies.google.com/privacy" rel="noopener noreferrer" target="_blank">policies.google.com/privacy</a>.
+            </li>
+            <li>
+                <strong>Reti di distribuzione contenuti (CDN)</strong>, ad es. per librerie JavaScript o fogli di stile
+                caricati da domini terzi: il browser può comunicare al fornitore indirizzo IP e intestazioni tecniche
+                standard della richiesta HTTP.
+            </li>
+        </ul>
+
+        <h2 id="cookie-tec">5. Cookie e tecnologie simili</h2>
+        <p>
+            FindMyNight non utilizza cookie di profilazione o di marketing di prima parte. Possono essere usati, ove
+            tecnicamente necessari, <strong>cookie o archiviazione locale</strong> tra cui ad esempio:
+        </p>
+        <ul>
+            <li>
+                <strong>Preferenze sul banner cookie</strong> (<code>localStorage</code>): ad es.
+                <code>fmn_cookie_consent</code> (scelta effettuata) e <code>fmn_analytics_consent</code> (<code>yes</code> /
+                <code>no</code>) per ricordare se hai accettato anche Google Analytics.
+            </li>
+            <li>
+                <strong>Sessione Firebase Authentication</strong> (cookie / persistenza gestita dal SDK Firebase per
+                mantenere l’accesso all’Area Partner o alla chat).
+            </li>
+            <li>
+                <strong>Identificativo recensioni</strong> (<code>localStorage</code>, chiave tipo
+                <code>fmn_device_id</code>) per applicare il limite “una recensione per locale per dispositivo”.
+            </li>
+            <li>
+                <strong>Override amministratore</strong> (<code>sessionStorage</code>, chiave tecnica) solo se usi la
+                console admin prevista dal Sito.
+            </li>
+        </ul>
+        <p>
+            Servizi terzi (mappe, tile, Firebase, eventuale Google Places se abilitato) possono impostare propri cookie o
+            equivalenti secondo le loro policy. Puoi gestire cookie e permessi dalle impostazioni del browser.
+        </p>
+        <p>
+            <strong>Google Analytics 4.</strong> Il Sito può caricare Google Analytics 4 (ID <code>G-4B41LWXFR3</code>) solo
+            se scegli <em>Accetto anche le statistiche</em> dal banner. In tal caso Google tratta dati di utilizzo in forma
+            prevalentemente aggregata secondo la sua
+            <a href="https://policies.google.com/privacy" rel="noopener noreferrer" target="_blank">Privacy Policy</a>.
+            Con <em>Solo necessari</em> Analytics non viene attivato. Puoi cancellare le preferenze dalle impostazioni del
+            browser (dati del sito / <code>localStorage</code>) per rivedere la scelta al prossimo accesso.
+        </p>
+
+        <h2>6. Conservazione</h2>
+        <p>
+            I dati elaborati <strong>solo in locale</strong> nel browser (es. alcune preferenze, posizione finché non la
+            invii a servizi esterni) restano sul dispositivo salvo invii espliciti.
+        </p>
+        <p>
+            I dati gestiti tramite <strong>Firebase (Firestore, Authentication, Storage)</strong> e i contenuti
+            pubblicati dagli utenti o dai partner sono conservati sulle infrastrutture Google/Firebase secondo tempi e
+            condizioni del fornitore e delle impostazioni del progetto, fino a cancellazione o anonimizzazione compatibile
+            con le finalità (es. eliminazione account o documenti, revisione manuale lato titolare ove applicabile).
+        </p>
+        <p>
+            Eventuali <strong>log</strong> su sistemi del titolare (se attivati) seguono tempi di retention definiti
+            internamente e coerenti con la finalità.
+        </p>
+
+        <h2>7. Diritti degli interessati</h2>
+        <p>
+            Ai sensi degli artt. 15–22 GDPR hai diritto di accesso, rettifica, cancellazione, limitazione, portabilità
+            (ove applicabile) e opposizione, nonché di proporre reclamo all’Autorità Garante per la protezione dei dati
+            personali (<a href="https://www.garanteprivacy.it" rel="noopener noreferrer" target="_blank">www.garanteprivacy.it</a>).
+        </p>
+        <p>
+            Per esercitare i diritti puoi scrivere a
+            <strong><a href="mailto:findmynight.info@gmail.com">findmynight.info@gmail.com</a></strong>.
+        </p>
+
+        <h2>8. Trasferimenti extra UE</h2>
+        <p>
+            Alcuni fornitori terzi potrebbero trattare dati in paesi al di fuori dello Spazio Economico Europeo. In tali
+            casi, ove richiesto dalla legge, si applicano garanzie adeguate (es. Clausole Contrattuali Standard approvate
+            dalla Commissione UE) come descritto nelle informative dei rispettivi fornitori.
+        </p>
+
+        <h2>9. Minori</h2>
+        <p>
+            Il Sito non è destinato a minori di 16 anni e non viene effettuata raccolta consapevole di dati di minori. I
+            locali notturni possono essere soggetti a limiti di età per legge o per regolamento del locale.
+        </p>
+
+        <h2>10. Modifiche</h2>
+        <p>
+            Il titolare può aggiornare questa informativa. La data di ultimo aggiornamento è indicata in cima al
+            documento; si invita a consultare periodicamente questa pagina.
+        </p>
+
+        <h2>11. Contatti</h2>
+        <p>
+            Per domande sulla privacy:
+            <strong><a href="mailto:findmynight.info@gmail.com">findmynight.info@gmail.com</a></strong>.
+        </p>
+    </main>
+
+    <footer>
+        <a href="index.html">← Home</a>
+        ·
+        <a href="locali.html">Locali</a>
+    </footer>
+
+    <script>
+        (function () {
+            const nav = document.getElementById('siteNav');
+            const btn = document.getElementById('navMenuBtn');
+            const backdrop = document.getElementById('navMenuBackdrop');
+            const list = document.getElementById('navMainList');
+            if (!nav || !btn || !backdrop || !list) return;
+
+            function setNavOpen(open) {
+                nav.classList.toggle('nav-open', open);
+                btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+                btn.setAttribute('aria-label', open ? 'Chiudi menu' : 'Apri menu');
+                document.body.style.overflow = open ? 'hidden' : '';
+            }
+
+            btn.addEventListener('click', () => setNavOpen(!nav.classList.contains('nav-open')));
+            backdrop.addEventListener('click', () => setNavOpen(false));
+            list.querySelectorAll('a').forEach((a) => {
+                a.addEventListener('click', () => setNavOpen(false));
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && nav.classList.contains('nav-open')) setNavOpen(false);
+            });
+        })();
+
+    </script>
+    <script src="fmn-analytics.js" defer></script>
+    <script src="fmn-cookie-consent.js" defer></script>
+    <script src="fmn-chat-widget.js" defer></script>
+</body>
+
+</html>

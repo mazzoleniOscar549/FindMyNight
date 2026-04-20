@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 – Pagina non trovata · FindMyNight</title>
+  <meta name="robots" content="noindex, follow" />
+  <meta name="theme-color" content="#07060f" />
+  <link rel="icon" href="immagini_locali/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="immagini_locali/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="immagini_locali/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="immagini_locali/apple-touch-icon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07060f;
+      --bg2: #0e0c1c;
+      --accent: #a855f7;
+      --accent2: #ec4899;
+      --text: #f1f0fa;
+      --muted: #8880a8;
+      --card: rgba(255, 255, 255, 0.04);
+      --card-border: rgba(255, 255, 255, 0.10);
+      --border: rgba(168, 85, 247, 0.20);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: radial-gradient(900px 520px at 18% 8%, rgba(168, 85, 247, 0.18), transparent 55%),
+        radial-gradient(900px 520px at 82% 18%, rgba(236, 72, 153, 0.12), transparent 58%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.35;
+    }
+
+    nav.site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 1rem max(5vw, env(safe-area-inset-right, 0px)) 1rem max(5vw, env(safe-area-inset-left, 0px));
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      background: rgba(7, 6, 15, 0.72);
+      backdrop-filter: blur(16px);
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    a.logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      text-decoration: none;
+      min-width: 0;
+    }
+
+    .logo img {
+      width: 26px;
+      height: 26px;
+      flex: 0 0 auto;
+      filter: drop-shadow(0 10px 20px rgba(168, 85, 247, 0.35));
+    }
+
+    .logo-text {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.2rem;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #a855f7, #ec4899);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      white-space: nowrap;
+    }
+
+    .nav-actions {
+      display: inline-flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.65rem 0.95rem;
+      border-radius: 12px;
+      border: 0.5px solid var(--card-border);
+      background: rgba(255, 255, 255, 0.06);
+      color: rgba(241, 240, 250, 0.92);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, border-color 0.2s ease, background 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(168, 85, 247, 0.45);
+      background: rgba(168, 85, 247, 0.10);
+    }
+
+    .btn.primary {
+      border: none;
+      background: linear-gradient(135deg, #a855f7, #ec4899);
+      color: #fff;
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      padding: 3.5rem max(5vw, env(safe-area-inset-left, 0px)) 4rem max(5vw, env(safe-area-inset-right, 0px));
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--card);
+      border: 0.5px solid var(--card-border);
+      border-radius: 20px;
+      padding: 1.35rem 1.35rem;
+      box-shadow: 0 18px 80px rgba(0, 0, 0, 0.4);
+    }
+
+    .kicker {
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(168, 85, 247, 0.95);
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2rem, 4.5vw, 3rem);
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      margin-bottom: 0.75rem;
+    }
+
+    .desc {
+      color: rgba(241, 240, 250, 0.78);
+      max-width: 70ch;
+      line-height: 1.65;
+      font-size: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .row {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 0.6rem;
+    }
+
+    .search {
+      margin-top: 1rem;
+      display: flex;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .search input {
+      flex: 1 1 260px;
+      min-width: min(100%, 280px);
+      padding: 0.8rem 0.9rem;
+      border-radius: 12px;
+      border: 0.5px solid var(--card-border);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      outline: none;
+      font-size: 0.95rem;
+    }
+
+    .hint {
+      margin-top: 1rem;
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 0.9rem;
+    }
+
+    .code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.92rem;
+      color: rgba(241, 240, 250, 0.85);
+      background: rgba(255, 255, 255, 0.05);
+      border: 0.5px solid rgba(255, 255, 255, 0.12);
+      padding: 0.15rem 0.45rem;
+      border-radius: 10px;
+      display: inline-block;
+    }
+
+    @media (max-width: 640px) {
+      .wrap {
+        padding-top: 2.6rem;
+      }
+      nav.site-nav {
+        position: sticky;
+      }
+      .nav-actions .btn {
+        padding: 0.6rem 0.85rem;
+        font-size: 0.88rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="site-nav" aria-label="Navigazione">
+    <a class="logo" href="index.html" aria-label="Vai alla Home">
+      <img src="logo.png" alt="" width="26" height="26" decoding="async" />
+      <span class="logo-text">FindMyNight</span>
+    </a>
+    <div class="nav-actions">
+      <a class="btn" href="recensioni.html">Recensioni</a>
+      <a class="btn primary" href="index.html#map">Apri mappa</a>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <section class="card" role="region" aria-label="Pagina non trovata">
+      <div class="kicker">Errore 404</div>
+      <h1>Pagina non trovata</h1>
+      <p class="desc">
+        Il link che hai aperto non esiste (o è stato spostato).
+        Puoi tornare alla home oppure aprire la mappa e cercare un locale/città.
+      </p>
+
+      <div class="row">
+        <a class="btn primary" href="index.html">Torna alla Home</a>
+        <a class="btn" href="index.html#map">Vai alla mappa</a>
+        <a class="btn" href="recensioni.html">Vai alle recensioni</a>
+        <a class="btn" href="contatti.html">Contatti</a>
+      </div>
+
+      <form class="search" id="searchForm" autocomplete="off">
+        <input id="q" name="q" placeholder="Cerca città o locale (es. Milano, Amnesia)…" />
+        <button class="btn" type="submit">Cerca</button>
+      </form>
+
+      <div class="hint">
+        Suggerimento: se cercavi una sezione della home, prova con <span class="code">index.html#map</span> oppure
+        <span class="code">index.html#reviews</span>.
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const form = document.getElementById('searchForm');
+      const q = document.getElementById('q');
+      if (!form || !q) return;
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const v = (q.value || '').trim();
+        const base = 'index.html#map';
+        if (!v) {
+          window.location.href = base;
+          return;
+        }
+        // Passiamo la query via hash per non richiedere routing server.
+        // index.html può leggere location.hash o, più semplicemente, l’utente incolla nel box ricerca.
+        window.location.href = base + '&q=' + encodeURIComponent(v);
+      });
+    })();
+  </script>
+</body>
+
+</html>
+

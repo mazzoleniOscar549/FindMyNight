@@ -1,0 +1,31 @@
+{
+  "name": "FindMyNight",
+  "short_name": "FindMyNight",
+  "description": "Serate, locali e mappa interattiva per la tua uscita.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#07060f",
+  "theme_color": "#07060f",
+  "lang": "it",
+  "icons": [
+    {
+      "src": "/immagini_locali/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/immagini_locali/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/immagini_locali/maskable_icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

@@ -1,0 +1,188 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    /**
+     * Admin dashboard (stesso spirito di partner.html isAdminUser).
+     * 1) Custom claim (consigliato): Firebase Console → Authentication → utente → Custom claims → {"fmnAdmin":true}
+     * 2) Email nel token (deve coincidere; aggiungi qui le tue se usi altre caselle).
+     * 3) UID in Firestore: doc _config/fmn_admins campo uids (array di stringhe), leggibile da utenti loggati.
+     */
+    function isFmnDashboardAdmin() {
+      return signedIn() && (
+        request.auth.token.fmnAdmin == true
+        || isFmnAdminUidListed()
+        || (
+          request.auth.token.email is string
+          && (
+            request.auth.token.email == 'findmynight.info@gmail.com'
+            || request.auth.token.email == 'oscar-admin@findmynight.it'
+            || request.auth.token.email.matches('^.+@findmynight\\.it$')
+            || request.auth.token.email.matches('^mazzolenioscar')
+          )
+        )
+      );
+    }
+
+    function isFmnAdminUidListed() {
+      return exists(/databases/$(database)/documents/_config/fmn_admins)
+        && get(/databases/$(database)/documents/_config/fmn_admins).data.keys().hasAny(['uids'])
+        && get(/databases/$(database)/documents/_config/fmn_admins).data.uids is list
+        && request.auth.uid in get(/databases/$(database)/documents/_config/fmn_admins).data.uids;
+    }
+
+    function ownsVenueDoc() {
+      return signedIn() && (
+        ('partnerUid' in resource.data && resource.data.partnerUid == request.auth.uid)
+        || (
+          'partnerEmail' in resource.data
+          && resource.data.partnerEmail is string
+          && request.auth.token.email is string
+          && resource.data.partnerEmail == request.auth.token.email
+        )
+      );
+    }
+
+    /**
+     * ideaFeedback: create anonima da sito. rating/submittedAt come number (il Web SDK
+     * spesso invia float anche per interi: "is int" falliva → permission denied).
+     */
+    function ideaFeedbackCreateValid() {
+      let d = request.resource.data;
+      return d.keys().hasOnly(['rating', 'comment', 'contactEmail', 'pageUrl', 'source', 'deviceId', 'submittedAt'])
+        && d.rating is number
+        && (d.rating == 1 || d.rating == 2 || d.rating == 3 || d.rating == 4 || d.rating == 5)
+        && d.comment is string
+        && d.comment.size() <= 2000
+        && d.contactEmail is string
+        && d.contactEmail.size() <= 254
+        && d.pageUrl is string
+        && d.pageUrl.size() <= 600
+        && d.source is string
+        && d.source.matches('^(banner|direct)$')
+        && d.deviceId is string
+        && d.deviceId.size() <= 180
+        && d.submittedAt is number
+        && d.submittedAt == int(d.submittedAt)
+        && d.submittedAt > 1700000000000
+        && d.submittedAt < 2000000000000;
+    }
+
+    /** Lista UID admin (opzionale): crea da Console _config/fmn_admins { "uids": ["uid1","uid2"] } */
+    match /_config/fmn_admins {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+
+    match /venues/{venueId} {
+      allow read: if true;
+      allow create: if signedIn() && (
+        isFmnDashboardAdmin()
+        || ('partnerUid' in request.resource.data && request.resource.data.partnerUid == request.auth.uid)
+      );
+      allow update: if isFmnDashboardAdmin() || ownsVenueDoc();
+      allow delete: if isFmnDashboardAdmin();
+    }
+
+    match /partners/{uid} {
+      allow read: if signedIn() && (
+        isFmnDashboardAdmin()
+        || request.auth.uid == uid
+        || (
+          resource.data.keys().hasAny(['email'])
+          && resource.data.email is string
+          && request.auth.token.email is string
+          && resource.data.email == request.auth.token.email
+        )
+        || (
+          resource.data.keys().hasAny(['authUid'])
+          && resource.data.authUid == request.auth.uid
+        )
+        || (
+          resource.data.keys().hasAny(['uid'])
+          && resource.data.uid == request.auth.uid
+        )
+      );
+      allow create, update, delete: if signedIn() && (
+        request.auth.uid == uid
+        || isFmnDashboardAdmin()
+      );
+    }
+
+    match /reviews/{reviewId} {
+      allow read: if true;
+      allow create: if true;
+      allow update, delete: if isFmnDashboardAdmin();
+    }
+
+    match /sponsoredVenues/{id} {
+      allow read: if true;
+      allow write: if isFmnDashboardAdmin();
+    }
+
+    /** Valutazione volontaria dell’idea (pagina valutazione-idea.html, link dal banner home). */
+    match /ideaFeedback/{docId} {
+      allow create: if ideaFeedbackCreateValid();
+      allow read: if isFmnDashboardAdmin();
+      allow update, delete: if isFmnDashboardAdmin();
+    }
+
+    /** Badge ufficiali: validati su venues/{chatBadgeVenueId} se presente, altrimenti su venues/{roomId} (retrocompat). */
+    function chatVenueExists(venueId) {
+      return exists(/databases/$(database)/documents/venues/$(venueId));
+    }
+
+    function chatVenueData(venueId) {
+      return get(/databases/$(database)/documents/venues/$(venueId)).data;
+    }
+
+    function chatBadgeCreateOk(roomId) {
+      let d = request.resource.data;
+      if (!d.keys().hasAny(['chatBadge'])) return true;
+      if (!(d.chatBadge is string) || d.chatBadge.size() > 400) return false;
+      if (!(request.auth.token.email is string)) return false;
+      let em = request.auth.token.email;
+      let vid = roomId;
+      if (
+        d.keys().hasAny(['chatBadgeVenueId'])
+        && d.chatBadgeVenueId is string
+        && d.chatBadgeVenueId.size() > 0
+        && d.chatBadgeVenueId.size() <= 200
+      ) {
+        vid = d.chatBadgeVenueId;
+      }
+      if (!chatVenueExists(vid)) return false;
+      let v = chatVenueData(vid);
+      if (d.chatBadge == 'Discoteca') {
+        let off = '';
+        if (v.keys().hasAny(['chatDiscotecaEmail']) && v.chatDiscotecaEmail is string && v.chatDiscotecaEmail.size() > 0) {
+          off = v.chatDiscotecaEmail;
+        } else if (v.keys().hasAny(['partnerEmail']) && v.partnerEmail is string && v.partnerEmail.size() > 0) {
+          off = v.partnerEmail;
+        }
+        return off != '' && em == off;
+      }
+      if (!v.keys().hasAny(['chatPrEnabled']) || v.chatPrEnabled != true) return false;
+      if (!v.keys().hasAny(['chatPrEmails']) || !(v.chatPrEmails is list)) return false;
+      if (!v.chatPrEmails.hasAny([em])) return false;
+      return d.chatBadge.matches('^PR · .+');
+    }
+
+    match /chatRooms/{roomId} {
+      allow read, list: if signedIn();
+      match /messages/{msgId} {
+        allow read: if signedIn();
+        allow create: if signedIn() && chatBadgeCreateOk(roomId);
+        allow update, delete: if signedIn();
+      }
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

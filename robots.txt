@@ -1,0 +1,11 @@
+# FindMyNight — https://findmynight.info
+# Aggiorna il dominio in sitemap se usi un host canonico diverso (es. www).
+
+User-agent: *
+Allow: /
+
+# Pagine applicative / interne: non servono in SERP
+Disallow: /chat.html
+Disallow: /valutazione-stats.html
+
+Sitemap: https://findmynight.info/sitemap.xml

@@ -1,0 +1,2619 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FindMyNight – Locali vicino a te</title>
+    <meta name="description" content="Trova discoteche e locali vicino a te: distanze, eventi in programma, recensioni Google e link social. Esplora la zona sulla mappa con FindMyNight.">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://findmynight.info/locali.html">
+    <link rel="icon" href="immagini_locali/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="immagini_locali/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="immagini_locali/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="immagini_locali/apple-touch-icon.png">
+    <meta name="theme-color" content="#07060f">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="FindMyNight">
+    <meta property="og:locale" content="it_IT">
+    <meta property="og:title" content="FindMyNight – Locali vicino a te">
+    <meta property="og:description" content="Trova discoteche e locali vicino a te con distanze, eventi e recensioni.">
+    <meta property="og:url" content="https://findmynight.info/locali.html">
+    <meta property="og:image" content="https://findmynight.info/fmn-og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="FindMyNight — locali vicino a te">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="FindMyNight – Locali vicino a te">
+    <meta name="twitter:description" content="Trova discoteche e locali vicino a te con eventi e recensioni.">
+    <meta name="twitter:image" content="https://findmynight.info/fmn-og-image.png">
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"WebPage","name":"Locali vicino a te — FindMyNight","url":"https://findmynight.info/locali.html","description":"Elenco di locali e discoteche con distanze ed eventi in programma.","isPartOf":{"@type":"WebSite","name":"FindMyNight","url":"https://findmynight.info/"}}
+    </script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="fmn-chat-widget.css">
+    <style>
+        :root {
+            --bg: #07060f;
+            --bg2: #0e0c1c;
+            --bg3: #13112a;
+            --accent: #a855f7;
+            --accent2: #ec4899;
+            --accent3: #06b6d4;
+            --text: #f1f0fa;
+            --muted: #8880a8;
+            --border: rgba(168, 85, 247, 0.18);
+            --card: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(168, 85, 247, 0.5) transparent;
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+        html::-webkit-scrollbar {
+            width: 8px;
+        }
+        html::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        html::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, rgba(168, 85, 247, 0.55), rgba(236, 72, 153, 0.35));
+            border-radius: 100px;
+            border: 2px solid transparent;
+            background-clip: content-box;
+        }
+        html::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, rgba(168, 85, 247, 0.8), rgba(236, 72, 153, 0.55));
+            background-clip: content-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.6;
+            min-height: 100vh;
+            min-height: 100dvh;
+            padding-left: env(safe-area-inset-left, 0px);
+            padding-right: env(safe-area-inset-right, 0px);
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.35;
+        }
+
+        /* ─── NAV (allineato a index.html) ─── */
+        nav.site-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: calc(1rem + env(safe-area-inset-top, 0px)) max(5vw, env(safe-area-inset-right, 0px)) 1rem max(5vw, env(safe-area-inset-left, 0px));
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 0.75rem;
+            background: rgba(7, 6, 15, 0.75);
+            backdrop-filter: blur(16px);
+            border-bottom: 0.5px solid var(--border);
+        }
+
+        .nav-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        a.logo {
+            text-decoration: none;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            min-width: 0;
+            flex-shrink: 0;
+        }
+
+        .logo-text {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.3rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-beta {
+            flex-shrink: 0;
+            align-self: center;
+            margin-left: 0.1rem;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            color: rgba(233, 213, 255, 0.98);
+            padding: 0.2rem 0.48rem;
+            border-radius: 999px;
+            border: 0.5px solid rgba(168, 85, 247, 0.42);
+            background: rgba(168, 85, 247, 0.16);
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        .logo img {
+            width: 26px;
+            height: 26px;
+            flex: 0 0 auto;
+            filter: drop-shadow(0 10px 20px rgba(168, 85, 247, 0.35));
+        }
+
+        .nav-menu-btn {
+            display: none;
+            position: relative;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            border: 0.5px solid var(--card-border);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.06);
+            cursor: pointer;
+            flex-shrink: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .nav-menu-btn span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            border-radius: 2px;
+            background: rgba(241, 240, 250, 0.9);
+            transition:
+                transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.22s ease,
+                top 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+                left 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+                margin 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+            transform-origin: center;
+        }
+
+        .site-nav.nav-open .nav-menu-btn {
+            gap: 0;
+        }
+
+        .site-nav.nav-open .nav-menu-btn span:nth-child(1),
+        .site-nav.nav-open .nav-menu-btn span:nth-child(3) {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 20px;
+            margin-left: -10px;
+            margin-top: -1px;
+        }
+
+        .site-nav.nav-open .nav-menu-btn span:nth-child(1) {
+            transform: rotate(45deg);
+        }
+
+        .site-nav.nav-open .nav-menu-btn span:nth-child(2) {
+            position: absolute;
+            left: 50%;
+            width: 0;
+            height: 0;
+            margin: 0;
+            opacity: 0;
+            transform: scale(0);
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .site-nav.nav-open .nav-menu-btn span:nth-child(3) {
+            transform: rotate(-45deg);
+        }
+
+        .nav-menu-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1899;
+            background: var(--bg);
+        }
+
+        .site-nav.nav-open .nav-menu-backdrop {
+            display: block;
+        }
+
+        nav ul.nav-main-list {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            margin: 0 0 0 auto;
+            padding: 0;
+            min-width: 0;
+        }
+
+        nav ul.nav-main-list a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 400;
+            letter-spacing: 0.01em;
+            transition: color 0.2s;
+        }
+
+        nav ul.nav-main-list a[aria-current="page"] {
+            color: var(--text);
+        }
+
+        nav ul.nav-main-list a:hover {
+            color: var(--text);
+        }
+
+        .nav-cta {
+            background: var(--accent) !important;
+            color: #fff !important;
+            padding: 0.55rem 1.3rem;
+            border-radius: 100px;
+            font-size: 0.85rem !important;
+            font-weight: 500 !important;
+            -webkit-text-fill-color: #fff !important;
+            transition: opacity 0.2s !important;
+        }
+
+        .nav-cta:hover {
+            opacity: 0.85 !important;
+        }
+
+        .page {
+            padding: 7.5rem max(5vw, env(safe-area-inset-left, 0px)) 5rem max(5vw, env(safe-area-inset-right, 0px));
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .title {
+            font-family: 'Syne', sans-serif; font-weight: 800;
+            font-size: clamp(2rem, 5vw, 3rem); letter-spacing: -0.03em; margin-bottom: 0.75rem;
+        }
+        .subtitle { color: var(--muted); font-weight: 300; margin-bottom: 1.25rem; line-height: 1.6; }
+
+        .toolbar {
+            display: grid; grid-template-columns: 1fr auto auto; gap: 0.75rem;
+            background: rgba(255,255,255,0.04); border: 0.5px solid var(--card-border);
+            border-radius: 14px; padding: 0.85rem; margin-bottom: 1.25rem; align-items: center;
+        }
+        .search {
+            display: flex; align-items: center; gap: 0.6rem;
+            background: rgba(255,255,255,0.05); border: 0.5px solid var(--card-border);
+            border-radius: 12px; padding: 0.65rem 0.85rem;
+        }
+        .search input {
+            flex: 1; background: transparent; border: none; outline: none;
+            color: var(--text); font-size: 0.95rem; font-family: 'DM Sans', sans-serif;
+        }
+        .pill {
+            font-size: 0.82rem; color: var(--text); background: rgba(255,255,255,0.06);
+            border: 0.5px solid var(--card-border); border-radius: 999px;
+            padding: 0.35rem 0.75rem; white-space: nowrap;
+        }
+        .btn {
+            background: rgba(255,255,255,0.06); border: 0.5px solid var(--card-border);
+            color: var(--text); border-radius: 12px; padding: 0.65rem 0.85rem;
+            cursor: pointer; font-family: 'DM Sans', sans-serif;
+        }
+        .btn:hover { border-color: rgba(168,85,247,0.45); background: rgba(168,85,247,0.08); }
+
+        /* Date picker */
+        .date-wrap {
+            position: relative; border-radius: 12px; overflow: hidden;
+            border: 0.5px solid rgba(168,85,247,0.28); background: rgba(0,0,0,0.35);
+        }
+        .date-face {
+            display: inline-flex; align-items: center; justify-content: space-between;
+            gap: 0.65rem; padding: 0.65rem 0.85rem; min-height: 42px;
+        }
+        .date-label { font-size: 0.86rem; color: rgba(255,255,255,0.75); white-space: nowrap; }
+        .date-value {
+            font-weight: 700; font-family: 'Syne', sans-serif; letter-spacing: -0.01em;
+            background: linear-gradient(135deg, #a855f7 0%, #ec4899 55%, #06b6d4 100%);
+            -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; white-space: nowrap;
+        }
+        .date-icon { width: 18px; height: 18px; opacity: 0.85; flex: 0 0 auto; }
+        input[type="date"].date-input {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            opacity: 0; cursor: pointer; color-scheme: dark;
+        }
+        .date-wrap:hover { border-color: rgba(168,85,247,0.48); background: rgba(168,85,247,0.08); }
+
+        /* Custom calendar */
+        .cal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.55); backdrop-filter: blur(10px);
+            display: none; align-items: center; justify-content: center; z-index: 9999; padding: 16px;
+        }
+        .cal {
+            width: min(380px,92vw); background: rgba(14,12,28,0.96);
+            border: 0.5px solid rgba(168,85,247,0.35); border-radius: 18px;
+            box-shadow: 0 30px 120px rgba(0,0,0,0.65); overflow: hidden;
+        }
+        .cal-top {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 14px 14px 10px; border-bottom: 0.5px solid rgba(255,255,255,0.08);
+            background: linear-gradient(135deg,rgba(168,85,247,0.12),rgba(236,72,153,0.08));
+        }
+        .cal-month {
+            font-family: 'Syne', sans-serif; font-weight: 800; letter-spacing: -0.02em;
+            background: linear-gradient(135deg,#a855f7 0%,#ec4899 55%,#06b6d4 100%);
+            -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.05rem;
+        }
+        .cal-nav { display: inline-flex; gap: 8px; }
+        .cal-btn {
+            width: 34px; height: 34px; border-radius: 12px;
+            background: rgba(255,255,255,0.06); border: 0.5px solid rgba(255,255,255,0.10);
+            color: var(--text); cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+        }
+        .cal-btn:hover { border-color: rgba(168,85,247,0.45); background: rgba(168,85,247,0.10); }
+        .cal-grid { padding: 12px 14px 14px; }
+        .cal-dow {
+            display: grid; grid-template-columns: repeat(7,1fr); gap: 6px; margin-bottom: 8px;
+            color: rgba(255,255,255,0.55); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .cal-days { display: grid; grid-template-columns: repeat(7,1fr); gap: 6px; }
+        .day {
+            height: 40px; border-radius: 12px; border: 0.5px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.88);
+            cursor: pointer; font-family: 'DM Sans', sans-serif;
+        }
+        .day:hover { border-color: rgba(6,182,212,0.35); background: rgba(6,182,212,0.08); }
+        .day.muted { opacity: 0.35; cursor: default; }
+        .day.selected {
+            border-color: rgba(168,85,247,0.60);
+            background: linear-gradient(135deg,rgba(168,85,247,0.35),rgba(236,72,153,0.22));
+        }
+        .day.in-range {
+            background: rgba(168, 85, 247, 0.18);
+            border-color: rgba(168, 85, 247, 0.22);
+            border-radius: 6px;
+        }
+        .day.range-from {
+            border-radius: 12px 6px 6px 12px;
+            border: 2px solid rgba(34, 211, 238, 0.95);
+            background: linear-gradient(145deg, rgba(6, 182, 212, 0.75), rgba(168, 85, 247, 0.55));
+            color: #fff;
+            font-weight: 700;
+            box-shadow: 0 0 18px rgba(6, 182, 212, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        .day.range-to {
+            border-radius: 6px 12px 12px 6px;
+            border: 2px solid rgba(244, 114, 182, 0.95);
+            background: linear-gradient(145deg, rgba(236, 72, 153, 0.78), rgba(168, 85, 247, 0.5));
+            color: #fff;
+            font-weight: 700;
+            box-shadow: 0 0 18px rgba(236, 72, 153, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        .day.range-single {
+            border-radius: 12px !important;
+            border: 2px solid rgba(250, 204, 21, 0.75);
+            background: linear-gradient(135deg, #06b6d4 0%, #a855f7 45%, #ec4899 100%);
+            color: #fff;
+            font-weight: 700;
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+        .day.range-from:hover,
+        .day.range-to:hover,
+        .day.range-single:hover {
+            filter: brightness(1.08);
+        }
+        .cal-bottom {
+            padding: 10px 14px 14px; display: flex; gap: 10px;
+            justify-content: space-between; border-top: 0.5px solid rgba(255,255,255,0.08);
+        }
+        .cal-action {
+            flex: 1; border-radius: 12px; padding: 0.7rem 0.85rem; cursor: pointer;
+            font-family: 'DM Sans', sans-serif; border: 0.5px solid rgba(255,255,255,0.10);
+            background: rgba(255,255,255,0.06); color: var(--text);
+        }
+        .cal-action.primary { border: none; background: linear-gradient(135deg,#a855f7,#ec4899); }
+
+        /* Sempre: area principale a sinistra + lista compatta 320px a destra (come con GPS / luogo cercato). */
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 1rem;
+            align-items: start;
+        }
+        /* Zone dense: oltre 20 locali entro 15 km la colonna “Tutti i locali” (15–25 km) è superflua. */
+        .layout.layout--hide-side {
+            grid-template-columns: 1fr;
+        }
+        .layout.layout--hide-side .side {
+            display: none !important;
+        }
+
+        .side {
+            position: sticky; top: 96px;
+            background: rgba(255,255,255,0.03); border: 0.5px solid var(--card-border);
+            border-radius: 16px; overflow: hidden;
+        }
+        .side-head {
+            padding: 0.9rem 1rem; border-bottom: 0.5px solid rgba(255,255,255,0.08);
+            display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+            background: linear-gradient(135deg,rgba(168,85,247,0.10),rgba(236,72,153,0.06));
+        }
+        .side-title { font-family: 'Syne', sans-serif; font-weight: 800; letter-spacing: -0.02em; font-size: 0.95rem; }
+        .side-sub { font-size: 0.75rem; color: rgba(255,255,255,0.55); white-space: nowrap; }
+        .side-list {
+            max-height: calc(100vh - 180px); overflow: auto;
+            padding: 0.75rem; display: flex; flex-direction: column; gap: 0.65rem;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(168, 85, 247, 0.5) transparent;
+        }
+        .side-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        .side-list::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .side-list::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, rgba(168, 85, 247, 0.55), rgba(236, 72, 153, 0.35));
+            border-radius: 100px;
+            border: 2px solid transparent;
+            background-clip: content-box;
+        }
+        .side-list::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, rgba(168, 85, 247, 0.8), rgba(236, 72, 153, 0.55));
+            background-clip: content-box;
+        }
+
+        .main-wrap {
+            background: rgba(255,255,255,0.02); border: 0.5px solid rgba(255,255,255,0.06);
+            border-radius: 16px; padding: 0.75rem; min-height: 220px; display: block; align-self: start;
+        }
+        .layout:not(.has-active) .main-wrap {
+            min-height: 0;
+            padding: 0.65rem 0.75rem;
+        }
+        .layout:not(.has-active) .main-title {
+            font-size: 0.92rem;
+        }
+        .main-head {
+            display: flex; align-items: baseline; justify-content: space-between;
+            gap: 0.75rem; padding: 0.4rem 0.35rem 0.75rem;
+        }
+        .main-title { font-family: 'Syne', sans-serif; font-weight: 800; letter-spacing: -0.02em; font-size: 1.05rem; }
+        .main-hint { font-size: 0.8rem; color: rgba(255,255,255,0.55); }
+        .main-list { display: flex; flex-direction: column; gap: 1rem; }
+
+        /* Cards */
+        .card {
+            background: var(--card); border: 0.5px solid var(--card-border);
+            border-radius: 16px; overflow: hidden;
+            display: flex; flex-direction: row; min-height: 170px;
+            will-change: transform, opacity;
+        }
+        .card.small {
+            min-height: 102px;
+            will-change: transform, opacity;
+        }
+        .card.small .card-img { width: 84px; min-width: 84px; }
+        .card.small .card-body { padding: 0.7rem 0.75rem; gap: 0.35rem; }
+        .card.small .desc { display: none; }
+        .card.small .links {
+            margin-top: 0.25rem;
+            gap: 0.45rem;
+        }
+        .card.small .social { width: 30px; height: 30px; border-radius: 9px; }
+        .card.small .social svg { width: 15px; height: 15px; }
+        .card.small .rating { font-size: 0.78rem; }
+        .card.small .meta { font-size: 0.76rem; }
+        .card.small.side-card-focused {
+            border-color: rgba(168, 85, 247, 0.55);
+            background: rgba(168, 85, 247, 0.09);
+            box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.2);
+            cursor: pointer;
+        }
+        .card.small { cursor: pointer; }
+        .card.reverse { flex-direction: row-reverse; }
+
+        .card-img {
+            width: 180px; min-width: 180px; height: auto;
+            background: radial-gradient(circle at 30% 30%,rgba(168,85,247,0.35),rgba(236,72,153,0.15) 45%,rgba(6,182,212,0.10) 70%,rgba(0,0,0,0) 100%),
+                linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02));
+            position: relative;
+        }
+        .club-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.95; }
+        .badge-ai {
+            position: absolute; left: 12px; top: 12px; font-size: 0.72rem;
+            padding: 0.3rem 0.55rem; border-radius: 999px;
+            background: rgba(168,85,247,0.16); border: 0.5px solid rgba(168,85,247,0.35); color: #c084fc;
+        }
+
+        .card-body { padding: 0.95rem 1rem 1rem; display: flex; flex-direction: column; gap: 0.6rem; flex: 1; }
+        .name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem; letter-spacing: -0.01em; }
+        .meta { display: flex; justify-content: space-between; gap: 0.5rem; font-size: 0.82rem; color: var(--muted); }
+        .rating { display: flex; justify-content: space-between; gap: 0.5rem; font-size: 0.85rem; color: rgba(255,255,255,0.78); align-items: center; }
+        .rating strong { color: #facc15; letter-spacing: 0.02em; display: inline-flex; align-items: center; justify-content: flex-end; min-height: 1.1em; }
+        .rating-spinner {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            min-width: 15px;
+            min-height: 15px;
+            box-sizing: border-box;
+            border: 2px solid rgba(250, 204, 21, 0.22);
+            border-top-color: #facc15;
+            border-radius: 50%;
+            animation: fmnLocaliRatingSpin 0.7s linear infinite;
+            vertical-align: middle;
+            flex-shrink: 0;
+        }
+        .card.small .rating-spinner {
+            width: 13px;
+            height: 13px;
+            border-width: 2px;
+        }
+        @keyframes fmnLocaliRatingSpin {
+            to { transform: rotate(360deg); }
+        }
+        .desc { font-size: 0.86rem; color: rgba(255,255,255,0.72); line-height: 1.45; }
+        .links { margin-top: auto; display: flex; gap: 0.55rem; align-items: center; }
+        .social {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 34px; height: 34px; border-radius: 10px;
+            background: rgba(255,255,255,0.06); border: 0.5px solid var(--card-border);
+            text-decoration: none; color: var(--text); opacity: 0.9;
+        }
+        .social svg { width: 18px; height: 18px; }
+        .social:hover { border-color: rgba(6,182,212,0.45); background: rgba(6,182,212,0.08); }
+        .social.social-ig:hover {
+            border-color: rgba(236, 72, 153, 0.5);
+            background: linear-gradient(135deg, rgba(225, 48, 108, 0.2), rgba(253, 224, 71, 0.12));
+            color: #fdf4ff;
+        }
+        .social.social-fb:hover {
+            border-color: rgba(59, 89, 152, 0.55);
+            background: rgba(24, 119, 242, 0.15);
+            color: #dbeafe;
+        }
+
+        .status { color: var(--muted); font-size: 0.9rem; margin: 0.5rem 0 1rem; }
+
+        /* ── FLIP & entrance animations ── */
+        @keyframes cardEnterFromSide {
+            from { opacity: 0; transform: translateX(24px) scale(0.96); }
+            to   { opacity: 1; transform: translateX(0) scale(1); }
+        }
+        @keyframes cardFadeUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .card-enter-main {
+            animation: cardEnterFromSide 0.42s cubic-bezier(.2,.9,.2,1) both;
+        }
+        .card-enter-side {
+            animation: cardFadeUp 0.32s cubic-bezier(.2,.9,.2,1) both;
+        }
+
+        @media (max-width: 980px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+            .side { position: relative; top: 0; }
+        }
+
+        /* Tablet / iPad: menu hamburger fino a 1024px (Air verticale ~820px) */
+        @media (max-width: 1024px) {
+            .nav-menu-btn {
+                display: inline-flex;
+            }
+
+            .site-nav.nav-open {
+                z-index: 1900;
+                background: transparent;
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
+                padding-top: 0;
+                padding-bottom: 0;
+            }
+
+            .site-nav.nav-open .nav-top {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 1903;
+                flex: none;
+                width: 100%;
+                max-width: none;
+                box-sizing: border-box;
+                padding: calc(0.9rem + env(safe-area-inset-top, 0px)) max(4.5vw, env(safe-area-inset-right, 0px)) 0.9rem max(4.5vw, env(safe-area-inset-left, 0px));
+                margin: 0;
+                background: var(--bg);
+                border-bottom: 0.5px solid var(--border);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+            }
+
+            nav ul.nav-main-list {
+                position: fixed;
+                top: 0;
+                right: 0;
+                z-index: 1901;
+                width: min(19.5rem, 86vw);
+                max-width: 100%;
+                min-width: 0;
+                flex-shrink: 0;
+                height: 100vh;
+                height: 100dvh;
+                margin: 0;
+                padding: calc(4.85rem + env(safe-area-inset-top, 0px)) 1.35rem calc(2rem + env(safe-area-inset-bottom, 0px));
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                background: var(--bg);
+                border-left: 0.5px solid rgba(168, 85, 247, 0.28);
+                box-shadow: -12px 0 48px rgba(0, 0, 0, 0.45);
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                transform: translateX(102%);
+                transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+            }
+
+            .site-nav.nav-open ul.nav-main-list {
+                transform: translateX(0);
+            }
+
+            nav ul.nav-main-list li {
+                border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
+            }
+
+            nav ul.nav-main-list li:last-child {
+                border-bottom: none;
+            }
+
+            nav ul.nav-main-list a {
+                display: flex;
+                align-items: center;
+                min-height: 48px;
+                padding: 0.35rem 0;
+                font-size: 1rem;
+            }
+
+            nav ul.nav-main-list li:last-child {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                padding-top: 0.35rem;
+                padding-bottom: 0.25rem;
+            }
+
+            nav ul.nav-main-list a.nav-cta {
+                display: inline-flex !important;
+                align-items: center;
+                justify-content: center;
+                width: auto;
+                max-width: 100%;
+                min-height: 44px;
+                padding: 0.5rem 1.15rem !important;
+                box-sizing: border-box;
+                margin-left: -0.45rem;
+                margin-right: auto;
+            }
+
+            nav.site-nav {
+                padding: calc(0.9rem + env(safe-area-inset-top, 0px)) max(4.5vw, env(safe-area-inset-right, 0px)) 0.9rem max(4.5vw, env(safe-area-inset-left, 0px));
+            }
+
+            .logo-text {
+                font-size: 1.12rem;
+            }
+
+            .logo-beta {
+                font-size: 0.56rem;
+                padding: 0.16rem 0.4rem;
+            }
+
+            .page {
+                padding-top: calc(6.35rem + env(safe-area-inset-top, 0px));
+                padding-bottom: calc(3.5rem + env(safe-area-inset-bottom, 0px));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-head {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.35rem;
+            }
+
+            .main-hint {
+                max-width: 100%;
+                line-height: 1.45;
+            }
+
+            /* Telefono: “Tutti i locali” sopra “Vicini a te”; elenco piccole card in orizzontale */
+            .layout .side {
+                order: -1;
+            }
+
+            .side-list {
+                flex-direction: row;
+                flex-wrap: nowrap;
+                align-items: stretch;
+                overflow-x: auto;
+                overflow-y: hidden;
+                max-height: none;
+                gap: 0.7rem;
+                padding: 0.75rem 0.85rem;
+                scroll-snap-type: x proximity;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .side-list .card.small .card-img {
+                display: none;
+            }
+
+            .side-list .card.small {
+                flex: 0 0 auto;
+                width: min(220px, 70vw);
+                max-width: 70vw;
+                min-height: 0;
+                scroll-snap-align: start;
+            }
+
+            .side-list .card.small .card-body {
+                padding: 0.55rem 0.65rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .toolbar {
+                grid-template-columns: 1fr;
+            }
+
+            .btn {
+                min-height: 46px;
+            }
+
+            .card {
+                flex-direction: column;
+            }
+
+            .card.reverse {
+                flex-direction: column;
+            }
+
+            .card-img {
+                width: 100%;
+                min-width: 0;
+                height: 150px;
+            }
+        }
+
+        /* ─── COOKIE BANNER (essenziali) ─── */
+        .cookie-banner {
+            position: fixed;
+            left: max(16px, env(safe-area-inset-left, 0px));
+            right: max(16px, env(safe-area-inset-right, 0px));
+            bottom: max(16px, env(safe-area-inset-bottom, 0px));
+            z-index: 2000;
+            display: none;
+            background: rgba(14, 12, 28, 0.88);
+            border: 0.5px solid rgba(168, 85, 247, 0.28);
+            box-shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(18px);
+            border-radius: 16px;
+            padding: 0.95rem 0.95rem;
+        }
+        .cookie-banner.visible { display: flex; }
+        .cookie-banner .cookie-inner { display: flex; gap: 0.9rem; width: 100%; align-items: flex-start; }
+        .cookie-banner .cookie-text { flex: 1; min-width: 0; }
+        .cookie-banner .cookie-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.95rem; margin-bottom: 0.25rem; }
+        .cookie-banner .cookie-desc { color: rgba(255,255,255,0.72); font-size: 0.86rem; line-height: 1.45; }
+        .cookie-banner .cookie-desc a { color: #22d3ee; text-decoration: none; }
+        .cookie-banner .cookie-desc a:hover { text-decoration: underline; }
+        .cookie-banner .cookie-actions { display: flex; gap: 0.6rem; align-items: center; flex: 0 0 auto; }
+        .cookie-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 0.5px solid rgba(255,255,255,0.14);
+            background: rgba(255,255,255,0.06);
+            color: var(--text);
+            border-radius: 12px;
+            padding: 0.65rem 0.9rem;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+        .cookie-btn.primary { border: none; background: linear-gradient(135deg, #a855f7, #ec4899); }
+        @media (max-width: 520px) {
+            .cookie-banner .cookie-inner { flex-direction: column; align-items: stretch; }
+            .cookie-banner .cookie-actions { justify-content: flex-end; }
+            .cookie-btn { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite" aria-label="Cookie e preferenze">
+        <div class="cookie-inner">
+            <div class="cookie-text">
+                <div class="cookie-title">Cookie e statistiche</div>
+                <div class="cookie-desc">
+                    Cookie e memorizzazione locale necessari al funzionamento di FindMyNight. In modo facoltativo puoi attivare
+                    <strong>Google Analytics 4</strong> (ID <code>G-4B41LWXFR3</code>) per statistiche sulle visite. Dettagli nella
+                    <a href="privacy.html">Privacy Policy</a>.
+                </div>
+            </div>
+            <div class="cookie-actions">
+                <button type="button" class="cookie-btn" id="cookieEssentialBtn">Solo necessari</button>
+                <button type="button" class="cookie-btn primary" id="cookieStatsBtn">Accetto anche le statistiche</button>
+            </div>
+        </div>
+    </div>
+    <nav class="site-nav" id="siteNav">
+        <div class="nav-top">
+            <a href="index.html" class="logo">
+                <img src="logo.png" alt="" width="26" height="26" decoding="async" />
+                <span class="logo-text">FindMyNight</span>
+                <span class="logo-beta" title="Sito in beta: funzioni e contenuti in evoluzione" aria-label="Beta">beta</span>
+            </a>
+            <button type="button" class="nav-menu-btn" id="navMenuBtn" aria-expanded="false" aria-controls="navMainList" aria-label="Apri menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <div class="nav-menu-backdrop" id="navMenuBackdrop" aria-hidden="true"></div>
+        <ul id="navMainList" class="nav-main-list">
+            <li><a href="locali.html" aria-current="page">Locali</a></li>
+            <li><a href="index.html#features">Funzionalità</a></li>
+            <li><a href="index.html#how">Come funziona</a></li>
+            <li><a href="index.html#pricing">Prezzi</a></li>
+            <li><a href="chat.html">Chat</a></li>
+            <li><a href="partner.html">Area Partner</a></li>
+            <li><a href="index.html#cta" class="nav-cta">Inizia gratis →</a></li>
+        </ul>
+    </nav>
+
+    <main class="page">
+        <div class="title">Locali vicino a te</div>
+        <div class="subtitle">Lista dei locali nel raggio di 15km. Cerca anche un paese e filtra per nome.</div>
+
+        <div class="toolbar">
+            <div class="search">
+                <span style="opacity:0.8;">🔎</span>
+                <input id="q" placeholder="Cerca locale o paese…" autocomplete="off" />
+            </div>
+            <div class="date-wrap" aria-label="Calendario eventi" id="dateOpenBtn" role="button" tabindex="0">
+                <div class="date-face">
+                    <span class="date-label">Eventi</span>
+                    <span class="date-value" id="eventDateText">Seleziona data</span>
+                    <svg class="date-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M7 3v2M17 3v2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                        <path d="M4.5 8.2h15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                        <path d="M6.5 5h11A3 3 0 0 1 20.5 8v11A3 3 0 0 1 17.5 22h-11A3 3 0 0 1 3.5 19V8A3 3 0 0 1 6.5 5Z" stroke="currentColor" stroke-width="1.8" />
+                    </svg>
+                </div>
+                <input id="eventDate" type="date" class="date-input" aria-label="Data inizio eventi" tabindex="-1" />
+                <input type="hidden" id="eventDateEnd" value="" />
+            </div>
+            <button id="locate" class="btn" type="button">📍 Usa la mia posizione</button>
+        </div>
+
+        <div class="status" id="status">Caricamento…</div>
+        <div class="status" id="eventsStatus" style="margin-top:-0.4rem;"></div>
+
+        <div class="layout" id="layout">
+            <section class="main-wrap" aria-label="Locali in evidenza (centro)">
+                <div class="main-head">
+                    <div class="main-title" id="mainTitle">Vicini a te (≤ 15 km)</div>
+                    <div class="main-hint" id="mainHint">Cerca un paese o usa 📍 per vedere i locali più vicini qui.</div>
+                </div>
+                <div class="main-list" id="mainList"></div>
+            </section>
+
+            <aside class="side" aria-label="Lista laterale locali (piccole)">
+                <div class="side-head">
+                    <div>
+                        <div class="side-title">Tutti i locali</div>
+                        <div class="side-sub" id="sideCount">—</div>
+                    </div>
+                    <div class="pill" style="padding:0.28rem 0.55rem;font-size:0.72rem;">AI</div>
+                </div>
+                <div class="side-list" id="sideList"></div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Custom calendar overlay -->
+    <div class="cal-overlay" id="calOverlay" aria-hidden="true">
+        <div class="cal" role="dialog" aria-modal="true" aria-label="Seleziona una data o un intervallo">
+            <div class="cal-top">
+                <div class="cal-month" id="calMonthLabel">—</div>
+                <div class="cal-nav">
+                    <button class="cal-btn" id="calPrev" type="button" aria-label="Mese precedente">‹</button>
+                    <button class="cal-btn" id="calNext" type="button" aria-label="Mese successivo">›</button>
+                </div>
+            </div>
+            <div class="cal-grid">
+                <div class="cal-dow">
+                    <div>Lun</div><div>Mar</div><div>Mer</div><div>Gio</div><div>Ven</div><div>Sab</div><div>Dom</div>
+                </div>
+                <div class="cal-days" id="calDays"></div>
+            </div>
+            <div class="cal-bottom">
+                <button class="cal-action" id="calClear" type="button">Pulisci</button>
+                <button class="cal-action primary" id="calApply" type="button">Applica</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="fmn-firebase-public.js"></script>
+    <script src="fmn-secrets.defaults.js"></script>
+
+    <script>
+        if (!window.FMN_FIREBASE_CONFIG) {
+            throw new Error('FindMyNight: carica fmn-firebase-public.js prima di questo script.');
+        }
+        firebase.initializeApp(window.FMN_FIREBASE_CONFIG);
+        const db = firebase.firestore();
+
+        const fbVenueMap = new Map();
+
+        function fbNormName(name) {
+            return (name || '').toLowerCase()
+                .replace(/[àáâã]/g, 'a').replace(/[èéê]/g, 'e')
+                .replace(/[ìíî]/g, 'i').replace(/[òóô]/g, 'o')
+                .replace(/[ùúû]/g, 'u')
+                .replace(/[^a-z0-9]/g, ' ').replace(/\s+/g, ' ').trim();
+        }
+
+        function loadFirebaseVenues() {
+            db.collection('venues').onSnapshot(
+                (snap) => {
+                    fbVenueMap.clear();
+                    snap.forEach((doc) => {
+                        const d = doc.data() || {};
+                        const merged = { ...d, venueId: doc.id };
+                        const kId = fbNormName(doc.id);
+                        const nm = d.name != null && String(d.name).trim() ? String(d.name).trim() : '';
+                        const kName = fbNormName(nm || doc.id);
+                        fbVenueMap.set(kId, merged);
+                        if (kName !== kId) fbVenueMap.set(kName, merged);
+                    });
+                    if (allClubs.length) {
+                        enrichClubsWithFirebase(allClubs);
+                        applyFilter();
+                    }
+                },
+                () => {}
+            );
+        }
+
+        function enrichClubsWithFirebase(clubs) {
+            clubs.forEach(c => {
+                const keyName = fbNormName(c.name);
+                let fb = fbVenueMap.get(keyName) || null;
+                if (!fb && c.id != null) {
+                    fb = fbVenueMap.get(fbNormName(String(c.id))) || null;
+                }
+                c.firebaseData = fb;
+                if (fb && fb.imageUrl) c.image = fb.imageUrl;
+                if (fb && fb.instagram != null && String(fb.instagram).trim()) {
+                    c.instagram = String(fb.instagram).trim();
+                }
+                if (fb && fb.facebook != null && String(fb.facebook).trim()) {
+                    c.facebook = String(fb.facebook).trim();
+                }
+
+                if (fb && fb.isBar === true) {
+                    c.isBar = true;
+                }
+            });
+        }
+
+        loadFirebaseVenues();
+
+        const OVERPASS_ENDPOINTS = [
+            'https://overpass-api.de/api/interpreter',
+            'https://overpass.kumi.systems/api/interpreter',
+            'https://overpass.openstreetmap.fr/api/interpreter',
+            'https://overpass.openstreetmap.ru/api/interpreter'
+        ];
+        const NOMINATIM_ENDPOINT        = 'https://nominatim.openstreetmap.org/search';
+        const NOMINATIM_REVERSE_ENDPOINT = 'https://nominatim.openstreetmap.org/reverse';
+        const GOOGLE_PLACES_API_KEY =
+            typeof window !== 'undefined' && typeof window.FMN_GOOGLE_PLACES_API_KEY === 'string'
+                ? window.FMN_GOOGLE_PLACES_API_KEY.trim()
+                : '';
+
+        const DEFAULT_CENTER = { lat: 45.6983, lng: 9.6773 }; // Bergamo
+        let userLocation  = null;
+        let manualCenter  = null;
+        /** Durante loadClubs (Overpass + arricchimenti) non aggiornare la UI da applyFilter: evita “Nessun risultato” mentre elQ contiene ancora il luogo cercato. */
+        let isLoadingClubs = false;
+        /** Dopo ricerca luogo (Enter) o 📍: mostra tutti i locali caricati finché l’utente non modifica il testo in elQ. */
+        let skipNameTextFilter = false;
+        let radiusKm      = 20;
+        let allClubs      = [];
+        /** Click su lista laterale: mostra quella card grande al centro (secondo click = deseleziona). */
+        let focusedClubId = null;
+        const addressCache = new Map();
+        const DISCOVERY_SIDE_LIMIT = 24;
+        /** Se ci sono più di N locali entro 15 km, nascondi la colonna “Tutti i locali” (fascia 15–25 km). */
+        const HIDE_SIDE_PANEL_WHEN_NEAR_EXCEEDS = 20;
+        let hasLoadedDiscovery = false;
+        let lastActivePosKey = null;
+        let sideShuffleSeed = Math.random().toString(36).slice(2);
+        const LAST_LOCATION_KEY = 'fmn_last_location';
+        /** Allineato a index: GPS salvato resta utile ore così aprendo Locali dopo la mappa non serve riposizionarsi. */
+        const LAST_LOCATION_TTL_MS = 24 * 60 * 60 * 1000;
+        /** Stesso formato di index.html — priorità su fmn_last_location all’avvio. */
+        const FMN_MAP_FOCUS_KEY = 'fmn_map_focus';
+        const FMN_MAP_FOCUS_TTL_MS = 24 * 60 * 60 * 1000;
+
+        // Centri “sparsi” in Italia per mostrare locali casuali nella sidebar (modalità senza posizione)
+        const ITALY_DISCOVERY_CENTERS = [
+            { name: 'Milano',      lat: 45.4642, lng: 9.1900 },
+            { name: 'Torino',      lat: 45.0703, lng: 7.6869 },
+            { name: 'Genova',      lat: 44.4056, lng: 8.9463 },
+            { name: 'Venezia',     lat: 45.4408, lng: 12.3155 },
+            { name: 'Bologna',     lat: 44.4949, lng: 11.3426 },
+            { name: 'Firenze',     lat: 43.7696, lng: 11.2558 },
+            { name: 'Roma',        lat: 41.9028, lng: 12.4964 },
+            { name: 'Napoli',      lat: 40.8518, lng: 14.2681 },
+            { name: 'Bari',        lat: 41.1171, lng: 16.8719 },
+            { name: 'Catania',     lat: 37.5079, lng: 15.0830 },
+            { name: 'Palermo',     lat: 38.1157, lng: 13.3615 },
+            { name: 'Cagliari',    lat: 39.2238, lng: 9.1217 }
+        ];
+
+        const elQ            = document.getElementById('q');
+        const elDate         = document.getElementById('eventDate');
+        const elDateEnd      = document.getElementById('eventDateEnd');
+        const elDateText     = document.getElementById('eventDateText');
+        const elDateOpenBtn  = document.getElementById('dateOpenBtn');
+        const elLocate       = document.getElementById('locate');
+        const elStatus       = document.getElementById('status');
+        const elEventsStatus = document.getElementById('eventsStatus');
+        const elSideList     = document.getElementById('sideList');
+        const elMainList     = document.getElementById('mainList');
+        const elSideCount    = document.getElementById('sideCount');
+        const elMainHint     = document.getElementById('mainHint');
+        const elMainTitle    = document.getElementById('mainTitle');
+        const elLayout       = document.getElementById('layout');
+
+        const calOverlay    = document.getElementById('calOverlay');
+        const calMonthLabel = document.getElementById('calMonthLabel');
+        const calDays       = document.getElementById('calDays');
+        const calPrev       = document.getElementById('calPrev');
+        const calNext       = document.getElementById('calNext');
+        const calClear      = document.getElementById('calClear');
+        const calApply      = document.getElementById('calApply');
+
+        let calView = null;
+        /** Stato nel popup: primo tap, oppure intervallo chiuso (from ≤ to). */
+        let calRangeAnchor = null;
+        let calRangeFrom = null;
+        let calRangeTo = null;
+        /** Dopo “Applica”: intervallo inclusivo (stessa data = un solo giorno). */
+        let eventRangeStart = null;
+        let eventRangeEnd = null;
+
+        // ── Helpers ──────────────────────────────────────────────────────
+
+        /** Centro query Overpass: luogo cercato, altrimenti GPS, altrimenti fallback. */
+        function getCenter()         { return manualCenter || userLocation || DEFAULT_CENTER; }
+        /** Punto “attivo” per ordinare le distanze: come la mappa — prima il luogo cercato, poi la posizione. */
+        function getActivePosition() { return manualCenter || userLocation || null; }
+
+        function readMapFocusForBoot() {
+            try {
+                const raw = localStorage.getItem(FMN_MAP_FOCUS_KEY);
+                if (!raw) return null;
+                const o = JSON.parse(raw);
+                if (!o || !Number.isFinite(o.lat) || !Number.isFinite(o.lng) || !Number.isFinite(o.ts)) return null;
+                if (Date.now() - o.ts > FMN_MAP_FOCUS_TTL_MS) return null;
+                const t = o.type;
+                if (t !== 'place' && t !== 'gps') return null;
+                return o;
+            } catch {
+                return null;
+            }
+        }
+
+        function readCachedGpsOnly() {
+            try {
+                const raw = localStorage.getItem(LAST_LOCATION_KEY);
+                if (!raw) return null;
+                const cached = JSON.parse(raw);
+                if (!cached || !Number.isFinite(cached.lat) || !Number.isFinite(cached.lng) || !Number.isFinite(cached.ts)) return null;
+                if (Date.now() - cached.ts > LAST_LOCATION_TTL_MS) return null;
+                return { lat: cached.lat, lng: cached.lng };
+            } catch {
+                return null;
+            }
+        }
+
+        function cmpClubName(a, b) {
+            return String(a.name || '').localeCompare(String(b.name || ''), 'it', { sensitivity: 'base' });
+        }
+        function cmpClubByQueryDist(a, b) {
+            const d = a.distanceFromQueryKm - b.distanceFromQueryKm;
+            return d !== 0 ? d : cmpClubName(a, b);
+        }
+        function cmpClubByActiveDist(a, b) {
+            const da = a.distanceFromActiveKm ?? Infinity;
+            const db = b.distanceFromActiveKm ?? Infinity;
+            const d = da - db;
+            return d !== 0 ? d : cmpClubName(a, b);
+        }
+
+        function kmBetween(a, b) {
+            const R = 6371;
+            const dLat = (b.lat - a.lat) * Math.PI / 180;
+            const dLng = (b.lng - a.lng) * Math.PI / 180;
+            const s1 = Math.sin(dLat / 2), s2 = Math.sin(dLng / 2);
+            const q = s1*s1 + Math.cos(a.lat*Math.PI/180)*Math.cos(b.lat*Math.PI/180)*s2*s2;
+            return 2 * R * Math.asin(Math.sqrt(q));
+        }
+
+        function fnv1a32(str) {
+            let h = 0x811c9dc5;
+            for (let i = 0; i < str.length; i++) {
+                h ^= str.charCodeAt(i);
+                h = Math.imul(h, 0x01000193);
+            }
+            return h >>> 0;
+        }
+
+        function stableRandomSort(clubs, seed) {
+            const s = String(seed || '');
+            return [...clubs].sort((a, b) => {
+                const ha = fnv1a32(`${s}|${a.id}`);
+                const hb = fnv1a32(`${s}|${b.id}`);
+                return ha - hb;
+            });
+        }
+
+        function shuffleInPlace(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function escapeHtml(s) {
+            return (s||'').toString()
+                .replaceAll('&','&amp;').replaceAll('<','&lt;')
+                .replaceAll('>','&gt;').replaceAll('"','&quot;')
+                .replaceAll("'",'&#039;');
+        }
+
+        function normalizeText(s) {
+            return (s||'').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+        }
+
+        function osmVenueDisplayName(tags) {
+            if (!tags || typeof tags !== 'object') return 'Locale';
+            const pick = (...keys) => {
+                for (const k of keys) {
+                    const v = (tags[k] ?? '').toString().trim();
+                    if (v) return v;
+                }
+                return '';
+            };
+            /* official_name / alt_name / operator spesso più completi di name (es. name="Life", operator="Life Club") */
+            let base = pick('official_name', 'alt_name', 'operator', 'brand', 'name', 'name:it') || 'Locale';
+            const city = pick('addr:city', 'addr:town', 'addr:village', 'addr:hamlet');
+            if (city && base !== 'Locale') {
+                const bN = normalizeText(base);
+                const cN = normalizeText(city);
+                if (cN && !bN.includes(cN)) {
+                    base = `${base} di ${city}`;
+                }
+            }
+            return base;
+        }
+
+        function osmVenueAddressFromTags(tags) {
+            if (!tags || typeof tags !== 'object') return '';
+            const t = (k) => (tags[k] ?? '').toString().trim();
+            const full = t('addr:full');
+            if (full) return full;
+            const street = [t('addr:street'), t('addr:housenumber')].filter(Boolean).join(' ').trim();
+            const contactStreet = t('contact:street');
+            const road = street || contactStreet;
+            const city =
+                t('addr:city') ||
+                t('addr:town') ||
+                t('addr:village') ||
+                t('addr:hamlet') ||
+                t('contact:city');
+            const place = t('addr:place') || t('addr:suburb') || t('addr:neighbourhood');
+            const pc = t('addr:postcode');
+            const prov = t('addr:province');
+            const locality = [pc, city || place].filter(Boolean).join(' ').trim();
+            let tail = locality;
+            if (prov && tail && !tail.includes(`(${prov})`)) {
+                tail = `${tail} (${prov})`;
+            } else if (prov && !tail) {
+                tail = `(${prov})`;
+            }
+            if (road && tail) return `${road}, ${tail}`;
+            if (road) return road;
+            if (tail) return tail;
+            return place || '';
+        }
+
+        function isOsmVenueLikelyClosed(tags) {
+            if (!tags || typeof tags !== 'object') return false;
+            const g = (k) => (tags[k] ?? '').toString().trim().toLowerCase();
+            if (g('abandoned') === 'yes' || g('abandoned') === 'true' || g('abandoned') === '1') return true;
+            if (g('demolished') === 'yes') return true;
+            if (g('ruined') === 'yes') return true;
+            if (g('removed') === 'yes') return true;
+            if (tags['disused:amenity'] || tags['disused:leisure'] || tags['disused:shop']) return true;
+            if (tags['was:amenity'] || tags['was:leisure']) return true;
+            if (tags['end_date']) return true;
+            const op = g('operational_status');
+            if (op && /abandon|closed|defunct|demolish|inactive|dismantl|ceased|razed|vacant|disus/.test(op)) return true;
+            return false;
+        }
+
+        async function geocodeItaly(query) {
+            const q = (query||'').trim();
+            if (!q) return null;
+            const url = `${NOMINATIM_ENDPOINT}?format=json&limit=1&countrycodes=it&q=${encodeURIComponent(q)}`;
+            const res = await fetch(url,{headers:{'Accept':'application/json'}});
+            if (!res.ok) return null;
+            const data = await res.json();
+            if (!data||!data.length) return null;
+            return { lat: Number(data[0].lat), lng: Number(data[0].lon), label: data[0].display_name };
+        }
+
+        function localImageForClubName() {
+            return '';
+        }
+
+        async function reverseGeocode(lat, lng) {
+            const key = `${lat.toFixed(5)},${lng.toFixed(5)}`;
+            if (addressCache.has(key)) return addressCache.get(key);
+            const url = `${NOMINATIM_REVERSE_ENDPOINT}?format=json&zoom=18&addressdetails=1&lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lng)}`;
+            const res = await fetch(url,{headers:{'Accept':'application/json'}});
+            if (!res.ok) return null;
+            const data = await res.json();
+            const a = data&&data.address ? data.address : null;
+            if (!a) return null;
+            const city  = a.city||a.town||a.village||a.municipality||a.county||'';
+            const road  = a.road||a.pedestrian||a.footway||'';
+            const house = a.house_number||'';
+            const parts = [];
+            const street = [road,house].filter(Boolean).join(' ');
+            if (street) parts.push(street);
+            if (city)   parts.push(city);
+            const out = parts.join(', ')||(data.display_name||'');
+            addressCache.set(key, out);
+            return out;
+        }
+
+        async function fetchOverpass(endpoint, center, radiusMeters) {
+            if (!Number.isFinite(center.lat) || !Number.isFinite(center.lng)) {
+                throw new Error('Coordinate non valide');
+            }
+            const lat = Number(center.lat);
+            const lng = Number(center.lng);
+            const r = Math.max(1000, Math.min(50000, Math.round(radiusMeters)));
+            const query = `
+              [out:json][timeout:25];
+              (
+                node["amenity"="nightclub"](around:${r},${lat},${lng});
+                way["amenity"="nightclub"](around:${r},${lat},${lng});
+                relation["amenity"="nightclub"](around:${r},${lat},${lng});
+                node["club"="nightclub"](around:${r},${lat},${lng});
+                way["club"="nightclub"](around:${r},${lat},${lng});
+                relation["club"="nightclub"](around:${r},${lat},${lng});
+                node["leisure"="nightclub"](around:${r},${lat},${lng});
+                way["leisure"="nightclub"](around:${r},${lat},${lng});
+                relation["leisure"="nightclub"](around:${r},${lat},${lng});
+                node["leisure"="dancing"](around:${r},${lat},${lng});
+                way["leisure"="dancing"](around:${r},${lat},${lng});
+                relation["leisure"="dancing"](around:${r},${lat},${lng});
+                node["amenity"="music_venue"](around:${r},${lat},${lng});
+                way["amenity"="music_venue"](around:${r},${lat},${lng});
+                relation["amenity"="music_venue"](around:${r},${lat},${lng});
+                node["amenity"="bar"]["club"="nightclub"](around:${r},${lat},${lng});
+                way["amenity"="bar"]["club"="nightclub"](around:${r},${lat},${lng});
+                relation["amenity"="bar"]["club"="nightclub"](around:${r},${lat},${lng});
+              );
+              out center tags;
+            `.replace(/\s+/g, ' ').trim();
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), 25000);
+            let res;
+            try {
+                res = await fetch(endpoint,{
+                    method:'POST',
+                    headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},
+                    body: new URLSearchParams({data:query}),
+                    signal: controller.signal
+                });
+            } catch (e) {
+                throw new Error(`Failed to fetch (${endpoint})`);
+            } finally {
+                clearTimeout(timeout);
+            }
+            if (!res.ok) {
+                let details = '';
+                try {
+                    const text = await res.text();
+                    details = text ? ` — ${text.slice(0, 180).replace(/\s+/g, ' ')}` : '';
+                } catch {
+                    // ignore
+                }
+                throw new Error(`Overpass HTTP ${res.status} (${endpoint})${details}`);
+            }
+            const json = await res.json();
+            return (json.elements || []).filter((el) => !isOsmVenueLikelyClosed(el.tags || {}));
+        }
+
+        function elementToClub(el, center, activePos) {
+            const tags = el.tags||{};
+            const lat = el.lat ?? el.center?.lat;
+            const lng = el.lon ?? el.center?.lon;
+            if (lat==null||lng==null) return null;
+            const name = osmVenueDisplayName(tags);
+            const address = osmVenueAddressFromTags(tags);
+            const distanceFromQueryKm  = kmBetween(center, {lat,lng});
+            const distanceFromActiveKm = activePos ? kmBetween(activePos,{lat,lng}) : null;
+            const instagram = tags['contact:instagram']||tags['instagram']||'';
+            const facebook  = tags['contact:facebook'] ||tags['facebook'] ||'';
+            const isNightclub = tags.amenity === 'nightclub' || tags.club === 'nightclub' || tags.leisure === 'nightclub' || tags.leisure === 'dancing';
+            const isBar = !isNightclub;
+            return { id:`${el.type}/${el.id}`, name, address, lat, lng, distanceFromQueryKm, distanceFromActiveKm, instagram, facebook, isNightclub, isBar };
+        }
+
+        function toInstagramUrl(s) {
+            if (!s) return '';
+            s = s.trim();
+            return s.startsWith('http') ? s : `https://www.instagram.com/${encodeURIComponent(s.replace(/^@/,''))}/`;
+        }
+        function toFacebookUrl(s) {
+            if (!s) return '';
+            s = s.trim();
+            return s.startsWith('http') ? s : `https://www.facebook.com/${encodeURIComponent(s)}`;
+        }
+
+        // ── Google Places (optional) ──────────────────────────────────────
+
+        let googlePlacesService = null;
+
+        function loadGoogleMapsPlacesIfNeeded() {
+            if (!GOOGLE_PLACES_API_KEY) return Promise.resolve(null);
+            if (window.google && window.google.maps && window.google.maps.places) return Promise.resolve(window.google);
+
+            return new Promise((resolve, reject) => {
+                const existing = document.getElementById('googleMapsJsLocali');
+                if (existing) {
+                    const done = () => {
+                        if (window.google && window.google.maps && window.google.maps.places) resolve(window.google);
+                        else reject(new Error('Google Maps JS non pronto'));
+                    };
+                    if (window.google && window.google.maps && window.google.maps.places) {
+                        done();
+                        return;
+                    }
+                    existing.addEventListener('load', done);
+                    existing.addEventListener('error', () => reject(new Error('Google Maps JS non caricato')));
+                    return;
+                }
+
+                const cbName = '__fmnInitGoogleMapsLocaliCb_' + Math.random().toString(36).slice(2, 10);
+                window[cbName] = () => {
+                    try {
+                        if (window.google && window.google.maps && window.google.maps.places) resolve(window.google);
+                        else reject(new Error('Google Maps JS non pronto (callback)'));
+                    } finally {
+                        try { delete window[cbName]; } catch { window[cbName] = undefined; }
+                    }
+                };
+
+                const s = document.createElement('script');
+                s.id = 'googleMapsJsLocali';
+                s.async = true;
+                s.defer = true;
+                s.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(GOOGLE_PLACES_API_KEY)}&libraries=places&callback=${cbName}`;
+                s.onerror = () => {
+                    try { delete window[cbName]; } catch { window[cbName] = undefined; }
+                    reject(new Error('Google Maps JS non caricato'));
+                };
+                document.head.appendChild(s);
+            });
+        }
+
+        async function ensurePlacesService() {
+            if (googlePlacesService) return googlePlacesService;
+            const g = await loadGoogleMapsPlacesIfNeeded();
+            if (!g||!g.maps||!g.maps.places) return null;
+            const div = document.createElement('div');
+            div.style.cssText='width:1px;height:1px;position:absolute;left:-9999px;top:-9999px;';
+            document.body.appendChild(div);
+            const dummyMap = new g.maps.Map(div,{center:{lat:DEFAULT_CENTER.lat,lng:DEFAULT_CENTER.lng},zoom:12});
+            googlePlacesService = new g.maps.places.PlacesService(dummyMap);
+            return googlePlacesService;
+        }
+
+        function placesFindPlaceId(service, club) {
+            return new Promise((resolve) => {
+                const center = { lat: club.lat, lng: club.lng };
+                const q = String(club.name || 'Locale').trim() || 'Locale';
+                const req = {
+                    query: q,
+                    location: center,
+                    radius: 3000
+                };
+                const tryFindPlace = () => {
+                    if (typeof service.findPlaceFromQuery !== 'function') {
+                        resolve(null);
+                        return;
+                    }
+                    try {
+                        service.findPlaceFromQuery({
+                            query: q,
+                            fields: ['place_id', 'name'],
+                            locationBias: { center, radius: 2800 }
+                        }, (res2, st2) => {
+                            if (st2 === window.google.maps.places.PlacesServiceStatus.OK && res2 && res2.length) {
+                                const p0 = res2[0];
+                                const pid = (p0 && p0.place_id) || (p0 && p0.placeId != null ? String(p0.placeId) : null);
+                                resolve(pid || null);
+                                return;
+                            }
+                            resolve(null);
+                        });
+                    } catch {
+                        resolve(null);
+                    }
+                };
+                service.textSearch(req, (results, status) => {
+                    if (status === window.google.maps.places.PlacesServiceStatus.OK && results && results.length) {
+                        resolve(results[0].place_id || null);
+                        return;
+                    }
+                    tryFindPlace();
+                });
+            });
+        }
+
+        function placesGetDetails(service, placeId) {
+            return new Promise(resolve => {
+                service.getDetails({placeId,fields:['rating','user_ratings_total']},(place,status) => {
+                    resolve(status===window.google.maps.places.PlacesServiceStatus.OK&&place ? place : null);
+                });
+            });
+        }
+
+        async function enrichWithGoogleRatings(clubRows) {
+            if (!GOOGLE_PLACES_API_KEY) return clubRows;
+            let service = null;
+            try {
+                service = await ensurePlacesService();
+            } catch (e) {
+                console.warn('PlacesService (locali):', e);
+                service = null;
+            }
+            if (!service) {
+                console.warn('PlacesService (locali): servizio non disponibile — controlla chiave API e Maps JavaScript + Places.');
+                return clubRows;
+            }
+            const out = [];
+            for (const club of clubRows) {
+                try {
+                    await new Promise((r) => setTimeout(r, 350));
+                    const placeId = await placesFindPlaceId(service, club);
+                    if (!placeId) {
+                        out.push({ ...club, ratingAvg: null, ratingCount: null });
+                        continue;
+                    }
+                    const details = await placesGetDetails(service, placeId);
+                    out.push({
+                        ...club,
+                        ratingAvg: details && typeof details.rating === 'number' ? details.rating : null,
+                        ratingCount: details && typeof details.user_ratings_total === 'number' ? details.user_ratings_total : null
+                    });
+                } catch (e) {
+                    console.warn('Google rating (locali):', club && club.name, e);
+                    out.push(club);
+                }
+            }
+            return out;
+        }
+
+        function formatRating(avg,count) {
+            if (avg==null) return '—';
+            return count==null ? `${avg.toFixed(1)}` : `${avg.toFixed(1)} (${count})`;
+        }
+
+        /** HTML sicuro per la riga recensioni: media Google oppure spinner giallo mentre le API rispondono. */
+        function ratingCellHtml(c) {
+            const wantsRatings = Boolean(GOOGLE_PLACES_API_KEY);
+            if (wantsRatings && c.ratingsPending) {
+                return '<span class="rating-spinner" role="status" aria-label="Caricamento recensioni"></span>';
+            }
+            if (c.ratingAvg != null) {
+                return escapeHtml(formatRating(c.ratingAvg, c.ratingCount));
+            }
+            const rt = c.ratingText;
+            if (typeof rt === 'string' && rt.trim() && rt !== '—' && !rt.toLowerCase().includes('aggiornamento')) {
+                return escapeHtml(rt);
+            }
+            return '—';
+        }
+
+        function getEventsForClub(c) {
+            const fb = c.firebaseData;
+            if (!fb || !Array.isArray(fb.eventi)) return [];
+            return fb.eventi.filter(e => e.data || e.nome);
+        }
+
+        function filterEventsByDateRange(events) {
+            if (!eventRangeStart || !eventRangeEnd) return events;
+            const tS = dateOnlyTs(eventRangeStart);
+            const tE = dateOnlyTs(eventRangeEnd);
+            return events.filter(e => {
+                if (!e.data) return false;
+                const d = fromISODate(e.data);
+                if (!d) return false;
+                const t = dateOnlyTs(d);
+                return t >= tS && t <= tE;
+            });
+        }
+
+        function eventsHtml(events) {
+            if (!events.length) return '';
+            const items = events.slice(0, 3).map(e => {
+                const dateStr = e.data ? new Date(e.data + 'T00:00:00').toLocaleDateString('it-IT', { weekday: 'short', day: '2-digit', month: 'short' }) : '';
+                const parts = [dateStr, e.nome, e.dj ? `🎧 ${e.dj}` : ''].filter(Boolean);
+                return `<div style="font-size:0.78rem;color:rgba(255,255,255,0.7);padding:0.25rem 0;display:flex;gap:0.5rem;flex-wrap:wrap;">
+                    ${dateStr ? `<span style="color:#06b6d4;font-weight:600;">${escapeHtml(dateStr)}</span>` : ''}
+                    ${e.nome ? `<span>${escapeHtml(e.nome)}</span>` : ''}
+                    ${e.dj ? `<span style="color:#c084fc;">🎧 ${escapeHtml(e.dj)}</span>` : ''}
+                </div>`;
+            }).join('');
+            return `<div style="margin-top:0.35rem;padding-top:0.4rem;border-top:0.5px solid rgba(255,255,255,0.06);">
+                <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.4);margin-bottom:0.2rem;">Prossimi eventi</div>
+                ${items}
+                ${events.length > 3 ? `<div style="font-size:0.72rem;color:var(--muted);">+${events.length - 3} altri</div>` : ''}
+            </div>`;
+        }
+
+        function socialLinksHtml(c) {
+            const igUrl = c.instagram ? toInstagramUrl(c.instagram) : '';
+            const fbUrl = c.facebook ? toFacebookUrl(c.facebook) : '';
+            if (!igUrl && !fbUrl) return '';
+            const ig = igUrl
+                ? `<a class="social social-ig" href="${escapeHtml(igUrl)}" target="_blank" rel="noreferrer noopener" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M7.2 2h9.6A5.2 5.2 0 0 1 22 7.2v9.6A5.2 5.2 0 0 1 16.8 22H7.2A5.2 5.2 0 0 1 2 16.8V7.2A5.2 5.2 0 0 1 7.2 2Z" stroke="currentColor" stroke-width="1.7"/>
+                      <path d="M12 16.1A4.1 4.1 0 1 0 12 7.9a4.1 4.1 0 0 0 0 8.2Z" stroke="currentColor" stroke-width="1.7"/>
+                      <path d="M17.6 6.4h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                    </svg>
+                  </a>`
+                : '';
+            const fbk = fbUrl
+                ? `<a class="social social-fb" href="${escapeHtml(fbUrl)}" target="_blank" rel="noreferrer noopener" aria-label="Facebook">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M14 8.7V7.3c0-.7.5-1.3 1.2-1.3H17V3h-1.8C13 3 11.5 4.7 11.5 7.1v1.6H9v3h2.5V21H14v-9.3h2.7l.3-3H14Z" fill="currentColor"/>
+                    </svg>
+                  </a>`
+                : '';
+            return `<div class="links">${ig}${fbk}</div>`;
+        }
+
+        function cardHtml(c,{small}) {
+            const showAiBadge = false;
+            const km     = ((c.distanceFromActiveKm??c.distanceFromQueryKm)||0).toFixed(1);
+            const addr   = escapeHtml(c.address||'');
+            const rating = ratingCellHtml(c);
+            const img    = c.image||localImageForClubName(c.name);
+            const fb = c.firebaseData || null;
+            const isOpen = fb ? (fb.aperto !== false) : true;
+            const isBarVenue = fb && fb.isBar === true;
+            const isLive = Boolean(fb) && isOpen && !isBarVenue;
+            const showApertoBadge =
+                c.id !== 'seed:bar-da-spicchio-rovetta'
+                && ((fb && isOpen && isBarVenue) || (isOpen && c.isBar));
+
+            const allEvents = getEventsForClub(c);
+            const filteredEvents = filterEventsByDateRange(allEvents);
+            const eventsToShow = (eventRangeStart && eventRangeEnd) ? filteredEvents : allEvents;
+
+            return `
+              <div class="card-img">
+                ${img?`<img class="club-photo" src="${img}" alt="${escapeHtml(c.name)}" />`:''}
+                ${showAiBadge?'<div class="badge-ai">Consigliato AI</div>':''}
+                ${fb && !isOpen ? '<div class="badge-ai" style="background:rgba(239,68,68,0.12);border-color:rgba(239,68,68,0.35);color:#fca5a5;">● CHIUSO</div>' : ''}
+                ${isLive ? '<div class="badge-ai" style="background:rgba(74,222,128,0.12);border-color:rgba(74,222,128,0.35);color:#4ade80;">● LIVE</div>' : ''}
+                ${showApertoBadge ? '<div class="badge-ai" style="background:rgba(148,163,184,0.12);border-color:rgba(148,163,184,0.35);color:#cbd5e1;">● APERTO</div>' : ''}
+              </div>
+              <div class="card-body">
+                <div class="name">${escapeHtml(c.name)}</div>
+                <div class="rating"><span>Recensioni</span><strong>${rating}</strong></div>
+                <div class="meta"><span>${km} km</span><span>${addr}</span></div>
+                ${small ? '' : eventsHtml(eventsToShow)}
+                ${socialLinksHtml(c)}
+              </div>`;
+        }
+
+        function getSideRectsMap() {
+            const map = new Map();
+            document.querySelectorAll('#sideList [data-club-id]').forEach((el) => {
+                map.set(el.dataset.clubId, el.getBoundingClientRect());
+            });
+            return map;
+        }
+
+        /** FLIP solo sulla lista laterale (il centro ha card duplicate per i “vicini”). */
+        function runFLIPSide(prevRects) {
+            const next = new Map();
+            document.querySelectorAll('#sideList [data-club-id]').forEach((el) => {
+                next.set(el.dataset.clubId, { el, rect: el.getBoundingClientRect() });
+            });
+            next.forEach(({ el, rect }, id) => {
+                const prev = prevRects.get(id);
+                if (!prev) return;
+                const dx = prev.left - rect.left;
+                const dy = prev.top - rect.top;
+                const sx = prev.width / rect.width;
+                const sy = prev.height / rect.height;
+                if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5 && Math.abs(sx - 1) < 0.01 && Math.abs(sy - 1) < 0.01) return;
+                el.animate(
+                    [
+                        { transformOrigin: 'top left', transform: `translate(${dx}px,${dy}px) scale(${sx},${sy})` },
+                        { transformOrigin: 'top left', transform: 'translate(0px,0px) scale(1,1)' }
+                    ],
+                    { duration: 520, easing: 'cubic-bezier(.2,.9,.2,1)', fill: 'both' }
+                );
+            });
+        }
+
+        // ─────────────────────────────────────────────────────────────────
+        // render() — FLIP + staggered entrance animations
+        // ─────────────────────────────────────────────────────────────────
+        function render(clubs) {
+            const prevRects = getSideRectsMap();
+            const prevIds = new Set(prevRects.keys());
+
+            const active = getActivePosition();
+            const hasActive = Boolean(active);
+            const activeKey = hasActive ? `${active.lat.toFixed(3)},${active.lng.toFixed(3)}` : null;
+            if (activeKey !== lastActivePosKey) {
+                lastActivePosKey = activeKey;
+                sideShuffleSeed = Math.random().toString(36).slice(2);
+            }
+
+            if (focusedClubId && !clubs.some((c) => c.id === focusedClubId)) {
+                focusedClubId = null;
+            }
+
+            const near = hasActive
+                ? clubs
+                    .filter((c) => c.distanceFromActiveKm != null && c.distanceFromActiveKm <= 15)
+                    .sort(cmpClubByActiveDist)
+                : [];
+
+            const focusedClub = focusedClubId ? clubs.find((c) => c.id === focusedClubId) : null;
+            const mainClubs = focusedClub
+                ? [focusedClub]
+                : hasActive
+                  ? near
+                  : [];
+
+            const mainExpanded = hasActive || Boolean(focusedClub);
+
+            const sideCandidates = hasActive
+                ? clubs.filter((c) => c.distanceFromActiveKm != null && c.distanceFromActiveKm > 15 && c.distanceFromActiveKm <= 25)
+                : clubs;
+            // “Casuali”: ordine pseudo-random (ma stabile finché non cambia la posizione attiva)
+            const sideSeed = hasActive ? `${activeKey}|${sideShuffleSeed}` : `discovery|${sideShuffleSeed}`;
+            const sideListClubs = stableRandomSort(sideCandidates, sideSeed).slice(0, DISCOVERY_SIDE_LIMIT);
+
+            const hideSidePanel = hasActive && near.length > HIDE_SIDE_PANEL_WHEN_NEAR_EXCEEDS;
+            elLayout.classList.toggle('layout--hide-side', hideSidePanel);
+
+            if (!clubs.length) {
+                elStatus.textContent = 'Nessun locale trovato nel raggio.';
+                if (elSideCount) elSideCount.textContent = '0';
+                if (elMainHint) elMainHint.textContent = '—';
+                if (elMainTitle) elMainTitle.textContent = 'Nessun risultato';
+                elSideList.innerHTML = '';
+                elMainList.innerHTML = '';
+                elLayout.classList.remove('has-active');
+                elLayout.classList.remove('layout--hide-side');
+                focusedClubId = null;
+                return;
+            }
+            elStatus.textContent = `${clubs.length} locali trovati`;
+
+            elLayout.classList.toggle('has-active', mainExpanded);
+            if (elMainTitle) {
+                if (focusedClub) {
+                    elMainTitle.textContent = focusedClub.name;
+                } else {
+                    elMainTitle.textContent = hasActive ? 'Vicini a te (≤ 15 km)' : 'Posizione non attiva';
+                }
+            }
+
+            const prevSideEls = new Map();
+            document.querySelectorAll('#sideList [data-club-id]').forEach((el) => prevSideEls.set(el.dataset.clubId, el));
+
+            elSideList.innerHTML = '';
+            if (!hideSidePanel) {
+                sideListClubs.forEach((c) => {
+                    let card = prevSideEls.get(c.id);
+                    if (!card) {
+                        card = document.createElement('article');
+                        card.className = 'card small';
+                        card.dataset.clubId = c.id;
+                    }
+                    card.innerHTML = cardHtml(c, { small: true });
+                    card.classList.toggle('side-card-focused', c.id === focusedClubId);
+                    elSideList.appendChild(card);
+                });
+            }
+
+            elMainList.innerHTML = '';
+            mainClubs.forEach((c) => {
+                const card = document.createElement('article');
+                card.className = 'card';
+                card.dataset.clubId = `main:${c.id}`;
+                card.innerHTML = cardHtml(c, { small: false });
+                elMainList.appendChild(card);
+            });
+
+            if (elSideCount) {
+                elSideCount.textContent = hideSidePanel
+                    ? '—'
+                    : hasActive
+                      ? `${sideListClubs.length} · tra 15 e 25 km`
+                      : `${sideListClubs.length} · locali casuali in Italia`;
+            }
+            if (elMainHint) {
+                if (focusedClub) {
+                    elMainHint.textContent = hideSidePanel
+                        ? 'Tocca di nuovo questa card per tornare all\'elenco completo.'
+                        : 'Tocca di nuovo questa card nella lista a destra per tornare alla vista precedente.';
+                } else if (hasActive) {
+                    if (hideSidePanel) {
+                        elMainHint.textContent = near.length
+                            ? `${near.length} locali entro 15 km.`
+                            : 'Nessun locale entro 15 km (prova un\'altra posizione).';
+                    } else {
+                        elMainHint.textContent = near.length
+                            ? `${near.length} entro 15 km — altri (15–25 km) a destra`
+                            : 'Nessun locale entro 15 km (prova un\'altra posizione).';
+                    }
+                } else {
+                    elMainHint.textContent =
+                        'Locali casuali in Italia a destra. Cerca un paese o usa 📍 per vedere quelli vicino a te.';
+                }
+            }
+
+            requestAnimationFrame(() => {
+                runFLIPSide(prevRects);
+
+                document.querySelectorAll('#sideList [data-club-id]').forEach((el) => {
+                    if (!prevIds.has(el.dataset.clubId)) {
+                        el.classList.add('card-enter-side');
+                        el.addEventListener('animationend', () => el.classList.remove('card-enter-side'), { once: true });
+                    }
+                });
+
+                document.querySelectorAll('#mainList [data-club-id]').forEach((el, i) => {
+                    el.style.animationDelay = `${i * 70}ms`;
+                    el.classList.add('card-enter-main');
+                    el.addEventListener(
+                        'animationend',
+                        () => {
+                            el.classList.remove('card-enter-main');
+                            el.style.animationDelay = '';
+                        },
+                        { once: true }
+                    );
+                });
+
+                if (focusedClub) {
+                    document.querySelector('.main-wrap')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            });
+        }
+
+        // ── Filter & load ─────────────────────────────────────────────────
+
+        function applyFilter() {
+            if (isLoadingClubs) return;
+            const q = normalizeText(elQ.value).trim();
+            if (!q || skipNameTextFilter) { render(allClubs); return; }
+            render(allClubs.filter(c => normalizeText(c.name).includes(q)||normalizeText(c.address).includes(q)));
+        }
+
+        const OVERPASS_CACHE_TTL_MS = 30 * 60 * 1000;
+
+        function overpassCacheKey(center, radiusMeters) {
+            return `fmn_overpass_${center.lat.toFixed(3)}_${center.lng.toFixed(3)}_${radiusMeters}`;
+        }
+
+        function getOverpassCache(center, radiusMeters) {
+            try {
+                const key = overpassCacheKey(center, radiusMeters);
+                const raw = localStorage.getItem(key);
+                if (!raw) return null;
+                const cached = JSON.parse(raw);
+                if (Date.now() - cached.ts > OVERPASS_CACHE_TTL_MS) {
+                    localStorage.removeItem(key);
+                    return null;
+                }
+                return cached.data;
+            } catch { return null; }
+        }
+
+        function setOverpassCache(center, radiusMeters, data) {
+            try {
+                localStorage.setItem(overpassCacheKey(center, radiusMeters), JSON.stringify({ ts: Date.now(), data }));
+            } catch { /* ignore */ }
+        }
+
+        /** Index salva qui solo “club”; Locali si aspetta elementi OSM — ignora cache non compatibili. */
+        function isCachedOverpassElements(data) {
+            if (!Array.isArray(data) || !data.length) return false;
+            const x = data[0];
+            if (!x || typeof x !== 'object' || Array.isArray(x)) return false;
+            if ('tags' in x) return true;
+            return (x.type != null && x.id != null);
+        }
+
+        function localiPrefetchOverpassCacheKey(center, radiusMeters) {
+            return `fmn_loc_overpass_${Number(center.lat).toFixed(3)}_${Number(center.lng).toFixed(3)}_${radiusMeters}`;
+        }
+
+        function getLocaliPrefetchOverpassCache(center, radiusMeters) {
+            try {
+                const key = localiPrefetchOverpassCacheKey(center, radiusMeters);
+                const raw = localStorage.getItem(key);
+                if (!raw) return null;
+                const cached = JSON.parse(raw);
+                if (Date.now() - cached.ts > OVERPASS_CACHE_TTL_MS) {
+                    localStorage.removeItem(key);
+                    return null;
+                }
+                return cached.data;
+            } catch {
+                return null;
+            }
+        }
+
+        function filterElementsByRadiusKm(elements, center, wantKm) {
+            return (elements || []).filter((el) => {
+                const lat = el.lat ?? el.center?.lat;
+                const lng = el.lon ?? el.center?.lon;
+                if (lat == null || lng == null) return false;
+                return kmBetween(center, { lat, lng }) <= wantKm * 1.08 + 0.35;
+            });
+        }
+
+        /** Stessa idea di index: riusa un raggio più grande (o prefetch da mappa) senza nuova richiesta Overpass. */
+        function getOverpassCacheElementsFiltered(center, radiusMeters) {
+            const wantKm = radiusMeters / 1000;
+            const tryRadii = [
+                radiusMeters,
+                28000, 30000, 35000, 40000, 45000, 50000,
+                22000, 20000, 18000, 15000, 12000
+            ];
+            const seen = new Set();
+            for (const r of tryRadii) {
+                if (seen.has(r)) continue;
+                seen.add(r);
+                const data = getOverpassCache(center, r);
+                if (!isCachedOverpassElements(data)) continue;
+                const filtered = filterElementsByRadiusKm(data, center, wantKm);
+                if (filtered.length) return filtered;
+            }
+            const locPre = getLocaliPrefetchOverpassCache(center, 28000);
+            if (isCachedOverpassElements(locPre)) {
+                const filtered = filterElementsByRadiusKm(locPre, center, wantKm);
+                if (filtered.length) return filtered;
+            }
+            return null;
+        }
+
+        async function loadClubs() {
+            elStatus.textContent = 'Caricamento locali…';
+            const center      = getCenter();
+            const activePos   = getActivePosition();
+            if (!activePos) {
+                if (!hasLoadedDiscovery) await loadDiscoveryClubs();
+                else applyFilter();
+                return;
+            }
+            isLoadingClubs = true;
+            try {
+            radiusKm = Math.max(radiusKm, 18); // allinea a index.html per usare la stessa cache
+            const radiusMeters = Math.max(1000,Math.min(60000,Math.round(radiusKm*1000)));
+
+            let elements = getOverpassCacheElementsFiltered(center, radiusMeters);
+            if (!elements) {
+                const raw = getOverpassCache(center, radiusMeters);
+                elements = isCachedOverpassElements(raw) ? raw : null;
+            }
+
+            if (!elements) {
+                elements = await fetchOverpassAny(center, radiusMeters);
+                if (elements) setOverpassCache(center, radiusMeters, elements);
+            }
+
+            if (!elements) {
+                elStatus.textContent =
+                    'Non riusciamo a contattare il database mappa (connessione lenta o server occupati). ' +
+                    'Controlla la rete e riprova “la mia posizione”, oppure cerca una città nella barra in alto.';
+                allClubs = [];
+                render([]);
+                return;
+            }
+
+            let clubs = elements.map(el=>elementToClub(el,center,activePos)).filter(Boolean)
+                .sort(cmpClubByQueryDist)
+                .slice(0,30);
+
+            // Seed: Oro Nero Nembro if missing from OSM results
+            try {
+                const seedPlace = await geocodeItaly('Oro Nero Nembro');
+                if (seedPlace && !clubs.some(c=>normalizeText(c.name).includes('oro nero'))) {
+                    const active=getActivePosition(), centerNow=getCenter();
+                    clubs=[...clubs,{
+                        id:'seed:oro-nero-nembro', name:'Oro Nero', address:'Nembro (BG)',
+                        lat:seedPlace.lat, lng:seedPlace.lng,
+                        distanceFromQueryKm:  kmBetween(centerNow,{lat:seedPlace.lat,lng:seedPlace.lng}),
+                        distanceFromActiveKm: active?kmBetween(active,{lat:seedPlace.lat,lng:seedPlace.lng}):null,
+                        instagram:'', facebook:'', image:''
+                    }].sort(cmpClubByQueryDist).slice(0,30);
+                }
+            } catch { /* ignore */ }
+
+            // Seed: Life Club Rovetta (coordinate note — spesso assente o fuori raggio su OSM)
+            try {
+                const lifeLat = 45.8741;
+                const lifeLng = 9.9717;
+                const active = getActivePosition();
+                const centerNow = getCenter();
+                const dLife = kmBetween(centerNow, { lat: lifeLat, lng: lifeLng });
+                if (dLife <= Math.max(radiusKm, 48) && !clubs.some((c) => normalizeText(c.name).includes('life club'))) {
+                    clubs = [...clubs, {
+                        id: 'seed:life-club-rovetta',
+                        name: 'Life Club Rovetta',
+                        address: 'Via Vogno 7, Rovetta (BG)',
+                        lat: lifeLat,
+                        lng: lifeLng,
+                        distanceFromQueryKm: dLife,
+                        distanceFromActiveKm: active ? kmBetween(active, { lat: lifeLat, lng: lifeLng }) : null,
+                        instagram: '',
+                        facebook: '',
+                        image: ''
+                    }].sort(cmpClubByQueryDist).slice(0, 30);
+                }
+            } catch { /* ignore */ }
+
+            // Seed: bar spesso assenti su OSM (Rovetta, Clusone / Fiorine) — indirizzi da directory / siti; coordinate Nominatim
+            const BAR_SEEDS_LOCALI = [
+                {
+                    id: 'seed:bar-da-spicchio-rovetta',
+                    name: 'Bar Da Spicchio',
+                    address: 'Via Nuova 12, 24020 Rovetta (BG)',
+                    lat: 45.8917564,
+                    lng: 9.9853276,
+                    isDuplicate: (c) => normalizeText(c.name).includes('spicchio')
+                },
+                {
+                    id: 'seed:piccolo-bar-clusone',
+                    name: 'Piccolo Bar',
+                    address: 'Via Sales 2, 24023 Clusone (BG)',
+                    lat: 45.8831737,
+                    lng: 9.9343768,
+                    isDuplicate: (c) => {
+                        const t = normalizeText(c.name);
+                        return t.includes('piccolo bar') && !t.includes('2.0');
+                    }
+                },
+                {
+                    id: 'seed:piccolo-bar-2-clusone',
+                    name: 'Piccolo Bar 2.0',
+                    address: 'Via Luigi Carrara 1, 24023 Clusone (BG)',
+                    lat: 45.8877922,
+                    lng: 9.9329784,
+                    isDuplicate: (c) => {
+                        const t = normalizeText(c.name);
+                        return t.includes('piccolo bar') && t.includes('2.0');
+                    }
+                }
+            ];
+            try {
+                const active = getActivePosition();
+                const centerNow = getCenter();
+                for (const seed of BAR_SEEDS_LOCALI) {
+                    const d = kmBetween(centerNow, { lat: seed.lat, lng: seed.lng });
+                    if (d > Math.max(radiusKm, 48) || clubs.some(seed.isDuplicate)) continue;
+                    clubs = [...clubs, {
+                        id: seed.id,
+                        name: seed.name,
+                        address: seed.address,
+                        lat: seed.lat,
+                        lng: seed.lng,
+                        distanceFromQueryKm: d,
+                        distanceFromActiveKm: active ? kmBetween(active, { lat: seed.lat, lng: seed.lng }) : null,
+                        instagram: '',
+                        facebook: '',
+                        image: ''
+                    }];
+                }
+                clubs = clubs.sort(cmpClubByQueryDist).slice(0, 30);
+            } catch { /* ignore */ }
+
+            // Date label (giorno singolo o intervallo — dati eventi da collegare)
+            if (eventRangeStart && eventRangeEnd) {
+                const tsS = dateOnlyTs(eventRangeStart);
+                const tsE = dateOnlyTs(eventRangeEnd);
+                const optsLong = { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' };
+                const optsShort = { day: '2-digit', month: 'short', year: 'numeric' };
+                if (tsS === tsE) {
+                    const dd = eventRangeStart.toLocaleDateString('it-IT', optsLong);
+                    elEventsStatus.textContent = `Eventi del ${dd}`;
+                    if (elDateText) elDateText.textContent = eventRangeStart.toLocaleDateString('it-IT', optsShort);
+                } else {
+                    const da = eventRangeStart.toLocaleDateString('it-IT', optsLong);
+                    const al = eventRangeEnd.toLocaleDateString('it-IT', optsLong);
+                    elEventsStatus.textContent = `Eventi dal ${da} al ${al}`;
+                    if (elDateText) {
+                        elDateText.textContent = `${eventRangeStart.toLocaleDateString('it-IT', optsShort)} → ${eventRangeEnd.toLocaleDateString('it-IT', optsShort)}`;
+                    }
+                }
+            } else {
+                elEventsStatus.textContent = 'Seleziona una data per filtrare gli eventi dei locali.';
+                if (elDateText) elDateText.textContent = 'Seleziona data';
+            }
+
+            const wantsRatings = Boolean(GOOGLE_PLACES_API_KEY);
+            allClubs = clubs.map((c) => {
+                const hasAvg = c.ratingAvg != null;
+                return {
+                    ...c,
+                    ratingText: hasAvg ? formatRating(c.ratingAvg, c.ratingCount) : (wantsRatings ? '' : '—'),
+                    ratingsPending: Boolean(wantsRatings && !hasAvg),
+                    address: c.address || 'Posizione in aggiornamento…'
+                };
+            });
+            enrichClubsWithFirebase(allClubs);
+            /* Prima applyFilter con isLoadingClubs=true non disegna nulla: niente spinner fino al finally.
+               Sblocchiamo la UI appena abbiamo i club così il cerchio giallo appare mentre Google risponde. */
+            isLoadingClubs = false;
+            applyFilter();
+
+            if (wantsRatings) {
+                enrichWithGoogleRatings(allClubs)
+                    .then((enriched) => {
+                        allClubs = enriched.map((c) => ({
+                            ...c,
+                            ratingText: formatRating(c.ratingAvg, c.ratingCount),
+                            ratingsPending: false
+                        }));
+                        enrichClubsWithFirebase(allClubs);
+                        applyFilter();
+                    })
+                    .catch((err) => {
+                        console.warn('Google Places (locali):', err);
+                        allClubs = allClubs.map((c) => ({ ...c, ratingsPending: false, ratingText: c.ratingText || '—' }));
+                        enrichClubsWithFirebase(allClubs);
+                        applyFilter();
+                    });
+            }
+
+            // Background reverse-geocode for missing addresses
+            const missing = clubs.filter(c=>!c.address).slice(0,10);
+            if (missing.length) {
+                for (const c of missing) {
+                    try {
+                        const addr = await reverseGeocode(c.lat,c.lng);
+                        if (!addr) continue;
+                        allClubs=allClubs.map(x=>x.id===c.id?{...x,address:addr}:x);
+                        applyFilter();
+                        await new Promise(r=>setTimeout(r,350));
+                    } catch { /* ignore */ }
+                }
+            }
+            } finally {
+                isLoadingClubs = false;
+                applyFilter();
+            }
+        }
+
+        function pickRandomCenters(n) {
+            const arr = [...ITALY_DISCOVERY_CENTERS];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr.slice(0, Math.max(1, n));
+        }
+
+        async function fetchOverpassAny(center, radiusMeters) {
+            const tryParallel = async () => {
+                try {
+                    return await Promise.any(
+                        OVERPASS_ENDPOINTS.map((ep) =>
+                            fetchOverpass(ep, center, radiusMeters).then((r) =>
+                                Array.isArray(r) && r.length > 0 ? r : Promise.reject(new Error('empty'))
+                            )
+                        )
+                    );
+                } catch {
+                    return null;
+                }
+            };
+            let result = await tryParallel();
+            if (result && result.length) return result;
+            await new Promise((r) => setTimeout(r, 280));
+            const shuffled = [...OVERPASS_ENDPOINTS].sort(() => Math.random() - 0.5);
+            for (const ep of shuffled) {
+                try {
+                    const r = await fetchOverpass(ep, center, radiusMeters);
+                    if (Array.isArray(r) && r.length) return r;
+                } catch {
+                    /* prova prossimo mirror Overpass */
+                }
+            }
+            return null;
+        }
+
+        async function loadDiscoveryClubs() {
+            // Modalità senza posizione: mostra solo locali casuali nella sidebar; aprendo uno, appare grande nel centro.
+            const radiusMeters = 25000;
+            const centers = pickRandomCenters(3);
+
+            elStatus.textContent = 'Caricamento locali casuali in Italia…';
+
+            const byId = new Map();
+            for (const c of centers) {
+                const els = await fetchOverpassAny({ lat: c.lat, lng: c.lng }, radiusMeters);
+                if (!Array.isArray(els)) continue;
+                for (const el of els) {
+                    const id = `${el.type}/${el.id}`;
+                    if (!byId.has(id)) byId.set(id, el);
+                    if (byId.size >= 120) break;
+                }
+                // se abbiamo già abbastanza per riempire la sidebar, fermati subito (più veloce)
+                if (byId.size >= 45) break;
+            }
+
+            const elements = [...byId.values()];
+            if (!elements.length) {
+                elStatus.textContent = 'Errore nel caricare i locali casuali.';
+                render([]);
+                return;
+            }
+
+            const clubs = elements
+                .map((el) => elementToClub(el, DEFAULT_CENTER, null))
+                .filter(Boolean);
+
+            // Shuffle una volta per dare “casualità”
+            shuffleInPlace(clubs);
+
+            const wantsRatings = Boolean(GOOGLE_PLACES_API_KEY);
+            const slice = clubs.slice(0, 80);
+            allClubs = slice.map((c) => ({
+                ...c,
+                address: c.address || 'Posizione in aggiornamento…',
+                ratingsPending: wantsRatings,
+                ratingText: wantsRatings ? '' : '—'
+            }));
+            enrichClubsWithFirebase(allClubs);
+            hasLoadedDiscovery = true;
+            applyFilter();
+
+            if (wantsRatings) {
+                enrichWithGoogleRatings(allClubs)
+                    .then((enriched) => {
+                        allClubs = enriched.map((c) => ({
+                            ...c,
+                            address: c.address || 'Posizione in aggiornamento…',
+                            ratingText: formatRating(c.ratingAvg, c.ratingCount),
+                            ratingsPending: false
+                        }));
+                        enrichClubsWithFirebase(allClubs);
+                        applyFilter();
+                    })
+                    .catch((err) => {
+                        console.warn('Google Places (locali discovery):', err);
+                        allClubs = allClubs.map((c) => ({ ...c, ratingsPending: false, ratingText: c.ratingText || '—' }));
+                        enrichClubsWithFirebase(allClubs);
+                        applyFilter();
+                    });
+            }
+        }
+
+        async function requestLocation() {
+            if (!('geolocation' in navigator)) return;
+            if (!window.isSecureContext) {
+                elStatus.textContent='Per usare la posizione serve HTTPS o localhost (usa Live Server).'; return;
+            }
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    userLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+                    manualCenter = null;
+                    skipNameTextFilter = true;
+                    elQ.value = '';
+                    try {
+                        localStorage.setItem(
+                            LAST_LOCATION_KEY,
+                            JSON.stringify({ lat: userLocation.lat, lng: userLocation.lng, ts: Date.now() })
+                        );
+                        localStorage.setItem(FMN_MAP_FOCUS_KEY, JSON.stringify({
+                            ts: Date.now(),
+                            type: 'gps',
+                            lat: userLocation.lat,
+                            lng: userLocation.lng,
+                            label: ''
+                        }));
+                    } catch {
+                        /* ignore */
+                    }
+                    loadClubs();
+                },
+                () => {
+                    elStatus.textContent =
+                        'Posizione non disponibile. Mostriamo esempi in Italia — puoi cercare un luogo o riprovare con 📍.';
+                    loadClubs();
+                },
+                { enableHighAccuracy: true, timeout: 12000, maximumAge: 120000 }
+            );
+        }
+
+        // ── Calendar ─────────────────────────────────────────────────────
+
+        function pad2(n)  { return String(n).padStart(2,'0'); }
+        function toISODate(d) { return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`; }
+        function fromISODate(s) {
+            if (!s) return null;
+            const [y,m,d]=s.split('-').map(Number);
+            return (y&&m&&d) ? new Date(y,m-1,d,0,0,0) : null;
+        }
+        function dateOnly(d) {
+            if (!d) return null;
+            return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+        }
+        function dateOnlyTs(d) { return dateOnly(d).getTime(); }
+
+        function openCalendar() {
+            if (eventRangeStart && eventRangeEnd) {
+                if (dateOnlyTs(eventRangeStart) === dateOnlyTs(eventRangeEnd)) {
+                    calRangeAnchor = dateOnly(eventRangeStart);
+                    calRangeFrom = null;
+                    calRangeTo = null;
+                } else {
+                    calRangeFrom = dateOnly(eventRangeStart);
+                    calRangeTo = dateOnly(eventRangeEnd);
+                    calRangeAnchor = null;
+                }
+            } else {
+                calRangeAnchor = null;
+                calRangeFrom = null;
+                calRangeTo = null;
+            }
+            const base = eventRangeStart || new Date();
+            calView = new Date(base.getFullYear(), base.getMonth(), 1);
+            renderCalendar();
+            calOverlay.style.display = 'flex';
+            calOverlay.setAttribute('aria-hidden', 'false');
+        }
+
+        function closeCalendar() {
+            calOverlay.style.display = 'none';
+            calOverlay.setAttribute('aria-hidden', 'true');
+        }
+
+        function onCalDayClick(d) {
+            const picked = dateOnly(d);
+            if (calRangeFrom && calRangeTo && !calRangeAnchor) {
+                calRangeFrom = null;
+                calRangeTo = null;
+                calRangeAnchor = picked;
+                renderCalendar();
+                return;
+            }
+            if (!calRangeAnchor) {
+                calRangeAnchor = picked;
+                renderCalendar();
+                return;
+            }
+            const tA = dateOnlyTs(calRangeAnchor);
+            const tB = dateOnlyTs(picked);
+            if (tA <= tB) {
+                calRangeFrom = dateOnly(calRangeAnchor);
+                calRangeTo = picked;
+            } else {
+                calRangeFrom = picked;
+                calRangeTo = dateOnly(calRangeAnchor);
+            }
+            calRangeAnchor = null;
+            renderCalendar();
+        }
+
+        function renderCalendar() {
+            if (!calView) return;
+            const monthName = calView.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' });
+            calMonthLabel.textContent = monthName.charAt(0).toUpperCase() + monthName.slice(1);
+            calDays.innerHTML = '';
+            const first = new Date(calView.getFullYear(), calView.getMonth(), 1);
+            const dow = (first.getDay() + 6) % 7;
+            const daysInMonth = new Date(calView.getFullYear(), calView.getMonth() + 1, 0).getDate();
+            for (let i = 0; i < dow; i++) {
+                const b = document.createElement('button');
+                b.className = 'day muted'; b.type = 'button'; b.tabIndex = -1; b.textContent = '·'; b.disabled = true;
+                calDays.appendChild(b);
+            }
+            const t0 = calRangeFrom ? dateOnlyTs(calRangeFrom) : null;
+            const t1 = calRangeTo ? dateOnlyTs(calRangeTo) : null;
+            const tA = calRangeAnchor ? dateOnlyTs(calRangeAnchor) : null;
+            for (let day = 1; day <= daysInMonth; day++) {
+                const d = new Date(calView.getFullYear(), calView.getMonth(), day);
+                const b = document.createElement('button');
+                b.className = 'day'; b.type = 'button'; b.textContent = String(day);
+                const t = dateOnlyTs(d);
+                if (t0 !== null && t1 !== null) {
+                    if (t >= t0 && t <= t1) {
+                        if (t0 === t1) {
+                            if (t === t0) b.classList.add('range-single');
+                        } else {
+                            b.classList.add('in-range');
+                            if (t === t0) b.classList.add('range-from');
+                            if (t === t1) b.classList.add('range-to');
+                        }
+                    }
+                } else if (tA !== null && t === tA) {
+                    b.classList.add('range-single');
+                }
+                b.addEventListener('click', () => onCalDayClick(d));
+                calDays.appendChild(b);
+            }
+        }
+
+        function applyCalendarSelection() {
+            let start = null;
+            let end = null;
+            if (calRangeFrom && calRangeTo) {
+                start = dateOnly(calRangeFrom);
+                end = dateOnly(calRangeTo);
+            } else if (calRangeAnchor) {
+                start = end = dateOnly(calRangeAnchor);
+            }
+            if (start) {
+                eventRangeStart = start;
+                eventRangeEnd = end || start;
+            } else {
+                eventRangeStart = null;
+                eventRangeEnd = null;
+            }
+            elDate.value = eventRangeStart ? toISODate(eventRangeStart) : '';
+            if (elDateEnd) elDateEnd.value = eventRangeEnd ? toISODate(eventRangeEnd) : '';
+            closeCalendar();
+            loadClubs();
+        }
+
+        function clearCalendarSelection() {
+            calRangeAnchor = null;
+            calRangeFrom = null;
+            calRangeTo = null;
+            eventRangeStart = null;
+            eventRangeEnd = null;
+            elDate.value = '';
+            if (elDateEnd) elDateEnd.value = '';
+            renderCalendar();
+            loadClubs();
+        }
+
+        // ── Event bindings ────────────────────────────────────────────────
+
+        elSideList.addEventListener('click', (e) => {
+            const article = e.target.closest('article[data-club-id]');
+            if (!article || !elSideList.contains(article)) return;
+            const id = article.dataset.clubId;
+            if (!id) return;
+            focusedClubId = focusedClubId === id ? null : id;
+            applyFilter();
+        });
+
+        elMainList.addEventListener('click', (e) => {
+            const article = e.target.closest('article[data-club-id]');
+            if (!article || !elMainList.contains(article)) return;
+            const raw = article.dataset.clubId || '';
+            const id = raw.startsWith('main:') ? raw.slice(5) : raw;
+            if (!id) return;
+            focusedClubId = id;
+            applyFilter();
+        });
+
+        elQ.addEventListener('input', () => {
+            skipNameTextFilter = false;
+            applyFilter();
+        });
+        elQ.addEventListener('keydown', async e => {
+            if (e.key!=='Enter') return;
+            const q=(elQ.value||'').trim();
+            if (!q) return;
+            elStatus.textContent = 'Ricerca luogo…';
+            const place=await geocodeItaly(q);
+            if (place) {
+                const label = (place.label && String(place.label).trim()) ? String(place.label).trim() : q;
+                elQ.value = label;
+                skipNameTextFilter = true;
+                manualCenter={lat:place.lat,lng:place.lng};
+                try {
+                    localStorage.setItem(FMN_MAP_FOCUS_KEY, JSON.stringify({
+                        ts: Date.now(),
+                        type: 'place',
+                        lat: place.lat,
+                        lng: place.lng,
+                        label: label.slice(0, 160)
+                    }));
+                } catch { /* ignore */ }
+                await loadClubs();
+            } else {
+                elStatus.textContent = 'Luogo non trovato. Prova un altro nome o un indirizzo in Italia.';
+            }
+        });
+
+        if (elDateOpenBtn) {
+            elDateOpenBtn.addEventListener('click', ()=>openCalendar());
+            elDateOpenBtn.addEventListener('keydown', e => {
+                if (e.key==='Enter'||e.key===' ') { e.preventDefault(); openCalendar(); }
+            });
+        }
+
+        calOverlay.addEventListener('click', e => { if (e.target===calOverlay) closeCalendar(); });
+        document.addEventListener('keydown', e => {
+            if (e.key==='Escape'&&calOverlay.getAttribute('aria-hidden')==='false') closeCalendar();
+        });
+        calPrev.addEventListener('click', ()=>{ calView=new Date(calView.getFullYear(),calView.getMonth()-1,1); renderCalendar(); });
+        calNext.addEventListener('click', ()=>{ calView=new Date(calView.getFullYear(),calView.getMonth()+1,1); renderCalendar(); });
+        calClear.addEventListener('click', ()=>clearCalendarSelection());
+        calApply.addEventListener('click', ()=>applyCalendarSelection());
+        elLocate.addEventListener('click', ()=>requestLocation());
+
+        // ── Boot: stesso centro della mappa (index) se disponibile; altrimenti GPS in cache; altrimenti richiesta 📍
+        (async function bootLocali() {
+            const focus = readMapFocusForBoot();
+            if (focus) {
+                const gps = readCachedGpsOnly();
+                if (focus.type === 'place') {
+                    manualCenter = { lat: focus.lat, lng: focus.lng };
+                    userLocation = gps || null;
+                    if (typeof focus.label === 'string' && focus.label.trim()) {
+                        elQ.value = focus.label.trim().slice(0, 200);
+                    }
+                    skipNameTextFilter = true;
+                    elStatus.textContent = 'Caricamento locali…';
+                    await loadClubs();
+                    return;
+                }
+                if (focus.type === 'gps') {
+                    userLocation = { lat: focus.lat, lng: focus.lng };
+                    manualCenter = null;
+                    /* Non precompilare “La tua posizione” (da index o 📍): la barra resta vuota per cercare un luogo. */
+                    elQ.value = '';
+                    skipNameTextFilter = true;
+                    elStatus.textContent = 'Caricamento locali…';
+                    await loadClubs();
+                    return;
+                }
+            }
+
+            try {
+                const gpsOnly = readCachedGpsOnly();
+                if (gpsOnly) {
+                    userLocation = { lat: gpsOnly.lat, lng: gpsOnly.lng };
+                    manualCenter = null;
+                    elQ.value = '';
+                    skipNameTextFilter = true;
+                    elStatus.textContent = 'Caricamento locali…';
+                    await loadClubs();
+                    return;
+                }
+            } catch {
+                /* ignore */
+            }
+
+            if (!window.isSecureContext || !('geolocation' in navigator)) {
+                await loadDiscoveryClubs();
+                return;
+            }
+
+            let geoDenied = false;
+            try {
+                if (navigator.permissions?.query) {
+                    const st = await navigator.permissions.query({ name: 'geolocation' });
+                    if (st.state === 'denied') geoDenied = true;
+                }
+            } catch {
+                /* Safari vecchi: prova comunque */
+            }
+
+            if (geoDenied) {
+                elStatus.textContent =
+                    'Posizione bloccata dal browser. Mostriamo esempi in Italia — abilita la posizione nelle impostazioni del sito oppure cerca un luogo.';
+                await loadDiscoveryClubs();
+                return;
+            }
+
+            requestLocation();
+        })();
+
+        // Menu mobile (hamburger)
+        (function () {
+            const nav = document.getElementById('siteNav');
+            const btn = document.getElementById('navMenuBtn');
+            const backdrop = document.getElementById('navMenuBackdrop');
+            const list = document.getElementById('navMainList');
+            if (!nav || !btn || !backdrop || !list) return;
+
+            function setNavOpen(open) {
+                nav.classList.toggle('nav-open', open);
+                btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+                btn.setAttribute('aria-label', open ? 'Chiudi menu' : 'Apri menu');
+                document.body.style.overflow = open ? 'hidden' : '';
+            }
+
+            btn.addEventListener('click', () => setNavOpen(!nav.classList.contains('nav-open')));
+            backdrop.addEventListener('click', () => setNavOpen(false));
+            list.querySelectorAll('a').forEach((a) => {
+                a.addEventListener('click', () => setNavOpen(false));
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && nav.classList.contains('nav-open')) setNavOpen(false);
+            });
+        })();
+
+    </script>
+    <script src="fmn-analytics.js" defer></script>
+    <script src="fmn-cookie-consent.js" defer></script>
+    <script src="fmn-chat-widget.js" defer></script>
+</body>
+
+</html>

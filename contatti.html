@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FindMyNight – Contatti</title>
+    <meta name="description" content="Contatta FindMyNight: domande sul sito, collaborazioni per locali, supporto e segnalazioni. Siamo in provincia di Bergamo, Italia.">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://findmynight.info/contatti.html">
+    <link rel="icon" href="immagini_locali/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="immagini_locali/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="immagini_locali/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="immagini_locali/apple-touch-icon.png">
+    <meta name="theme-color" content="#07060f">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="FindMyNight">
+    <meta property="og:locale" content="it_IT">
+    <meta property="og:title" content="FindMyNight – Contatti">
+    <meta property="og:description" content="Scrivi a FindMyNight per collaborazioni, supporto e domande sul servizio.">
+    <meta property="og:url" content="https://findmynight.info/contatti.html">
+    <meta property="og:image" content="https://findmynight.info/fmn-og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="FindMyNight — contatti">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="FindMyNight – Contatti">
+    <meta name="twitter:description" content="Contatta FindMyNight per collaborazioni e supporto.">
+    <meta name="twitter:image" content="https://findmynight.info/fmn-og-image.png">
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"ContactPage","name":"Contatti — FindMyNight","url":"https://findmynight.info/contatti.html","description":"Pagina contatti FindMyNight.","isPartOf":{"@type":"WebSite","name":"FindMyNight","url":"https://findmynight.info/"}}
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="fmn-chat-widget.css">
+    <style>
+        :root {
+            --bg: #07060f;
+            --bg2: #0e0c1c;
+            --bg3: #13112a;
+            --accent: #a855f7;
+            --accent2: #ec4899;
+            --accent3: #06b6d4;
+            --text: #f1f0fa;
+            --muted: #8880a8;
+            --border: rgba(168, 85, 247, 0.18);
+            --card: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --glow: 0 0 40px rgba(168, 85, 247, 0.25);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html {
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.6;
+            min-height: 100vh;
+            min-height: 100dvh;
+            padding-left: env(safe-area-inset-left, 0px);
+            padding-right: env(safe-area-inset-right, 0px);
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.4;
+        }
+
+        /* ─── NAV (come index) ─── */
+        nav.site-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: calc(1rem + env(safe-area-inset-top, 0px)) max(5vw, env(safe-area-inset-right, 0px)) 1rem max(5vw, env(safe-area-inset-left, 0px));
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 0.75rem;
+            background: rgba(7, 6, 15, 0.75);
+            backdrop-filter: blur(16px);
+            border-bottom: 0.5px solid var(--border);
+        }
+
+        .nav-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        a.logo {
+            text-decoration: none;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            min-width: 0;
+            flex-shrink: 0;
+        }
+
+        .logo-text {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.3rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-beta {
+            flex-shrink: 0;
+            align-self: center;
+            margin-left: 0.1rem;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            color: rgba(233, 213, 255, 0.98);
+            padding: 0.2rem 0.48rem;
+            border-radius: 999px;
+            border: 0.5px solid rgba(168, 85, 247, 0.42);
+            background: rgba(168, 85, 247, 0.16);
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        .logo img {
+            width: 26px;
+            height: 26px;
+            flex: 0 0 auto;
+            border-radius: 8px;
+            filter: drop-shadow(0 10px 20px rgba(168, 85, 247, 0.35));
+        }
+
+        .nav-menu-btn {
+            display: none;
+            position: relative;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            border: 0.5px solid var(--card-border);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.06);
+            cursor: pointer;
+            flex-shrink: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .nav-menu-btn span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            border-radius: 2px;
+            background: rgba(241, 240, 250, 0.9);
+            transition:
+                transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.22s ease,
+                top 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+                left 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+                margin 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+            transform-origin: center;
+        }
+
+        .site-nav.nav-open .nav-menu-btn {
+            gap: 0;
+        }
+
+        .site-nav.nav-open .nav-menu-btn span:nth-child(1),
+        .site-nav.nav-open .nav-menu-btn span:nth-child(3) {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 20px;
+            margin-left: -10px;
+            margin-top: -1px;
+        }
+
+        .site-nav.nav-open .nav-menu-btn span:nth-child(1) {
+            transform: rotate(45deg);
+        }
+
+        .site-nav.nav-open .nav-menu-btn span:nth-child(2) {
+            position: absolute;
+            left: 50%;
+            width: 0;
+            height: 0;
+            margin: 0;
+            opacity: 0;
+            transform: scale(0);
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .site-nav.nav-open .nav-menu-btn span:nth-child(3) {
+            transform: rotate(-45deg);
+        }
+
+        .nav-menu-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1899;
+            background: var(--bg);
+        }
+
+        .site-nav.nav-open .nav-menu-backdrop {
+            display: block;
+        }
+
+        nav ul.nav-main-list {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            margin: 0 0 0 auto;
+            padding: 0;
+            min-width: 0;
+        }
+
+        nav ul.nav-main-list a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 400;
+            letter-spacing: 0.01em;
+            transition: color 0.2s;
+        }
+
+        nav ul.nav-main-list a:hover {
+            color: var(--text);
+        }
+
+        nav ul.nav-main-list a[aria-current="page"] {
+            color: var(--text);
+        }
+
+        .nav-cta {
+            background: var(--accent) !important;
+            color: #fff !important;
+            padding: 0.55rem 1.3rem;
+            border-radius: 100px;
+            font-size: 0.85rem !important;
+            font-weight: 500 !important;
+            -webkit-text-fill-color: #fff !important;
+            transition: opacity 0.2s !important;
+        }
+
+        .nav-cta:hover {
+            opacity: 0.85 !important;
+        }
+
+        .page-hero {
+            padding: calc(9rem + env(safe-area-inset-top, 0px)) max(5vw, env(safe-area-inset-left, 0px)) 4rem max(5vw, env(safe-area-inset-right, 0px));
+            text-align: center;
+            position: relative;
+        }
+
+        .page-hero .hero-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .page-hero .orb1 {
+            width: 400px; height: 400px;
+            background: var(--accent);
+            top: -100px; left: 10%;
+        }
+
+        .page-hero .orb2 {
+            width: 300px; height: 300px;
+            background: var(--accent2);
+            bottom: -50px; right: 10%;
+        }
+
+        .page-hero h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+
+        .page-hero h1 span {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-hero p {
+            color: var(--muted);
+            font-size: 1.05rem;
+            max-width: 520px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .contact-section {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 2rem 5vw 6rem;
+        }
+
+        .contact-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin-bottom: 3rem;
+        }
+
+        .contact-card {
+            background: var(--card);
+            border: 0.5px solid var(--card-border);
+            border-radius: 16px;
+            padding: 1.5rem 1.6rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1.2rem;
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .contact-card:hover {
+            border-color: rgba(168, 85, 247, 0.4);
+            background: rgba(168, 85, 247, 0.04);
+        }
+
+        .contact-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .contact-icon.purple { background: rgba(168, 85, 247, 0.15); }
+        .contact-icon.pink   { background: rgba(236, 72, 153, 0.15); }
+        .contact-icon.cyan   { background: rgba(6, 182, 212, 0.15); }
+
+        .contact-info h3 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-info p {
+            color: var(--muted);
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-info a {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .contact-info a:hover { color: var(--text); }
+
+        .form-section h2 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .form-section h2 span {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .form-section > p {
+            color: var(--muted);
+            font-size: 0.88rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.55;
+        }
+
+        .form-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+            border: 0.5px solid rgba(168, 85, 247, 0.22);
+            border-radius: 20px;
+            padding: 1.5rem 1.35rem 1.4rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255,255,255,0.04);
+        }
+
+        .form-group {
+            margin-bottom: 1.15rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(136, 128, 168, 0.95);
+            margin-bottom: 0.42rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.78rem 1rem;
+            background: rgba(8, 6, 20, 0.65);
+            border: 0.5px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.92rem;
+            outline: none;
+            color-scheme: dark;
+            transition: border-color 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(136, 128, 168, 0.65);
+        }
+
+        .form-group input:hover,
+        .form-group select:hover,
+        .form-group textarea:hover {
+            border-color: rgba(168, 85, 247, 0.28);
+            background: rgba(10, 8, 24, 0.75);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: rgba(168, 85, 247, 0.55);
+            box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.14);
+            background: rgba(10, 8, 24, 0.88);
+        }
+
+        /* Campo compilato correttamente: accento ciano/viola, niente “verde form vecchio” */
+        .form-group input:user-valid:not(:placeholder-shown):not(:focus),
+        .form-group textarea:user-valid:not(:placeholder-shown):not(:focus) {
+            border-color: rgba(6, 182, 212, 0.42);
+            background: rgba(6, 182, 212, 0.08);
+            box-shadow: 0 0 0 1px rgba(6, 182, 212, 0.1);
+        }
+        .form-group select:user-valid:not(:focus):not(:invalid) {
+            border-color: rgba(6, 182, 212, 0.42);
+            background: rgba(6, 182, 212, 0.08);
+            box-shadow: 0 0 0 1px rgba(6, 182, 212, 0.1);
+        }
+
+        @supports not (selector(:user-valid)) {
+            .form-group input:not(:placeholder-shown):valid:not(:focus),
+            .form-group textarea:not(:placeholder-shown):valid:not(:focus) {
+                border-color: rgba(6, 182, 212, 0.42);
+                background: rgba(6, 182, 212, 0.08);
+                box-shadow: 0 0 0 1px rgba(6, 182, 212, 0.1);
+            }
+            .form-group select:valid:not(:focus) {
+                border-color: rgba(6, 182, 212, 0.42);
+                background: rgba(6, 182, 212, 0.08);
+                box-shadow: 0 0 0 1px rgba(6, 182, 212, 0.1);
+            }
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-group select option {
+            background: #13112a;
+            color: var(--text);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .btn-submit {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            padding: 0.88rem 1.5rem;
+            margin-top: 0.65rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.92rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.2s ease;
+            box-shadow: 0 6px 28px rgba(168, 85, 247, 0.32);
+        }
+
+        .btn-submit:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 36px rgba(168, 85, 247, 0.42);
+        }
+        .btn-submit:disabled {
+            opacity: 0.72;
+            cursor: wait;
+            transform: none;
+        }
+
+        @keyframes formOkEnter {
+            from { opacity: 0; transform: translateY(14px) scale(0.97); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes formOkRing {
+            from { transform: scale(0.6); opacity: 0; }
+            55% { transform: scale(1.08); opacity: 1; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        @keyframes formOkCheck {
+            from { stroke-dashoffset: 32; }
+            to { stroke-dashoffset: 0; }
+        }
+
+        .form-ok {
+            display: none;
+            text-align: center;
+            padding: 0;
+        }
+        .form-ok.form-ok--show {
+            display: block;
+            animation: formOkEnter 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+        .form-ok-inner {
+            padding: 2rem 1.25rem 2.1rem;
+            border-radius: 20px;
+            background: linear-gradient(165deg, rgba(74, 222, 128, 0.12), rgba(6, 182, 212, 0.08));
+            border: 0.5px solid rgba(74, 222, 128, 0.35);
+            box-shadow: 0 0 40px rgba(74, 222, 128, 0.12);
+        }
+        .form-ok-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 1rem;
+            border-radius: 50%;
+            background: rgba(74, 222, 128, 0.15);
+            border: 0.5px solid rgba(74, 222, 128, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: formOkRing 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        .form-ok-icon svg {
+            width: 32px;
+            height: 32px;
+            stroke: #86efac;
+            stroke-width: 2.4;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 32;
+            stroke-dashoffset: 32;
+            animation: formOkCheck 0.5s ease forwards 0.22s;
+        }
+        .form-ok-title {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #ecfdf5;
+            margin-bottom: 0.35rem;
+        }
+        .form-ok-desc {
+            font-size: 0.88rem;
+            color: rgba(236, 253, 245, 0.78);
+            line-height: 1.55;
+            max-width: 360px;
+            margin: 0 auto;
+        }
+
+        .form-error {
+            display: none;
+            margin-bottom: 1rem;
+            padding: 0.85rem 1rem;
+            border-radius: 12px;
+            font-size: 0.88rem;
+            color: #fecaca;
+            background: rgba(239, 68, 68, 0.12);
+            border: 0.5px solid rgba(239, 68, 68, 0.35);
+        }
+        .form-error a { color: #67e8f9; }
+
+        #contactForm.contact-form--leave {
+            animation: contactFormOut 0.42s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        @keyframes contactFormOut {
+            to {
+                opacity: 0;
+                transform: translateY(-12px) scale(0.985);
+                filter: blur(1px);
+            }
+        }
+
+        footer {
+            border-top: 0.5px solid var(--card-border);
+            padding: 2rem 5vw;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .footer-copy {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-links a {
+            font-size: 0.8rem;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover { color: var(--text); }
+
+        @media (max-width: 640px) {
+            .page-hero h1 { font-size: 2.2rem; }
+            .form-row { grid-template-columns: 1fr; }
+            .form-card { padding: 1.2rem 1rem 1.15rem; border-radius: 16px; }
+            footer { grid-template-columns: 1fr; text-align: center; }
+            .footer-links { justify-content: center; }
+        }
+
+        @media (max-width: 1024px) {
+            .nav-menu-btn {
+                display: inline-flex;
+            }
+
+            .site-nav.nav-open {
+                z-index: 1900;
+                background: transparent;
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
+                padding-top: 0;
+                padding-bottom: 0;
+            }
+
+            .site-nav.nav-open .nav-top {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 1903;
+                flex: none;
+                width: 100%;
+                max-width: none;
+                box-sizing: border-box;
+                padding: calc(0.9rem + env(safe-area-inset-top, 0px)) max(4.5vw, env(safe-area-inset-right, 0px)) 0.9rem max(4.5vw, env(safe-area-inset-left, 0px));
+                margin: 0;
+                background: var(--bg);
+                border-bottom: 0.5px solid var(--border);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+            }
+
+            nav ul.nav-main-list {
+                position: fixed;
+                top: 0;
+                right: 0;
+                z-index: 1901;
+                width: min(19.5rem, 86vw);
+                max-width: 100%;
+                min-width: 0;
+                flex-shrink: 0;
+                height: 100vh;
+                height: 100dvh;
+                margin: 0;
+                padding: calc(4.85rem + env(safe-area-inset-top, 0px)) 1.35rem calc(2rem + env(safe-area-inset-bottom, 0px));
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                background: var(--bg);
+                border-left: 0.5px solid rgba(168, 85, 247, 0.28);
+                box-shadow: -12px 0 48px rgba(0, 0, 0, 0.45);
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                transform: translateX(102%);
+                transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+            }
+
+            .site-nav.nav-open ul.nav-main-list {
+                transform: translateX(0);
+            }
+
+            nav ul.nav-main-list li {
+                border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
+            }
+
+            nav ul.nav-main-list li:last-child {
+                border-bottom: none;
+            }
+
+            nav ul.nav-main-list a {
+                display: flex;
+                align-items: center;
+                min-height: 48px;
+                padding: 0.35rem 0;
+                font-size: 1rem;
+            }
+
+            nav ul.nav-main-list li:last-child {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                padding-top: 0.35rem;
+                padding-bottom: 0.25rem;
+            }
+
+            nav ul.nav-main-list a.nav-cta {
+                display: inline-flex !important;
+                align-items: center;
+                justify-content: center;
+                width: auto;
+                max-width: 100%;
+                min-height: 44px;
+                padding: 0.5rem 1.15rem !important;
+                box-sizing: border-box;
+                margin-left: -0.45rem;
+                margin-right: auto;
+            }
+
+            nav.site-nav {
+                padding: calc(0.9rem + env(safe-area-inset-top, 0px)) max(4.5vw, env(safe-area-inset-right, 0px)) 0.9rem max(4.5vw, env(safe-area-inset-left, 0px));
+            }
+
+            .logo-text {
+                font-size: 1.12rem;
+            }
+
+            .logo-beta {
+                font-size: 0.56rem;
+                padding: 0.16rem 0.4rem;
+            }
+        }
+
+        /* ─── COOKIE BANNER (essenziali) ─── */
+        .cookie-banner {
+            position: fixed;
+            left: max(16px, env(safe-area-inset-left, 0px));
+            right: max(16px, env(safe-area-inset-right, 0px));
+            bottom: max(16px, env(safe-area-inset-bottom, 0px));
+            z-index: 2000;
+            display: none;
+            background: rgba(14, 12, 28, 0.88);
+            border: 0.5px solid rgba(168, 85, 247, 0.28);
+            box-shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(18px);
+            border-radius: 16px;
+            padding: 0.95rem 0.95rem;
+        }
+        .cookie-banner.visible { display: flex; }
+        .cookie-banner .cookie-inner { display: flex; gap: 0.9rem; width: 100%; align-items: flex-start; }
+        .cookie-banner .cookie-text { flex: 1; min-width: 0; }
+        .cookie-banner .cookie-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.95rem; margin-bottom: 0.25rem; }
+        .cookie-banner .cookie-desc { color: rgba(255,255,255,0.72); font-size: 0.86rem; line-height: 1.45; }
+        .cookie-banner .cookie-desc a { color: #22d3ee; text-decoration: none; }
+        .cookie-banner .cookie-desc a:hover { text-decoration: underline; }
+        .cookie-banner .cookie-actions { display: flex; gap: 0.6rem; align-items: center; flex: 0 0 auto; }
+        .cookie-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 0.5px solid rgba(255,255,255,0.14);
+            background: rgba(255,255,255,0.06);
+            color: var(--text);
+            border-radius: 12px;
+            padding: 0.65rem 0.9rem;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+        .cookie-btn.primary { border: none; background: linear-gradient(135deg, #a855f7, #ec4899); }
+        @media (max-width: 520px) {
+            .cookie-banner .cookie-inner { flex-direction: column; align-items: stretch; }
+            .cookie-banner .cookie-actions { justify-content: flex-end; }
+            .cookie-btn { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite" aria-label="Cookie e preferenze">
+        <div class="cookie-inner">
+            <div class="cookie-text">
+                <div class="cookie-title">Cookie e statistiche</div>
+                <div class="cookie-desc">
+                    Cookie e memorizzazione locale necessari al funzionamento di FindMyNight. In modo facoltativo puoi attivare
+                    <strong>Google Analytics 4</strong> (ID <code>G-4B41LWXFR3</code>) per statistiche sulle visite. Dettagli nella
+                    <a href="privacy.html">Privacy Policy</a>.
+                </div>
+            </div>
+            <div class="cookie-actions">
+                <button type="button" class="cookie-btn" id="cookieEssentialBtn">Solo necessari</button>
+                <button type="button" class="cookie-btn primary" id="cookieStatsBtn">Accetto anche le statistiche</button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="site-nav" id="siteNav">
+        <div class="nav-top">
+            <a href="index.html" class="logo">
+                <img src="logo.png" alt="" width="26" height="26" decoding="async" />
+                <span class="logo-text">FindMyNight</span>
+                <span class="logo-beta" title="Sito in beta: funzioni e contenuti in evoluzione" aria-label="Beta">beta</span>
+            </a>
+            <button type="button" class="nav-menu-btn" id="navMenuBtn" aria-expanded="false" aria-controls="navMainList" aria-label="Apri menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <div class="nav-menu-backdrop" id="navMenuBackdrop" aria-hidden="true"></div>
+        <ul id="navMainList" class="nav-main-list">
+            <li><a href="locali.html">Locali</a></li>
+            <li><a href="index.html#features">Funzionalità</a></li>
+            <li><a href="index.html#how">Come funziona</a></li>
+            <li><a href="index.html#pricing">Prezzi</a></li>
+            <li><a href="chat.html">Chat</a></li>
+            <li><a href="partner.html">Area Partner</a></li>
+            <li><a href="index.html#cta" class="nav-cta">Inizia gratis →</a></li>
+        </ul>
+    </nav>
+
+    <section class="page-hero">
+        <div class="hero-orb orb1"></div>
+        <div class="hero-orb orb2"></div>
+        <h1>Parliamo di <span>nightlife</span></h1>
+        <p>Hai un'idea, una proposta, o gestisci un locale? Scrivici — rispondiamo sempre.</p>
+    </section>
+
+    <section class="contact-section">
+
+        <div class="contact-cards">
+            <div class="contact-card">
+                <div class="contact-icon purple">📧</div>
+                <div class="contact-info">
+                    <h3>Email</h3>
+                    <p>Per proposte, collaborazioni o info generali.</p>
+                    <a href="mailto:findmynight.info@gmail.com">findmynight.info@gmail.com</a>
+                </div>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-icon pink">📱</div>
+                <div class="contact-info">
+                    <h3>Instagram</h3>
+                    <p>Seguici per aggiornamenti e anteprime.</p>
+                    <a href="https://instagram.com/findmynight" target="_blank" rel="noopener noreferrer">IG: @findmynight</a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-section">
+            <h2>Scrivici <span>direttamente</span></h2>
+            <p>Compila il form: il messaggio arriva come <strong>email</strong> alla nostra casella (servizio sicuro FormSubmit).</p>
+
+            <div class="form-error" id="formError" role="alert"></div>
+
+            <div class="form-card">
+                <form id="contactForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cName">Nome</label>
+                            <input type="text" id="cName" name="nome" placeholder="Il tuo nome" required autocomplete="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="cEmail">Email</label>
+                            <input type="email" id="cEmail" name="email" placeholder="nome@esempio.it" required autocomplete="email">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cSubject">Motivo</label>
+                        <select id="cSubject" name="motivo" required>
+                            <option value="" disabled selected>Seleziona un motivo…</option>
+                            <option value="feedback">Feedback sul sito</option>
+                            <option value="locale">Registrare il mio locale</option>
+                            <option value="collaborazione">Proposta di collaborazione</option>
+                            <option value="bug">Segnalazione bug</option>
+                            <option value="altro">Altro</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cMessage">Messaggio</label>
+                        <textarea id="cMessage" name="messaggio" placeholder="Scrivi qui il tuo messaggio…" required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Invia messaggio</button>
+                </form>
+            </div>
+
+            <div class="form-ok" id="formOk" role="status" aria-live="polite">
+                <div class="form-ok-inner">
+                    <div class="form-ok-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+                    </div>
+                    <p class="form-ok-title">Messaggio inviato</p>
+                    <p class="form-ok-desc">Grazie per averci scritto. Il team esaminerà la richiesta e ti risponderà all’indirizzo email indicato.</p>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <footer>
+        <div>
+            <div class="logo" style="margin-bottom:0.5rem">
+                <img src="logo.png" alt="FindMyNight" />
+                FindMyNight
+            </div>
+            <div class="footer-copy">© 2026 FindMyNight · Trova la tua serata perfetta</div>
+        </div>
+        <div class="footer-links">
+            <a href="privacy.html">Privacy</a>
+            <a href="partner.html">Partner</a>
+            <a href="contatti.html">Contatti</a>
+        </div>
+    </footer>
+
+    <script>
+        // Menu mobile (hamburger) — come index
+        (function () {
+            const nav = document.getElementById('siteNav');
+            const btn = document.getElementById('navMenuBtn');
+            const backdrop = document.getElementById('navMenuBackdrop');
+            const list = document.getElementById('navMainList');
+            if (!nav || !btn || !backdrop || !list) return;
+
+            function setNavOpen(open) {
+                nav.classList.toggle('nav-open', open);
+                btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+                btn.setAttribute('aria-label', open ? 'Chiudi menu' : 'Apri menu');
+                document.body.style.overflow = open ? 'hidden' : '';
+            }
+
+            btn.addEventListener('click', () => setNavOpen(!nav.classList.contains('nav-open')));
+            backdrop.addEventListener('click', () => setNavOpen(false));
+            list.querySelectorAll('a').forEach((a) => {
+                a.addEventListener('click', () => setNavOpen(false));
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && nav.classList.contains('nav-open')) setNavOpen(false);
+            });
+        })();
+
+        /** Inbox che riceve l’email (FormSubmit: alla prima richiesta potrebbe chiedere conferma via email). */
+        const CONTACT_FORM_EMAIL = 'findmynight.info@gmail.com';
+
+        function showFormError(msg) {
+            const el = document.getElementById('formError');
+            if (!el) return;
+            el.innerHTML = msg;
+            el.style.display = 'block';
+        }
+        function hideFormError() {
+            const el = document.getElementById('formError');
+            if (!el) return;
+            el.style.display = 'none';
+            el.textContent = '';
+        }
+
+        document.getElementById('contactForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideFormError();
+            const btn = e.target.querySelector('.btn-submit');
+            const name = document.getElementById('cName').value.trim();
+            const email = document.getElementById('cEmail').value.trim();
+            const subjectKey = document.getElementById('cSubject').value;
+            const message = document.getElementById('cMessage').value.trim();
+            const subjectLabels = {
+                feedback: 'Feedback sul sito',
+                locale: 'Registrare il mio locale',
+                collaborazione: 'Proposta di collaborazione',
+                bug: 'Segnalazione bug',
+                altro: 'Altro'
+            };
+            const subjectLabel = subjectLabels[subjectKey] || subjectKey;
+
+            btn.textContent = 'Invio in corso…';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch('https://formsubmit.co/ajax/' + encodeURIComponent(CONTACT_FORM_EMAIL), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _subject: '[FindMyNight Contatti] ' + subjectLabel,
+                        _replyto: email,
+                        _template: 'table',
+                        _captcha: false,
+                        nome: name,
+                        email_utente: email,
+                        motivo: subjectLabel,
+                        messaggio: message
+                    })
+                });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok) {
+                    throw new Error((data && data.message) || 'Invio non riuscito');
+                }
+                if (data.success === false || data.success === 'false') {
+                    throw new Error((data && data.message) || 'Invio rifiutato');
+                }
+
+                const formEl = e.target;
+                const okEl = document.getElementById('formOk');
+                formEl.classList.add('contact-form--leave');
+                window.setTimeout(() => {
+                    formEl.style.display = 'none';
+                    const card = formEl.closest('.form-card');
+                    if (card) card.style.display = 'none';
+                    okEl.classList.remove('form-ok--show');
+                    void okEl.offsetWidth;
+                    okEl.classList.add('form-ok--show');
+                }, 400);
+            } catch (err) {
+                const mailto = 'mailto:' + CONTACT_FORM_EMAIL + '?subject=' + encodeURIComponent('[FindMyNight] ' + subjectLabel) + '&body=' + encodeURIComponent('Da: ' + name + ' <' + email + '>\n\n' + message);
+                showFormError(
+                    'Non siamo riusciti a inviare dal browser. Controlla la connessione o invia manualmente: ' +
+                    '<a href="' + mailto + '">Apri la tua email</a>.'
+                );
+                btn.textContent = 'Invia messaggio';
+                btn.disabled = false;
+            }
+        });
+
+    </script>
+    <script src="fmn-analytics.js" defer></script>
+    <script src="fmn-cookie-consent.js" defer></script>
+    <script src="fmn-chat-widget.js" defer></script>
+
+</body>
+</html>

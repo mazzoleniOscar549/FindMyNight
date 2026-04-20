@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FindMyNight – Valuta l’idea</title>
+    <meta name="description" content="Valuta l’idea FindMyNight: un feedback veloce per migliorare mappa, locali e funzionalità del sito. La tua opinione conta.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://findmynight.info/valutazione-idea.html">
+    <link rel="icon" href="immagini_locali/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="immagini_locali/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="immagini_locali/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="immagini_locali/apple-touch-icon.png">
+    <meta name="theme-color" content="#07060f">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="FindMyNight">
+    <meta property="og:locale" content="it_IT">
+    <meta property="og:title" content="FindMyNight – Valuta l’idea">
+    <meta property="og:description" content="Aiutaci a migliorare FindMyNight con un feedback rapido.">
+    <meta property="og:url" content="https://findmynight.info/valutazione-idea.html">
+    <meta property="og:image" content="https://findmynight.info/fmn-og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://findmynight.info/fmn-og-image.png">
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"WebPage","name":"Valuta l’idea — FindMyNight","url":"https://findmynight.info/valutazione-idea.html","description":"Feedback volontario sull’idea FindMyNight.","isPartOf":{"@type":"WebSite","name":"FindMyNight","url":"https://findmynight.info/"}}
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="fmn-chat-widget.css">
+    <style>
+        :root {
+            --bg: #07060f;
+            --text: #f1f0fa;
+            --muted: #8880a8;
+            --border: rgba(168, 85, 247, 0.18);
+            --card: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --accent: #a855f7;
+            --accent2: #ec4899;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: calc(5.5rem + env(safe-area-inset-top, 0px)) max(5vw, env(safe-area-inset-right, 0px)) 3rem max(5vw, env(safe-area-inset-left, 0px));
+        }
+        nav.site-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: calc(1rem + env(safe-area-inset-top, 0px)) max(5vw, env(safe-area-inset-right, 0px)) 1rem max(5vw, env(safe-area-inset-left, 0px));
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: rgba(7, 6, 15, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 0.5px solid var(--border);
+        }
+        .nav-top { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex: 1; min-width: 0; }
+        a.logo { text-decoration: none; }
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+        }
+        .logo-text {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .logo-beta {
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            color: rgba(233, 213, 255, 0.98);
+            padding: 0.2rem 0.48rem;
+            border-radius: 999px;
+            border: 0.5px solid rgba(168, 85, 247, 0.42);
+            background: rgba(168, 85, 247, 0.16);
+        }
+        .nav-menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            width: 44px;
+            height: 44px;
+            border: 0.5px solid var(--card-border);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.06);
+            cursor: pointer;
+        }
+        .nav-menu-btn span { display: block; width: 20px; height: 2px; background: rgba(241, 240, 250, 0.9); margin: 0 auto; border-radius: 2px; }
+        ul.nav-main-list {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        .nav-main-list a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.92rem;
+        }
+        .nav-main-list a:hover { color: var(--text); }
+        @media (max-width: 900px) {
+            .nav-menu-btn { display: flex; justify-content: center; align-items: center; }
+            ul.nav-main-list {
+                display: none;
+                position: fixed;
+                top: 4.2rem;
+                left: 1rem;
+                right: 1rem;
+                flex-direction: column;
+                padding: 1rem;
+                background: rgba(14, 12, 28, 0.96);
+                border: 0.5px solid var(--card-border);
+                border-radius: 14px;
+                z-index: 200;
+            }
+            .site-nav.nav-open ul.nav-main-list { display: flex; }
+        }
+        h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(1.6rem, 4vw, 2.1rem);
+            margin-bottom: 0.5rem;
+        }
+        h1 span {
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .idea-layout {
+            max-width: 1080px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            align-items: stretch;
+        }
+        .lead {
+            color: var(--muted);
+            margin: 0;
+            max-width: 40rem;
+        }
+        .idea-context {
+            width: 100%;
+            margin: 0;
+            padding: 1rem 1.15rem;
+            border-radius: 14px;
+            border: 0.5px solid var(--card-border);
+            background: rgba(168, 85, 247, 0.08);
+            font-size: 0.92rem;
+            line-height: 1.55;
+            color: rgba(241, 240, 250, 0.92);
+        }
+        .idea-context p { margin: 0 0 0.75rem; }
+        .idea-context p:last-child { margin-bottom: 0; }
+        .idea-context strong { color: #e9d5ff; font-weight: 700; }
+        .idea-context-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.65rem;
+            align-items: center;
+            margin-top: 0.85rem !important;
+        }
+        .idea-context-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.55rem 1rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.88rem;
+            text-decoration: none;
+            transition: filter 0.15s ease, border-color 0.15s ease;
+        }
+        .idea-context-links .btn-how {
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            color: #fff;
+            border: none;
+        }
+        .idea-context-links .btn-how:hover { filter: brightness(1.06); }
+        .idea-context-links .idea-home {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text);
+            border: 0.5px solid var(--card-border);
+        }
+        .idea-context-links .idea-home:hover { border-color: rgba(168, 85, 247, 0.35); color: #fff; }
+        @media (max-width: 899px) {
+            .idea-context-links {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .idea-context-links a {
+                justify-content: center;
+                width: 100%;
+                text-align: center;
+            }
+        }
+        @media (min-width: 900px) {
+            .idea-layout {
+                display: grid;
+                grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+                grid-template-rows: auto auto 1fr;
+                gap: 1rem 2.25rem;
+                align-items: start;
+            }
+            .idea-layout-h1 {
+                grid-column: 1;
+                grid-row: 1;
+            }
+            .idea-layout-lead {
+                grid-column: 1;
+                grid-row: 2;
+            }
+            .idea-layout-form {
+                grid-column: 1;
+                grid-row: 3;
+            }
+            .idea-layout-aside {
+                grid-column: 2;
+                grid-row: 1 / -1;
+                align-self: start;
+                position: sticky;
+                top: calc(5.25rem + env(safe-area-inset-top, 0px));
+            }
+            .idea-context {
+                font-size: 0.9rem;
+                padding: 1.1rem 1.2rem;
+            }
+        }
+        .card {
+            max-width: 32rem;
+            width: 100%;
+            background: var(--card);
+            border: 0.5px solid var(--card-border);
+            border-radius: 16px;
+            padding: 1.35rem 1.4rem;
+        }
+        @media (min-width: 900px) {
+            .idea-layout-form.card {
+                max-width: none;
+            }
+        }
+        .field { margin-bottom: 1.1rem; }
+        .field label { display: block; font-weight: 600; margin-bottom: 0.45rem; font-size: 0.9rem; }
+        .field .hint { font-size: 0.82rem; color: var(--muted); margin-top: 0.25rem; }
+        .star-wrap { display: flex; flex-direction: column; gap: 0.55rem; }
+        .star-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            align-items: center;
+        }
+        .star-btn {
+            width: clamp(2.65rem, 11vw, 3.15rem);
+            height: clamp(2.65rem, 11vw, 3.15rem);
+            border: 0.5px solid var(--card-border);
+            border-radius: 14px;
+            background: rgba(0, 0, 0, 0.28);
+            color: rgba(136, 128, 168, 0.55);
+            font-size: clamp(1.35rem, 5vw, 1.75rem);
+            line-height: 1;
+            cursor: pointer;
+            transition: color 0.18s, border-color 0.18s, background 0.18s, transform 0.15s, box-shadow 0.18s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: inherit;
+            padding: 0;
+        }
+        .star-btn:hover {
+            color: rgba(233, 213, 255, 0.85);
+            border-color: rgba(168, 85, 247, 0.45);
+            transform: translateY(-1px);
+        }
+        .star-btn:focus-visible {
+            outline: 2px solid rgba(168, 85, 247, 0.75);
+            outline-offset: 2px;
+        }
+        .star-btn.on {
+            color: #fcd34d;
+            border-color: rgba(251, 191, 36, 0.42);
+            background: rgba(251, 191, 36, 0.1);
+            box-shadow: 0 0 24px rgba(251, 191, 36, 0.12);
+        }
+        .star-btn.preview:not(.on) {
+            color: rgba(251, 191, 36, 0.45);
+        }
+        .rating-phrase {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #e9d5ff;
+            min-height: 1.45em;
+            letter-spacing: 0.01em;
+        }
+        .rating-scale {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.72rem;
+            color: var(--muted);
+            max-width: 22rem;
+            padding: 0 0.15rem;
+        }
+        #fmnStarShower {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 85;
+            overflow: hidden;
+        }
+        .fmn-fall-star {
+            position: absolute;
+            top: -4vh;
+            left: var(--sx, 50%);
+            font-size: var(--fs, 1rem);
+            line-height: 1;
+            color: #fcd34d;
+            text-shadow: 0 0 14px rgba(252, 211, 77, 0.55), 0 0 28px rgba(236, 72, 153, 0.25);
+            opacity: 0.95;
+            will-change: transform, opacity;
+            animation: fmnStarFall var(--dur, 2.6s) var(--delay, 0s) cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        .fmn-fall-star.fmn-fall-star--pink {
+            color: #f0abfc;
+            text-shadow: 0 0 12px rgba(240, 171, 252, 0.5), 0 0 22px rgba(168, 85, 247, 0.35);
+        }
+        @keyframes fmnStarFall {
+            0% {
+                transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate3d(var(--drift, 0px), 118vh, 0) rotate(var(--rot, 540deg)) scale(0.65);
+                opacity: 0;
+            }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .fmn-fall-star { animation: none !important; opacity: 0 !important; }
+        }
+        input[type="email"], textarea {
+            width: 100%;
+            padding: 0.65rem 0.85rem;
+            border-radius: 10px;
+            border: 0.5px solid var(--card-border);
+            background: rgba(0, 0, 0, 0.25);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 0.95rem;
+        }
+        textarea { min-height: 7rem; resize: vertical; }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.4rem;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            color: #fff;
+            transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease;
+        }
+        .btn:hover:not(:disabled) {
+            filter: brightness(1.06);
+            box-shadow: 0 6px 28px rgba(168, 85, 247, 0.35);
+        }
+        .btn:active:not(:disabled) { transform: translateY(1px); }
+        .btn:focus-visible {
+            outline: 2px solid rgba(244, 114, 182, 0.85);
+            outline-offset: 3px;
+        }
+        .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text);
+            border: 0.5px solid var(--card-border);
+        }
+        /** “Ripristina”: tono caldo / rosa–corallo, leggibile ma non aggressivo */
+        .btn-rating-clear {
+            background: linear-gradient(180deg, rgba(254, 205, 211, 0.1), rgba(251, 113, 133, 0.06));
+            color: #fecdd3;
+            border: 1px solid rgba(251, 113, 133, 0.42);
+            box-shadow: 0 0 0 1px rgba(7, 6, 15, 0.35) inset, 0 4px 18px rgba(244, 63, 94, 0.12);
+            transition: transform 0.15s ease, border-color 0.2s ease, background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .btn-rating-clear:hover:not(:disabled) {
+            color: #fff1f2;
+            border-color: rgba(253, 164, 175, 0.72);
+            background: linear-gradient(180deg, rgba(254, 205, 211, 0.16), rgba(251, 113, 133, 0.12));
+            box-shadow: 0 0 0 1px rgba(7, 6, 15, 0.25) inset, 0 6px 22px rgba(244, 63, 94, 0.2);
+        }
+        .btn-rating-clear:active:not(:disabled) { transform: translateY(1px); }
+        .btn-rating-clear:focus-visible {
+            outline: 2px solid rgba(253, 164, 175, 0.9);
+            outline-offset: 3px;
+        }
+        .btn-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; }
+        abbr.fmn-req {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 0.35rem;
+            padding: 0.2em 0.5em 0.18em;
+            font-size: 0.68em;
+            font-weight: 800;
+            font-family: 'Syne', sans-serif;
+            line-height: 1;
+            letter-spacing: 0.02em;
+            color: #ffe4e6;
+            text-decoration: none;
+            cursor: help;
+            vertical-align: middle;
+            border-radius: 8px;
+            border: 0.5px solid rgba(251, 113, 133, 0.45);
+            background: linear-gradient(160deg, rgba(251, 113, 133, 0.28), rgba(190, 18, 60, 0.18));
+            box-shadow: 0 2px 14px rgba(244, 63, 94, 0.15);
+        }
+        .msg { margin-top: 1rem; padding: 0.75rem 1rem; border-radius: 10px; font-size: 0.9rem; display: none; }
+        .msg.ok { display: block; background: rgba(74, 222, 128, 0.12); border: 0.5px solid rgba(74, 222, 128, 0.35); color: #bbf7d0; }
+        .msg.err { display: block; background: rgba(248, 113, 113, 0.12); border: 0.5px solid rgba(248, 113, 113, 0.35); color: #fecaca; }
+        .cookie-banner {
+            position: fixed;
+            left: max(16px, env(safe-area-inset-left, 0px));
+            right: max(16px, env(safe-area-inset-right, 0px));
+            bottom: max(16px, env(safe-area-inset-bottom, 0px));
+            z-index: 2000;
+            display: none;
+            background: rgba(14, 12, 28, 0.88);
+            border: 0.5px solid rgba(168, 85, 247, 0.28);
+            border-radius: 16px;
+            padding: 0.95rem;
+        }
+        .cookie-banner.visible { display: flex; }
+        .cookie-banner .cookie-inner { display: flex; gap: 0.9rem; width: 100%; align-items: flex-start; }
+        .cookie-banner .cookie-text { flex: 1; min-width: 0; }
+        .cookie-banner .cookie-title { font-family: 'Syne', sans-serif; font-weight: 800; margin-bottom: 0.25rem; color: var(--text); }
+        .cookie-banner .cookie-desc { font-size: 0.86rem; color: rgba(255,255,255,0.72); line-height: 1.45; }
+        .cookie-banner .cookie-desc a { color: #22d3ee; }
+        .cookie-banner .cookie-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+        .cookie-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 0.5px solid rgba(255,255,255,0.14);
+            background: rgba(255,255,255,0.08);
+            color: var(--text);
+            padding: 0.55rem 0.95rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 0.88rem;
+        }
+        .cookie-btn.primary {
+            border: none;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="fmnStarShower" aria-hidden="true"></div>
+    <div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite" aria-label="Cookie e preferenze">
+        <div class="cookie-inner">
+            <div class="cookie-text">
+                <div class="cookie-title">Cookie e statistiche</div>
+                <div class="cookie-desc">
+                    Cookie e memorizzazione locale necessari al funzionamento di FindMyNight. In modo facoltativo puoi attivare
+                    <strong>Google Analytics 4</strong> (ID <code>G-4B41LWXFR3</code>). Dettagli nella
+                    <a href="privacy.html">Privacy Policy</a>.
+                </div>
+            </div>
+            <div class="cookie-actions">
+                <button type="button" class="cookie-btn" id="cookieEssentialBtn">Solo necessari</button>
+                <button type="button" class="cookie-btn primary" id="cookieStatsBtn">Accetto anche le statistiche</button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="site-nav" id="siteNav">
+        <div class="nav-top">
+            <a href="index.html" class="logo">
+                <img src="logo.png" alt="" width="26" height="26" decoding="async" />
+                <span class="logo-text">FindMyNight</span>
+                <span class="logo-beta" aria-label="Beta">beta</span>
+            </a>
+            <button type="button" class="nav-menu-btn" id="navMenuBtn" aria-expanded="false" aria-controls="navMainList" aria-label="Apri menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <ul id="navMainList" class="nav-main-list">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="locali.html">Locali</a></li>
+            <li><a href="chat.html">Chat</a></li>
+            <li><a href="partner.html">Area Partner</a></li>
+            <li><a href="contatti.html">Contatti</a></li>
+        </ul>
+    </nav>
+
+    <main class="idea-layout">
+        <h1 class="idea-layout-h1">Valuta <span>l’idea</span></h1>
+
+        <aside class="idea-layout-aside">
+            <div class="idea-context" role="region" aria-label="Cos’è FindMyNight">
+                <p>
+                    <strong>FindMyNight</strong> è in beta: mappa e lista dei locali vicino a te, filtri per trovare il vibe giusto,
+                    chat tra utenti e area dedicata ai gestori per aggiornare serate e sticker. L’obiettivo è semplificare la serata
+                    senza dover saltare tra mille app diverse.
+                </p>
+                <p>
+                    Per il flusso passo passo (mappa, filtri, community) apri <strong>Come funziona</strong> sulla home.
+                </p>
+                <p class="idea-context-links">
+                    <a href="index.html#how" class="btn-how">Come funziona →</a>
+                    <a href="index.html" class="idea-home">Home</a>
+                </p>
+            </div>
+        </aside>
+
+
+        <div class="card idea-layout-form">
+        <form id="ideaForm" novalidate>
+            <div class="field">
+                <label id="ratingLabel">Com’è l’idea finora? <abbr class="fmn-req" title="Obbligatorio: scegli da 1 a 5 stelle">*</abbr></label>
+                <div class="star-wrap">
+                    <div class="star-bar" id="starBar" role="group" aria-labelledby="ratingLabel">
+                        <button type="button" class="star-btn" data-value="1" aria-label="1 su 5">★</button>
+                        <button type="button" class="star-btn" data-value="2" aria-label="2 su 5">★</button>
+                        <button type="button" class="star-btn" data-value="3" aria-label="3 su 5">★</button>
+                        <button type="button" class="star-btn" data-value="4" aria-label="4 su 5">★</button>
+                        <button type="button" class="star-btn" data-value="5" aria-label="5 su 5">★</button>
+                    </div>
+                    <div class="rating-phrase" id="ratingPhrase" aria-live="polite"></div>
+                    <div class="rating-scale" aria-hidden="true"><span>Per niente</span><span>Molto</span></div>
+                </div>
+                <p class="hint">Tocca le stelle o usa i tasti <kbd style="background:rgba(255,255,255,0.08);padding:0.1em 0.35em;border-radius:4px;">1</kbd>–<kbd style="background:rgba(255,255,255,0.08);padding:0.1em 0.35em;border-radius:4px;">5</kbd> (non mentre scrivi nei campi).</p>
+                <input type="hidden" name="rating" id="ratingInput" value="" />
+            </div>
+            <div class="field">
+                <label for="ideaComment">Cosa miglioreresti? (opzionale)</label>
+                <textarea id="ideaComment" maxlength="2000" placeholder="Funzioni mancanti, dubbi, suggerimenti…"></textarea>
+            </div>
+            <div class="field">
+                <label for="ideaEmail">Email per ricontattarti (opzionale)</label>
+                <input type="email" id="ideaEmail" maxlength="254" placeholder="solo se vuoi una risposta" autocomplete="email" />
+            </div>
+            <div class="btn-row">
+                <button type="submit" class="btn" id="ideaSubmit">Invia valutazione</button>
+                <button type="button" class="btn btn-rating-clear" id="ratingClear" hidden aria-label="Azzera il voto sulle stelle">Ripristina stelle</button>
+            </div>
+        </form>
+        <div class="msg" id="ideaOk" role="status">Grazie! Il tuo feedback è stato registrato.</div>
+        <div class="msg" id="ideaErr" role="alert"></div>
+        </div>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="fmn-firebase-public.js"></script>
+    <script src="fmn-secrets.defaults.js"></script>
+    <script>
+        if (!window.FMN_FIREBASE_CONFIG) throw new Error('Config Firebase mancante.');
+        firebase.initializeApp(window.FMN_FIREBASE_CONFIG);
+        const db = firebase.firestore();
+
+        const DEVICE_KEY = 'fmn_idea_device_id';
+        function ensureDeviceId() {
+            try {
+                let id = localStorage.getItem(DEVICE_KEY);
+                if (id) return id;
+                id = 'idea_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 12);
+                localStorage.setItem(DEVICE_KEY, id);
+                return id;
+            } catch {
+                return 'idea_mem_' + Date.now().toString(36);
+            }
+        }
+
+        const params = new URLSearchParams(window.location.search);
+        const source = params.get('from') === 'banner' ? 'banner' : 'direct';
+
+        (function nav() {
+            const nav = document.getElementById('siteNav');
+            const btn = document.getElementById('navMenuBtn');
+            const list = document.getElementById('navMainList');
+            if (!nav || !btn || !list) return;
+            btn.addEventListener('click', () => {
+                const open = !nav.classList.contains('nav-open');
+                nav.classList.toggle('nav-open', open);
+                btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+            });
+            list.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => {
+                nav.classList.remove('nav-open');
+                btn.setAttribute('aria-expanded', 'false');
+            }));
+        })();
+
+        (function starRating() {
+            const bar = document.getElementById('starBar');
+            const input = document.getElementById('ratingInput');
+            const phrase = document.getElementById('ratingPhrase');
+            const clearBtn = document.getElementById('ratingClear');
+            const shower = document.getElementById('fmnStarShower');
+            if (!bar || !input || !phrase) return;
+
+            const PHRASES = {
+                1: 'Non mi convince',
+                2: 'Ci sono dubbi',
+                3: 'Nella media',
+                4: 'Mi piace',
+                5: 'Ottima direzione',
+            };
+
+            function spawnFallingStars(rating) {
+                if (!shower || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+                const n = rating === 5 ? 24 : 16;
+                const rBar = bar.getBoundingClientRect();
+                const w = window.innerWidth || 1;
+                for (let i = 0; i < n; i++) {
+                    const el = document.createElement('span');
+                    el.className = 'fmn-fall-star' + (Math.random() > 0.72 ? ' fmn-fall-star--pink' : '');
+                    el.textContent = '★';
+                    const fromBar = rBar.width > 20 && Math.random() < 0.5;
+                    const xPx = fromBar
+                        ? rBar.left + Math.random() * rBar.width
+                        : 8 + Math.random() * (w - 16);
+                    el.style.setProperty('--sx', `${xPx}px`);
+                    el.style.setProperty('--fs', `${0.65 + Math.random() * 0.95}rem`);
+                    el.style.setProperty('--delay', `${Math.random() * 0.35}s`);
+                    el.style.setProperty('--dur', `${2.1 + Math.random() * 1.4}s`);
+                    el.style.setProperty('--drift', `${(Math.random() - 0.5) * 140}px`);
+                    el.style.setProperty('--rot', `${360 + Math.floor(Math.random() * 540)}deg`);
+                    shower.appendChild(el);
+                    el.addEventListener('animationend', () => el.remove(), { once: true });
+                }
+            }
+
+            function setRating(n, opts) {
+                const prevRaw = input.value;
+                const prevVal = prevRaw === '' ? null : Number(prevRaw);
+                const v = n === '' || n === null || n === undefined ? '' : Math.min(5, Math.max(1, Number(n)));
+                input.value = v === '' || Number.isNaN(v) ? '' : String(v);
+                bar.querySelectorAll('.star-btn').forEach((btn) => {
+                    const val = Number(btn.getAttribute('data-value'));
+                    btn.classList.toggle('on', v !== '' && val <= v);
+                    btn.classList.remove('preview');
+                    btn.setAttribute('aria-pressed', v !== '' && val === v ? 'true' : 'false');
+                });
+                phrase.textContent = v === '' ? '' : (PHRASES[v] || '');
+                if (clearBtn) clearBtn.hidden = input.value === '';
+                if ((v === 4 || v === 5) && v !== prevVal) {
+                    spawnFallingStars(v);
+                }
+            }
+
+            function previewHover(n) {
+                const v = input.value ? Number(input.value) : 0;
+                bar.querySelectorAll('.star-btn').forEach((btn) => {
+                    const val = Number(btn.getAttribute('data-value'));
+                    btn.classList.toggle('preview', !v && n && val <= n);
+                });
+            }
+
+            bar.querySelectorAll('.star-btn').forEach((btn) => {
+                btn.addEventListener('click', () => setRating(btn.getAttribute('data-value')));
+                btn.addEventListener('mouseenter', () => previewHover(Number(btn.getAttribute('data-value'))));
+            });
+            bar.addEventListener('mouseleave', () => {
+                bar.querySelectorAll('.star-btn').forEach((b) => b.classList.remove('preview'));
+            });
+
+            if (clearBtn) {
+                clearBtn.addEventListener('click', () => setRating(''));
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable)) return;
+                const k = e.key;
+                if (k >= '1' && k <= '5') {
+                    setRating(k);
+                }
+            });
+
+            window.__fmnIdeaSetRating = setRating;
+            setRating('');
+        })();
+
+        document.getElementById('ideaForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const okEl = document.getElementById('ideaOk');
+            const errEl = document.getElementById('ideaErr');
+            const submit = document.getElementById('ideaSubmit');
+            okEl.classList.remove('ok');
+            errEl.classList.remove('err');
+            errEl.textContent = '';
+
+            const rv = (document.getElementById('ratingInput') || {}).value;
+            const rating = parseInt(rv, 10);
+            if (!rv || rating < 1 || rating > 5) {
+                errEl.textContent = 'Scegli un voto da 1 a 5 stelle.';
+                errEl.classList.add('err');
+                return;
+            }
+            const comment = (document.getElementById('ideaComment').value || '').trim().slice(0, 2000);
+            const contactEmail = (document.getElementById('ideaEmail').value || '').trim().slice(0, 254);
+            const pageUrl = (window.location.href || '').slice(0, 600);
+
+            submit.disabled = true;
+            submit.textContent = 'Invio…';
+            try {
+                const docId = ensureDeviceId() + '_' + Date.now().toString(36);
+                await db.collection('ideaFeedback').doc(docId).set({
+                    rating,
+                    comment,
+                    contactEmail,
+                    pageUrl,
+                    source,
+                    deviceId: ensureDeviceId(),
+                    submittedAt: Date.now()
+                });
+                okEl.classList.add('ok');
+                document.getElementById('ideaForm').reset();
+                if (typeof window.__fmnIdeaSetRating === 'function') window.__fmnIdeaSetRating('');
+            } catch (err) {
+                errEl.textContent = err && err.message ? err.message : 'Invio non riuscito. Riprova più tardi.';
+                errEl.classList.add('err');
+            } finally {
+                submit.disabled = false;
+                submit.textContent = 'Invia valutazione';
+            }
+        });
+    </script>
+    <script src="fmn-analytics.js" defer></script>
+    <script src="fmn-cookie-consent.js" defer></script>
+    <script src="fmn-chat-widget.js" defer></script>
+</body>
+
+</html>

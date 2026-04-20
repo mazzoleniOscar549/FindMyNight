@@ -1,0 +1,46 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function venueDoc(venueId) {
+      return firestore.get(/databases/(default)/documents/venues/$(venueId));
+    }
+
+    /** Upload copertina solo al gestore del locale (o admin con claim fmnAdmin). */
+    function canManageVenueCover(venueId) {
+      return signedIn()
+        && venueDoc(venueId).exists
+        && (
+          request.auth.token.fmnAdmin == true
+          || (
+            'partnerUid' in venueDoc(venueId).data
+            && venueDoc(venueId).data.partnerUid == request.auth.uid
+          )
+          || (
+            'partnerEmail' in venueDoc(venueId).data
+            && venueDoc(venueId).data.partnerEmail is string
+            && request.auth.token.email is string
+            && venueDoc(venueId).data.partnerEmail == request.auth.token.email
+          )
+        );
+    }
+
+    match /venues/{venueId}/{fileName} {
+      allow read: if true;
+      allow write: if fileName == 'cover.jpg'
+        && request.resource != null
+        && request.resource.size < 13 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*')
+        && canManageVenueCover(venueId);
+      allow delete: if fileName == 'cover.jpg' && canManageVenueCover(venueId);
+    }
+
+    match /{path=**} {
+      allow read, write: if false;
+    }
+  }
+}

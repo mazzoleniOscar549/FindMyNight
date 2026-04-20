@@ -1,0 +1,3488 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FindMyNight – Area Partner</title>
+    <meta name="description" content="Area riservata partner FindMyNight: aggiorna il tuo locale, serate ed eventi, presenza sulla mappa e canali social collegati al profilo.">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://findmynight.info/partner.html">
+    <link rel="icon" href="immagini_locali/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="immagini_locali/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="immagini_locali/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="immagini_locali/apple-touch-icon.png">
+    <meta name="theme-color" content="#07060f">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="FindMyNight">
+    <meta property="og:locale" content="it_IT">
+    <meta property="og:title" content="FindMyNight – Area Partner">
+    <meta property="og:description" content="Gestisci il tuo locale su FindMyNight: eventi, profilo e visibilità.">
+    <meta property="og:url" content="https://findmynight.info/partner.html">
+    <meta property="og:image" content="https://findmynight.info/fmn-og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="FindMyNight — area partner">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="FindMyNight – Area Partner">
+    <meta name="twitter:description" content="Gestisci il tuo locale su FindMyNight: eventi e visibilità.">
+    <meta name="twitter:image" content="https://findmynight.info/fmn-og-image.png">
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"WebPage","name":"Area Partner — FindMyNight","url":"https://findmynight.info/partner.html","description":"Accesso partner per aggiornare locali ed eventi su FindMyNight.","isPartOf":{"@type":"WebSite","name":"FindMyNight","url":"https://findmynight.info/"}}
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="fmn-chat-widget.css">
+    <style>
+        :root {
+            --bg: #07060f;
+            --bg2: #0e0c1c;
+            --bg3: #13112a;
+            --accent: #a855f7;
+            --accent2: #ec4899;
+            --accent3: #06b6d4;
+            --text: #f1f0fa;
+            --muted: #8880a8;
+            --border: rgba(168, 85, 247, 0.18);
+            --card: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --glow: 0 0 40px rgba(168, 85, 247, 0.25);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html {
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(168, 85, 247, 0.5) transparent;
+        }
+        html::-webkit-scrollbar { width: 8px; }
+        html::-webkit-scrollbar-track { background: transparent; }
+        html::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, rgba(168, 85, 247, 0.55), rgba(236, 72, 153, 0.35));
+            border-radius: 100px;
+            border: 2px solid transparent;
+            background-clip: content-box;
+        }
+        html::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, rgba(168, 85, 247, 0.8), rgba(236, 72, 153, 0.55));
+            background-clip: content-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.4;
+        }
+
+        /* ─── NAV (come index — hamburger su mobile) ─── */
+        nav.site-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: calc(1rem + env(safe-area-inset-top, 0px)) max(5vw, env(safe-area-inset-right, 0px)) 1rem max(5vw, env(safe-area-inset-left, 0px));
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 0.75rem;
+            background: rgba(7, 6, 15, 0.75);
+            backdrop-filter: blur(16px);
+            border-bottom: 0.5px solid var(--border);
+        }
+
+        .nav-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        a.logo {
+            text-decoration: none;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            min-width: 0;
+            flex-shrink: 0;
+        }
+
+        .logo-text {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.3rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-beta {
+            flex-shrink: 0;
+            align-self: center;
+            margin-left: 0.1rem;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            color: rgba(233, 213, 255, 0.98);
+            padding: 0.2rem 0.48rem;
+            border-radius: 999px;
+            border: 0.5px solid rgba(168, 85, 247, 0.42);
+            background: rgba(168, 85, 247, 0.16);
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        .logo img {
+            width: 26px;
+            height: 26px;
+            flex: 0 0 auto;
+            filter: drop-shadow(0 10px 20px rgba(168, 85, 247, 0.35));
+        }
+
+        a.nav-partner-logout {
+            font-size: 0.86rem;
+            color: var(--muted);
+            text-decoration: none;
+            padding: 0.4rem 0.75rem;
+            border-radius: 10px;
+            border: 0.5px solid var(--card-border);
+            background: rgba(255, 255, 255, 0.05);
+            white-space: nowrap;
+        }
+
+        a.nav-partner-logout:hover {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .nav-menu-btn {
+            display: none;
+            position: relative;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            border: 0.5px solid var(--card-border);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.06);
+            cursor: pointer;
+            flex-shrink: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .nav-menu-btn span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            border-radius: 2px;
+            background: rgba(241, 240, 250, 0.9);
+            transition:
+                transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.22s ease,
+                top 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+                left 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+                margin 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+            transform-origin: center;
+        }
+
+        .site-nav.nav-open .nav-menu-btn {
+            gap: 0;
+        }
+
+        .site-nav.nav-open .nav-menu-btn span:nth-child(1),
+        .site-nav.nav-open .nav-menu-btn span:nth-child(3) {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 20px;
+            margin-left: -10px;
+            margin-top: -1px;
+        }
+
+        .site-nav.nav-open .nav-menu-btn span:nth-child(1) {
+            transform: rotate(45deg);
+        }
+
+        .site-nav.nav-open .nav-menu-btn span:nth-child(2) {
+            position: absolute;
+            left: 50%;
+            width: 0;
+            height: 0;
+            margin: 0;
+            opacity: 0;
+            transform: scale(0);
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .site-nav.nav-open .nav-menu-btn span:nth-child(3) {
+            transform: rotate(-45deg);
+        }
+
+        .nav-menu-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1899;
+            background: var(--bg);
+        }
+
+        .site-nav.nav-open .nav-menu-backdrop {
+            display: block;
+        }
+
+        nav ul.nav-main-list {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            margin: 0 0 0 auto;
+            padding: 0;
+            min-width: 0;
+        }
+
+        nav ul.nav-main-list a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 400;
+            letter-spacing: 0.01em;
+            transition: color 0.2s;
+        }
+
+        nav ul.nav-main-list a:hover {
+            color: var(--text);
+        }
+
+        nav ul.nav-main-list a[aria-current="page"] {
+            color: var(--text);
+        }
+
+        @media (max-width: 1024px) {
+            /* "Esci" in fondo al drawer: non resta sotto la barra fissa e si trova subito */
+            nav ul.nav-main-list li.nav-menu-logout {
+                margin-top: auto;
+                padding-top: 0.75rem;
+                border-top: 0.5px solid rgba(255, 255, 255, 0.1);
+            }
+            nav ul.nav-main-list li.nav-menu-logout a.nav-partner-logout {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                min-height: 48px;
+                padding: 0.55rem 1rem;
+                font-weight: 600;
+                color: #fecaca;
+                border-color: rgba(248, 113, 113, 0.35);
+                background: rgba(248, 113, 113, 0.08);
+            }
+            nav ul.nav-main-list li.nav-menu-logout a.nav-partner-logout:hover {
+                color: #ffe4e6;
+                background: rgba(248, 113, 113, 0.14);
+            }
+        }
+
+        /* ─── CONTENITORE PRINCIPALE ─── */
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: calc(6.5rem + env(safe-area-inset-top, 0px)) max(1.5rem, env(safe-area-inset-right, 0px)) 4rem max(1.5rem, env(safe-area-inset-left, 0px));
+        }
+
+        /* ─── LOGIN ─── */
+        .panel {
+            background: var(--card);
+            border: 0.5px solid var(--card-border);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            position: relative;
+        }
+
+        .dash-grid {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 1rem;
+            align-items: start;
+        }
+        .dash-side {
+            position: sticky;
+            top: 96px;
+        }
+
+        .panel-title {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.6rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .panel-sub {
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .field { margin-bottom: 1.25rem; }
+
+        .field label {
+            display: block;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            margin-bottom: 0.4rem;
+            font-weight: 500;
+        }
+
+        .field input, .field select {
+            width: 100%;
+            padding: 0.7rem 0.9rem;
+            border-radius: 10px;
+            border: 0.5px solid var(--card-border);
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.92rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .field input[type="number"] {
+            font-size: 1.08rem;
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 0.02em;
+        }
+
+        .field input:focus, .field select:focus {
+            border-color: rgba(168, 85, 247, 0.55);
+        }
+
+        .field input::placeholder { color: var(--muted); opacity: 0.6; }
+
+        .field select option { background: #13112a; color: var(--text); }
+
+        /* Login: campo scuro coerente col tema (evita bianco da autofill / browser) */
+        #loginPanel .field input {
+            background: rgba(19, 17, 42, 0.95);
+            border: 1px solid rgba(168, 85, 247, 0.28);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            -webkit-text-fill-color: var(--text);
+            caret-color: var(--accent3);
+        }
+        #loginPanel .field input::placeholder {
+            color: rgba(136, 128, 168, 0.9);
+            opacity: 1;
+        }
+        #loginPanel .field input:focus {
+            border-color: rgba(168, 85, 247, 0.65);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.07),
+                0 0 0 3px rgba(168, 85, 247, 0.14);
+        }
+        #loginPanel .field input:-webkit-autofill,
+        #loginPanel .field input:-webkit-autofill:hover,
+        #loginPanel .field input:-webkit-autofill:focus {
+            -webkit-box-shadow: 0 0 0 1000px #13112a inset;
+            box-shadow: 0 0 0 1000px #13112a inset;
+            -webkit-text-fill-color: #f1f0fa;
+            caret-color: var(--accent3);
+            transition: background-color 99999s ease-out 0s;
+        }
+
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.7rem 0;
+        }
+
+        .toggle-row span {
+            font-size: 0.92rem;
+            color: var(--text);
+        }
+
+        .map-scheda-home-block {
+            margin-top: 1.25rem;
+            padding-top: 1rem;
+            padding-bottom: 0.35rem;
+            margin-bottom: 2.25rem;
+            border-top: 0.5px solid var(--card-border);
+        }
+
+        .map-vis-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.55rem;
+        }
+        .map-vis-pill {
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .map-vis-pill input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .map-vis-pill .map-vis-pill-ui {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.52rem 1rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            color: var(--muted);
+            background: rgba(255, 255, 255, 0.035);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s;
+        }
+        .map-vis-pill .map-vis-pill-ui::before {
+            content: '';
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: rgba(136, 128, 168, 0.55);
+            flex-shrink: 0;
+        }
+        .map-vis-pill input:checked + .map-vis-pill-ui {
+            color: #faf5ff;
+            background: linear-gradient(145deg, rgba(168, 85, 247, 0.28), rgba(236, 72, 153, 0.14));
+            border-color: rgba(168, 85, 247, 0.5);
+            box-shadow: 0 4px 22px rgba(168, 85, 247, 0.18);
+        }
+        .map-vis-pill input:checked + .map-vis-pill-ui::before {
+            background: #4ade80;
+            box-shadow: 0 0 10px rgba(74, 222, 128, 0.45);
+        }
+        .map-vis-pill input:focus-visible + .map-vis-pill-ui {
+            outline: 2px solid rgba(6, 182, 212, 0.5);
+            outline-offset: 2px;
+        }
+
+        .toggle {
+            position: relative;
+            width: 48px; height: 26px;
+            cursor: pointer;
+        }
+
+        .toggle input { opacity: 0; width: 0; height: 0; }
+
+        .toggle .slider {
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 999px;
+            transition: background 0.25s;
+        }
+
+        .toggle .slider::before {
+            content: '';
+            position: absolute;
+            width: 20px; height: 20px;
+            left: 3px; bottom: 3px;
+            background: var(--text);
+            border-radius: 50%;
+            transition: transform 0.25s;
+        }
+
+        .toggle input:checked + .slider { background: #a855f7; }
+        .toggle input:checked + .slider::before { transform: translateX(22px); }
+
+        /* ─── BOTTONI ─── */
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0.85rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.15s;
+        }
+
+        .btn:hover { opacity: 0.88; }
+        .btn:active { transform: scale(0.98); }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            color: #fff;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.06);
+            border: 0.5px solid var(--card-border);
+            color: var(--text);
+            margin-top: 0.75rem;
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.15);
+            border: 0.5px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+            margin-top: 0.75rem;
+        }
+
+        /* ─── ERRORI / SUCCESSO ─── */
+        .msg {
+            padding: 0.65rem 1rem;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .msg-error {
+            background: rgba(239, 68, 68, 0.12);
+            border: 0.5px solid rgba(239, 68, 68, 0.35);
+            color: #fca5a5;
+        }
+
+        .msg-ok {
+            background: rgba(74, 222, 128, 0.12);
+            border: 0.5px solid rgba(74, 222, 128, 0.35);
+            color: #86efac;
+        }
+
+        /* ─── BADGE LIVE ─── */
+        .live-badge {
+            display: inline-block;
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: #4ade80;
+            background: rgba(74, 222, 128, 0.12);
+            border: 0.5px solid rgba(74, 222, 128, 0.35);
+            border-radius: 999px;
+            padding: 0.18rem 0.6rem;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+        }
+        .live-badge.closed {
+            color: #fca5a5;
+            background: rgba(239, 68, 68, 0.12);
+            border: 0.5px solid rgba(239, 68, 68, 0.35);
+        }
+
+        .live-badge.bar-open {
+            color: #cbd5e1;
+            background: rgba(148, 163, 184, 0.12);
+            border: 0.5px solid rgba(148, 163, 184, 0.35);
+        }
+
+        .dash-title-with-badge {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.45rem;
+        }
+        .dash-title-with-badge .live-badge {
+            margin-left: 0;
+        }
+
+        /* ─── STAT PILLS ─── */
+        .stat-pills {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-pill {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            background: rgba(255, 255, 255, 0.04);
+            border: 0.5px solid var(--card-border);
+            border-radius: 999px;
+            padding: 0.3rem 0.75rem;
+        }
+
+        .stat-pill strong { color: var(--text); font-weight: 600; }
+
+        /* ─── FOOTER ─── */
+        .footer {
+            text-align: center;
+            padding: 3rem 1rem 2rem;
+            color: var(--muted);
+            font-size: 0.78rem;
+        }
+
+        .footer a { color: #c084fc; text-decoration: none; }
+        .footer a:hover { color: var(--text); }
+
+        /* ─── EVENTO CARD ─── */
+        .evento-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 0.5px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            position: relative;
+        }
+
+        .evento-card .field { margin-bottom: 0.75rem; }
+        .evento-card .field:last-of-type { margin-bottom: 0; }
+
+        .evento-remove {
+            position: absolute;
+            top: 8px; right: 8px;
+            width: 26px; height: 26px;
+            border-radius: 8px;
+            border: 0.5px solid rgba(239, 68, 68, 0.3);
+            background: rgba(239, 68, 68, 0.1);
+            color: #fca5a5;
+            cursor: pointer;
+            font-size: 0.82rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .evento-remove:hover {
+            background: rgba(239, 68, 68, 0.25);
+        }
+
+        /* ─── PASSWORD TOGGLE ─── */
+        .pass-wrap {
+            position: relative;
+        }
+
+        .pass-wrap input { padding-right: 2.8rem; }
+
+        .pass-eye {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 32px; height: 32px;
+            border: none;
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: color 0.2s;
+        }
+
+        .pass-eye:hover { color: var(--text); }
+
+        /* ─── CUSTOM CALENDAR (eventi) — tema scuro, numeri grandi ─── */
+        .cal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(4, 3, 12, 0.72);
+            backdrop-filter: blur(14px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 16px;
+        }
+
+        .cal {
+            width: min(400px, 94vw);
+            color-scheme: dark;
+            background: linear-gradient(165deg, #16122a 0%, #0e0c1c 45%, #12101f 100%);
+            border: 0.5px solid rgba(168, 85, 247, 0.42);
+            border-radius: 20px;
+            box-shadow:
+                0 0 0 1px rgba(255,255,255,0.04) inset,
+                0 28px 100px rgba(0,0,0,0.75);
+            overflow: hidden;
+        }
+
+        .cal-top {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 16px 16px 12px;
+            border-bottom: 0.5px solid rgba(255,255,255,0.09);
+            background: linear-gradient(135deg, rgba(168,85,247,0.18), rgba(236,72,153,0.10) 55%, rgba(6,182,212,0.06));
+        }
+
+        .cal-month {
+            font-family: 'Syne', sans-serif; font-weight: 800; letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #d8b4fe 0%, #f472b6 45%, #67e8f9 100%);
+            -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+            font-size: 1.2rem;
+        }
+
+        .cal-nav { display: inline-flex; gap: 10px; }
+
+        .cal-btn {
+            width: 42px; height: 42px; border-radius: 14px;
+            background: rgba(255,255,255,0.07);
+            border: 0.5px solid rgba(255,255,255,0.12);
+            color: var(--text); cursor: pointer;
+            display: inline-flex; align-items: center; justify-content: center;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.15rem;
+            line-height: 1;
+        }
+
+        .cal-btn:hover { border-color: rgba(168,85,247,0.55); background: rgba(168,85,247,0.16); }
+
+        .cal-grid { padding: 14px 16px 16px; background: rgba(0,0,0,0.12); }
+
+        .cal-dow {
+            display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 10px;
+            color: rgba(255,255,255,0.5); font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.1em;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .cal-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+
+        .day {
+            min-height: 46px;
+            border-radius: 14px;
+            border: 0.5px solid rgba(255,255,255,0.10);
+            background: rgba(255,255,255,0.06);
+            color: #f4f4f8;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .day:hover { border-color: rgba(6,182,212,0.45); background: rgba(6,182,212,0.14); color: #fff; }
+        .day.muted { opacity: 0.28; cursor: default; background: rgba(255,255,255,0.02); }
+
+        .day.selected {
+            border-color: rgba(168,85,247,0.75);
+            background: linear-gradient(145deg, rgba(168,85,247,0.45), rgba(236,72,153,0.28));
+            color: #fff; font-weight: 800;
+            box-shadow: 0 0 20px rgba(168,85,247,0.25);
+        }
+
+        .cal-bottom {
+            padding: 12px 16px 16px; display: flex; gap: 12px;
+            justify-content: space-between;
+            border-top: 0.5px solid rgba(255,255,255,0.09);
+            background: rgba(0,0,0,0.15);
+        }
+
+        .cal-action {
+            flex: 1; border-radius: 14px; padding: 0.78rem 0.95rem; cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            border: 0.5px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.07);
+            color: var(--text);
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .cal-action.primary { border: none; background: linear-gradient(135deg, #a855f7, #ec4899); color: #fff; }
+
+        /* Data filtro recensioni — tema scuro (picker nativo dove supportato) */
+        .review-date-input {
+            color-scheme: dark;
+            min-height: 2.85rem;
+            padding: 0.72rem 1rem;
+            font-size: 1.05rem;
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+            background: rgba(10, 8, 22, 0.85) !important;
+            border: 0.5px solid rgba(168, 85, 247, 0.28) !important;
+            border-radius: 12px;
+            color: var(--text) !important;
+        }
+        .review-date-input:focus {
+            border-color: rgba(168, 85, 247, 0.55) !important;
+            box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.15);
+        }
+        .review-date-input::-webkit-calendar-picker-indicator {
+            cursor: pointer;
+            opacity: 0.9;
+            filter: invert(0.92) hue-rotate(260deg) brightness(1.15);
+        }
+
+        [hidden] { display: none !important; }
+
+        @media (max-width: 1024px) {
+            .nav-menu-btn {
+                display: inline-flex;
+            }
+
+            .site-nav.nav-open {
+                z-index: 1900;
+                background: transparent;
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
+                padding-top: 0;
+                padding-bottom: 0;
+            }
+
+            .site-nav.nav-open .nav-top {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 1903;
+                flex: none;
+                width: 100%;
+                max-width: none;
+                box-sizing: border-box;
+                padding: calc(0.9rem + env(safe-area-inset-top, 0px)) max(4.5vw, env(safe-area-inset-right, 0px)) 0.9rem max(4.5vw, env(safe-area-inset-left, 0px));
+                margin: 0;
+                background: var(--bg);
+                border-bottom: 0.5px solid var(--border);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+            }
+
+            nav ul.nav-main-list {
+                position: fixed;
+                top: 0;
+                right: 0;
+                z-index: 1901;
+                width: min(19.5rem, 86vw);
+                max-width: 100%;
+                min-width: 0;
+                flex-shrink: 0;
+                height: 100vh;
+                height: 100dvh;
+                margin: 0;
+                padding: calc(5.15rem + env(safe-area-inset-top, 0px)) 1.35rem calc(2rem + env(safe-area-inset-bottom, 0px));
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                background: var(--bg);
+                border-left: 0.5px solid rgba(168, 85, 247, 0.28);
+                box-shadow: -12px 0 48px rgba(0, 0, 0, 0.45);
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                transform: translateX(102%);
+                transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+            }
+
+            .site-nav.nav-open ul.nav-main-list {
+                transform: translateX(0);
+            }
+
+            nav ul.nav-main-list li {
+                border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
+            }
+
+            nav ul.nav-main-list li:last-child {
+                border-bottom: none;
+            }
+
+            nav ul.nav-main-list a {
+                display: flex;
+                align-items: center;
+                min-height: 48px;
+                padding: 0.35rem 0;
+                font-size: 1rem;
+            }
+
+            nav.site-nav {
+                padding: calc(0.9rem + env(safe-area-inset-top, 0px)) max(4.5vw, env(safe-area-inset-right, 0px)) 0.9rem max(4.5vw, env(safe-area-inset-left, 0px));
+            }
+
+            .logo-text {
+                font-size: 1.12rem;
+            }
+
+            .logo-beta {
+                font-size: 0.56rem;
+                padding: 0.16rem 0.4rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 6rem 1rem 3rem; }
+            .panel { padding: 1.75rem 1.25rem; }
+        }
+        @media (max-width: 980px) {
+            .dash-grid { grid-template-columns: 1fr; }
+            .dash-side { position: relative; top: 0; }
+        }
+
+        /* ─── COOKIE BANNER (essenziali) ─── */
+        .cookie-banner {
+            position: fixed;
+            left: max(16px, env(safe-area-inset-left, 0px));
+            right: max(16px, env(safe-area-inset-right, 0px));
+            bottom: max(16px, env(safe-area-inset-bottom, 0px));
+            z-index: 2000;
+            display: none;
+            background: rgba(14, 12, 28, 0.88);
+            border: 0.5px solid rgba(168, 85, 247, 0.28);
+            box-shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(18px);
+            border-radius: 16px;
+            padding: 0.95rem 0.95rem;
+        }
+        .cookie-banner.visible { display: flex; }
+        .cookie-banner .cookie-inner { display: flex; gap: 0.9rem; width: 100%; align-items: flex-start; }
+        .cookie-banner .cookie-text { flex: 1; min-width: 0; }
+        .cookie-banner .cookie-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.95rem; margin-bottom: 0.25rem; }
+        .cookie-banner .cookie-desc { color: rgba(255,255,255,0.72); font-size: 0.86rem; line-height: 1.45; }
+        .cookie-banner .cookie-desc a { color: #22d3ee; text-decoration: none; }
+        .cookie-banner .cookie-desc a:hover { text-decoration: underline; }
+        .cookie-banner .cookie-actions { display: flex; gap: 0.6rem; align-items: center; flex: 0 0 auto; }
+        .cookie-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 0.5px solid rgba(255,255,255,0.14);
+            background: rgba(255,255,255,0.06);
+            color: var(--text);
+            border-radius: 12px;
+            padding: 0.65rem 0.9rem;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+        .cookie-btn.primary { border: none; background: linear-gradient(135deg, #a855f7, #ec4899); }
+        @media (max-width: 520px) {
+            .cookie-banner .cookie-inner { flex-direction: column; align-items: stretch; }
+            .cookie-banner .cookie-actions { justify-content: flex-end; }
+            .cookie-btn { width: 100%; justify-content: center; }
+        }
+
+        /* ─── Sticker/tags (come mappa index) ─── */
+        .tag {
+            font-size: 0.65rem;
+            padding: 0.2rem 0.55rem;
+            border-radius: 100px;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            white-space: nowrap;
+            border: 0.5px solid rgba(255,255,255,0.08);
+        }
+        .tag-music { background: rgba(168, 85, 247, 0.2); color: #c084fc; }
+        .tag-free  { background: rgba(6, 182, 212, 0.2); color: #22d3ee; }
+        .tag-vip   { background: rgba(234, 179, 8, 0.2); color: #facc15; }
+        .tag-hot   { background: rgba(236, 72, 153, 0.2); color: #f472b6; }
+
+        .sticker-pill { cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent; }
+        .sticker-pill input { display: none; }
+        .sticker-pill .tag {
+            position: relative;
+            transition: transform 0.15s ease, border-color 0.2s ease, background 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+        }
+        .sticker-pill:hover .tag { transform: translateY(-1px); border-color: rgba(168,85,247,0.35); }
+        .sticker-pill input:checked + .tag {
+            border-color: rgba(168, 85, 247, 0.85);
+            background: rgba(168, 85, 247, 0.22);
+            box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.45), 0 8px 26px rgba(168, 85, 247, 0.2);
+            color: #f5e9ff;
+        }
+        .sticker-pill input:focus-visible + .tag {
+            outline: 2px solid rgba(236, 72, 153, 0.85);
+            outline-offset: 3px;
+        }
+        .sticker-pill input:disabled + .tag { opacity: 0.45; cursor: not-allowed; }
+        @media (hover: none) {
+            .sticker-pill input:checked + .tag { transform: scale(1.03); }
+        }
+
+        .custom-stickers-block {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 0.5px solid var(--card-border);
+        }
+        .custom-sticker-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.55rem;
+            margin-bottom: 0.65rem;
+        }
+        .custom-sticker-row .custom-sticker-text {
+            flex: 1 1 180px;
+            min-width: 0;
+            max-width: 100%;
+            padding: 0.55rem 0.8rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(19, 17, 42, 0.75);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.88rem;
+            outline: none;
+        }
+        .custom-sticker-row .custom-sticker-text:focus {
+            border-color: rgba(168, 85, 247, 0.55);
+        }
+        .custom-sticker-row .custom-sticker-text.custom-sticker-text--invalid {
+            border-color: rgba(248, 113, 113, 0.55);
+        }
+        .custom-sticker-row input[type="color"].custom-sticker-color {
+            width: 46px;
+            height: 38px;
+            padding: 2px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.04);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .custom-sticker-remove {
+            padding: 0.45rem 0.8rem !important;
+            font-size: 0.78rem !important;
+            width: auto !important;
+            min-height: 0 !important;
+        }
+        #addCustomStickerBtn {
+            width: auto !important;
+            display: inline-flex !important;
+            padding: 0.55rem 1rem !important;
+            font-size: 0.86rem !important;
+            min-height: 0 !important;
+        }
+        #addCustomStickerBtn:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+        .admin-console {
+            margin-bottom: 1.5rem;
+            padding: 1.25rem 1.2rem;
+            border-radius: 16px;
+            border: 0.5px solid rgba(6, 182, 212, 0.35);
+            background: rgba(6, 182, 212, 0.06);
+        }
+        .admin-console-title {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.05rem;
+            margin-bottom: 0.35rem;
+            color: #e0f2fe;
+        }
+        .admin-console-desc {
+            font-size: 0.82rem;
+            color: var(--muted);
+            margin-bottom: 1rem;
+            line-height: 1.45;
+        }
+        .admin-console-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.35rem;
+            align-items: start;
+        }
+        @media (max-width: 900px) {
+            .admin-console-grid { grid-template-columns: 1fr; }
+        }
+        .admin-console-col {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            min-width: 0;
+        }
+        .admin-console-section {
+            padding: 1rem 1.05rem;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(8, 12, 24, 0.55);
+        }
+        .admin-console-section-head {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 0.88rem;
+            letter-spacing: 0.02em;
+            color: #e0f2fe;
+            margin: 0 0 0.65rem;
+            padding-bottom: 0.45rem;
+            border-bottom: 1px solid rgba(6, 182, 212, 0.22);
+        }
+        .admin-console-hint {
+            font-size: 0.78rem;
+            color: var(--muted);
+            line-height: 1.45;
+            margin: 0 0 0.75rem;
+        }
+        .admin-console-btn-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+            margin-bottom: 0.65rem;
+        }
+        .admin-radio-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
+        }
+        .admin-radio-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.55rem;
+            margin: 0;
+            padding: 0.55rem 0.7rem;
+            border-radius: 11px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.035);
+            cursor: pointer;
+            font-size: 0.83rem;
+            line-height: 1.4;
+            color: var(--text);
+            transition: border-color 0.15s ease, background 0.15s ease;
+        }
+        .admin-radio-card:hover {
+            border-color: rgba(6, 182, 212, 0.35);
+            background: rgba(6, 182, 212, 0.08);
+        }
+        .admin-radio-card input {
+            margin-top: 0.18rem;
+            flex-shrink: 0;
+            accent-color: #22d3ee;
+        }
+        /* Checkbox «APERTO vs LIVE»: nel titolo accanto al badge, senza testo lungo nel modulo */
+        .dash-badge-style-toggle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 0.2rem;
+            cursor: pointer;
+            vertical-align: middle;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .dash-badge-style-toggle input {
+            width: 1.05rem;
+            height: 1.05rem;
+            margin: 0;
+            accent-color: #94a3b8;
+            flex-shrink: 0;
+        }
+        .admin-save-kind-btn {
+            width: 100%;
+            margin-top: 0.75rem;
+            justify-content: center;
+        }
+        .admin-subtitle {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 0.92rem;
+            margin-bottom: 0.45rem;
+            color: var(--text);
+        }
+        .admin-venue-select {
+            width: 100%;
+            margin-top: 0.65rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(19, 17, 42, 0.85);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.82rem;
+            padding: 0.35rem;
+        }
+        .admin-console .btn { width: auto !important; min-height: 0 !important; display: inline-flex !important; }
+        #adminReviewText {
+            width: 100%;
+            min-height: 4.5rem;
+            padding: 0.55rem 0.75rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(19, 17, 42, 0.75);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            resize: vertical;
+        }
+
+        .admin-venue-partner-block {
+            margin: 1rem 0 1.25rem;
+            padding: 1rem 1.1rem;
+            border-radius: 14px;
+            border: 0.5px solid rgba(251, 191, 36, 0.35);
+            background: rgba(251, 191, 36, 0.06);
+        }
+        .admin-venue-partner-block h3 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 0.98rem;
+            margin: 0 0 0.35rem;
+            color: #fde68a;
+        }
+        .btn-admin-venue-delete {
+            border-color: rgba(248, 113, 113, 0.55) !important;
+            color: #fecaca !important;
+            background: rgba(127, 29, 29, 0.25) !important;
+        }
+        .btn-admin-venue-delete:hover {
+            filter: brightness(1.08);
+        }
+
+        .admin-confirm-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 4000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            font-family: 'DM Sans', sans-serif;
+        }
+        .admin-confirm-modal[hidden] {
+            display: none !important;
+        }
+        .admin-confirm-modal .admin-confirm-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(5, 6, 12, 0.78);
+            backdrop-filter: blur(8px);
+        }
+        .admin-confirm-modal .admin-confirm-panel {
+            position: relative;
+            z-index: 1;
+            width: min(420px, 100%);
+            padding: 1.25rem 1.3rem;
+            border-radius: 16px;
+            border: 1px solid rgba(248, 113, 113, 0.45);
+            background: linear-gradient(165deg, rgba(30, 20, 28, 0.98), #0a0b14);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+        }
+        .admin-confirm-modal .admin-confirm-panel h3 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.05rem;
+            margin: 0 0 0.5rem;
+            color: var(--text);
+        }
+        .admin-confirm-modal .admin-confirm-err {
+            color: #fca5a5;
+            font-size: 0.8rem;
+            min-height: 1.2rem;
+            margin-top: 0.35rem;
+        }
+
+        /* Genere musicale custom */
+        .inline-helper { color: var(--muted); font-size: 0.82rem; margin-top: 0.35rem; }
+    </style>
+</head>
+
+<body>
+
+    <div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite" aria-label="Cookie e preferenze">
+        <div class="cookie-inner">
+            <div class="cookie-text">
+                <div class="cookie-title">Cookie e statistiche</div>
+                <div class="cookie-desc">
+                    Cookie e memorizzazione locale necessari al funzionamento di FindMyNight. In modo facoltativo puoi attivare
+                    <strong>Google Analytics 4</strong> (ID <code>G-4B41LWXFR3</code>) per statistiche sulle visite. Dettagli nella
+                    <a href="privacy.html">Privacy Policy</a>.
+                </div>
+            </div>
+            <div class="cookie-actions">
+                <button type="button" class="cookie-btn" id="cookieEssentialBtn">Solo necessari</button>
+                <button type="button" class="cookie-btn primary" id="cookieStatsBtn">Accetto anche le statistiche</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAV -->
+    <nav class="site-nav" id="siteNav">
+        <div class="nav-top">
+            <a class="logo" href="index.html">
+                <img src="logo.png" alt="" width="26" height="26" decoding="async" />
+                <span class="logo-text">FindMyNight</span>
+                <span class="logo-beta" title="Sito in beta: funzioni e contenuti in evoluzione" aria-label="Beta">beta</span>
+            </a>
+            <button type="button" class="nav-menu-btn" id="navMenuBtn" aria-expanded="false" aria-controls="navMainList" aria-label="Apri menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <div class="nav-menu-backdrop" id="navMenuBackdrop" aria-hidden="true"></div>
+        <ul id="navMainList" class="nav-main-list">
+            <li><a href="locali.html">Locali</a></li>
+            <li><a href="chat.html">Chat</a></li>
+            <li><a href="partner.html" aria-current="page">Area Partner</a></li>
+            <li class="nav-menu-logout" id="navLogoutWrap" hidden>
+                <a href="#" id="navLogout" class="nav-partner-logout">Esci</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="container">
+
+        <!-- ════════ LOGIN ════════ -->
+        <div id="loginPanel" class="panel">
+            <h1 class="panel-title">Area Partner</h1>
+            <p class="panel-sub">Accedi per aggiornare i dati del tuo locale in tempo reale.</p>
+
+            <div id="loginError" class="msg msg-error"></div>
+
+            <div class="field">
+                <label for="loginEmail">Email</label>
+                <input id="loginEmail" type="email" placeholder="info@tuolocale.it" autocomplete="email" />
+            </div>
+
+            <div class="field">
+                <label for="loginPass">Password</label>
+                <div class="pass-wrap">
+                    <input id="loginPass" type="password" placeholder="••••••••" autocomplete="current-password" />
+                    <button type="button" class="pass-eye" id="passToggle" aria-label="Mostra/nascondi password">
+                        <svg id="eyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary" id="loginBtn">Accedi</button>
+        </div>
+
+        <!-- ════════ DASHBOARD ════════ -->
+        <div id="dashPanel" hidden>
+            <div class="dash-grid">
+                <div class="panel">
+                    <h1 class="panel-title dash-title-with-badge" id="dashTitle">
+                        Il tuo locale
+                        <span class="live-badge" id="dashLiveBadge">● LIVE</span>
+                        <label class="dash-badge-style-toggle" for="fVenueIsBar" title="Se attivo: badge APERTO (grigio) invece del verde LIVE quando il locale è aperto.">
+                            <input type="checkbox" id="fVenueIsBar" aria-label="Badge APERTO invece di LIVE quando il locale è aperto" />
+                        </label>
+                    </h1>
+                    <p class="panel-sub" id="dashSub">Modifica i dati — le modifiche appaiono subito sul sito.</p>
+
+                    <div class="stat-pills" id="dashPills">
+                        <span class="stat-pill">Locale: <strong id="pillName">—</strong></span>
+                        <span class="stat-pill">Ultimo aggiornamento: <strong id="pillUpdated">—</strong></span>
+                        <span class="stat-pill" id="pillAdminMode" hidden>Modalità: <strong>Amministratore</strong></span>
+                    </div>
+
+                    <div id="adminConsole" class="admin-console" hidden>
+                        <h2 class="admin-console-title">Gestione centralizzata (solo admin)</h2>
+                        <p class="admin-console-desc">
+                            Cerca per <strong>nome o ID</strong> nell’elenco, apri un locale: modifichi tutto come il partner (scheda sotto), aggiungi o elimini recensioni (elimina solo dopo aver scritto <strong>Conferma</strong>).
+                            <strong>Elimina locale</strong> rimuove il documento <code>venues</code>, le righe in <code>reviews</code> con lo stesso <code>venueId</code> e il documento <code>partners/{uid}</code> se collegato — <strong>non</strong> cancella l’utente da Firebase Authentication (fallo dalla Console se serve).
+                            Nuovo partner: seconda app Auth così resti loggato come admin. In Firestore servono permessi admin su <code>venues</code>, <code>partners</code>, <code>reviews</code>.
+                        </p>
+                        <div class="admin-console-grid">
+                            <div class="admin-console-col">
+                                <section class="admin-console-section" aria-labelledby="adminSecListTitle">
+                                    <h3 class="admin-console-section-head" id="adminSecListTitle">Elenco locali</h3>
+                                    <div class="field" style="margin-bottom:0.55rem;">
+                                        <label for="adminVenueFilter">Cerca per nome o ID documento</label>
+                                        <input type="text" id="adminVenueFilter" placeholder="Nome locale, slug…" autocomplete="off" />
+                                    </div>
+                                    <div class="admin-console-btn-row">
+                                        <button type="button" class="btn btn-secondary" id="adminRefreshVenuesBtn">Aggiorna</button>
+                                        <button type="button" class="btn btn-primary" id="adminOpenVenueBtn">Apri selezionato</button>
+                                        <button type="button" class="btn btn-secondary" id="adminClearOverrideBtn">Annulla scelta</button>
+                                        <button type="button" class="btn btn-secondary btn-admin-venue-delete" id="adminDeleteVenueBtn" title="Elimina documento Firestore">Elimina…</button>
+                                    </div>
+                                    <select id="adminVenueSelect" class="admin-venue-select" size="11" aria-label="Locali Firestore"></select>
+                                </section>
+                                <section class="admin-console-section" aria-labelledby="adminSecKindTitle">
+                                    <h3 class="admin-console-section-head" id="adminSecKindTitle">Bar o discoteca</h3>
+                                    <p class="admin-console-hint">Stesso valore della checkbox accanto al badge LIVE nel titolo (<code>venues.isBar</code>). Apri un locale, scegli il tipo e clicca <strong>Aggiorna tipo sul sito</strong> (oppure usa <strong>Salva modifiche</strong> in fondo per tutto il modulo).</p>
+                                    <div class="admin-radio-stack" id="adminVenueKindEditBlock">
+                                        <label class="admin-radio-card" for="adminEditVenueKindDisco">
+                                            <input type="radio" name="adminEditVenueKind" id="adminEditVenueKindDisco" value="disco" />
+                                            <span><strong>Discoteca</strong> — badge <span style="color:#4ade80;">LIVE</span> verde se il locale è aperto.</span>
+                                        </label>
+                                        <label class="admin-radio-card" for="adminEditVenueKindBar">
+                                            <input type="radio" name="adminEditVenueKind" id="adminEditVenueKindBar" value="bar" />
+                                            <span><strong>Bar</strong> — badge <span style="color:#94a3b8;">APERTO</span> neutro (niente LIVE verde).</span>
+                                        </label>
+                                    </div>
+                                    <button type="button" class="btn btn-primary admin-save-kind-btn" id="adminSaveVenueKindBtn">Aggiorna tipo sul sito</button>
+                                </section>
+                            </div>
+                            <div class="admin-console-col">
+                                <section class="admin-console-section" aria-labelledby="adminSecPartnerTitle">
+                                    <h3 class="admin-console-section-head" id="adminSecPartnerTitle">Nuovo account partner</h3>
+                                    <p class="admin-console-hint">Email e password Firebase: viene creato <code>partners/{uid}</code> collegato al locale <strong>attualmente aperto</strong>.</p>
+                                    <div class="field">
+                                        <label for="adminNewPartnerEmail">Email</label>
+                                        <input type="email" id="adminNewPartnerEmail" autocomplete="off" />
+                                    </div>
+                                    <div class="field">
+                                        <label for="adminNewPartnerPass">Password (min. 6 caratteri)</label>
+                                        <input type="password" id="adminNewPartnerPass" autocomplete="new-password" />
+                                    </div>
+                                    <p class="admin-console-hint" style="margin-bottom:0.45rem;">Tipo alla creazione (<code>venues.isBar</code>)</p>
+                                    <div class="admin-radio-stack">
+                                        <label class="admin-radio-card" for="adminVenueKindDisco">
+                                            <input type="radio" name="adminNewVenueKind" id="adminVenueKindDisco" value="disco" checked />
+                                            <span><strong>Discoteca</strong> — LIVE verde quando aperto.</span>
+                                        </label>
+                                        <label class="admin-radio-card" for="adminVenueKindBar">
+                                            <input type="radio" name="adminNewVenueKind" id="adminVenueKindBar" value="bar" />
+                                            <span><strong>Bar</strong> — APERTO neutro.</span>
+                                        </label>
+                                    </div>
+                                    <p class="inline-helper" style="margin:0.65rem 0 0.5rem;">Locale: <strong id="adminCreateLinkVenueId">—</strong></p>
+                                    <button type="button" class="btn btn-primary" id="adminCreatePartnerBtn">Crea account e collega</button>
+                                    <div id="adminCreatePartnerMsg" class="msg msg-ok" style="display:none;margin-top:0.65rem;"></div>
+                                </section>
+                                <section class="admin-console-section" aria-labelledby="adminSecRevTitle">
+                                    <h3 class="admin-console-section-head" id="adminSecRevTitle">Recensione admin</h3>
+                                    <p class="admin-console-hint">Sul locale aperto. Per eliminare le esistenti usa la colonna a destra (conferma <strong>Conferma</strong>).</p>
+                                    <p class="inline-helper" id="adminReviewsCountLine" style="margin:0 0 0.65rem;display:none;">Caricate: <strong id="adminReviewCount">0</strong> (max 200)</p>
+                                    <div class="field">
+                                        <label for="adminReviewRating">Voto</label>
+                                        <select id="adminReviewRating">
+                                            <option value="5">5</option>
+                                            <option value="4">4</option>
+                                            <option value="3">3</option>
+                                            <option value="2">2</option>
+                                            <option value="1">1</option>
+                                        </select>
+                                    </div>
+                                    <div class="field">
+                                        <label for="adminReviewNick">Nickname</label>
+                                        <input type="text" id="adminReviewNick" maxlength="32" placeholder="FindMyNight" />
+                                    </div>
+                                    <div class="field">
+                                        <label for="adminReviewText">Testo (opzionale)</label>
+                                        <textarea id="adminReviewText" maxlength="1200" placeholder="Messaggio ufficiale, benvenuto…"></textarea>
+                                    </div>
+                                    <button type="button" class="btn btn-secondary" id="adminPostReviewBtn">Pubblica recensione</button>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="dashError" class="msg msg-error"></div>
+                    <div id="dashOk" class="msg msg-ok"></div>
+
+                    <div id="adminVenuePartnerBlock" class="admin-venue-partner-block" hidden>
+                        <h3>Account accesso partner (Firebase)</h3>
+                        <p class="inline-helper" style="margin-top:0;">Email con cui il gestore fa login in Area Partner. La password non è visibile: usa reset email o crea un nuovo utente con email diversa.</p>
+                        <div class="field" style="margin-top:0.65rem;">
+                            <label for="fAdminPartnerEmail">Email partner (salvata anche su <code>venues</code>)</label>
+                            <input type="email" id="fAdminPartnerEmail" autocomplete="off" placeholder="gestore@locale.it" />
+                        </div>
+                        <p class="inline-helper" style="margin-top:0.15rem;">UID Firebase: <code id="adminPartnerUidDisplay" style="font-size:0.78rem;">—</code></p>
+                        <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.65rem;">
+                            <button type="button" class="btn btn-secondary" id="adminPartnerPasswordResetBtn">Invia email reimpostazione password</button>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="fVenueName">Nome locale (pubblico su Locali / mappa)</label>
+                        <input id="fVenueName" type="text" maxlength="120" placeholder="es. Life Club Rovetta" autocomplete="organization" />
+                    </div>
+
+                    <div class="field">
+                        <label for="fEventoNome">Nome serata</label>
+                        <input id="fEventoNome" type="text" placeholder="es. Follia, Sunset Party…" />
+                    </div>
+
+                    <div class="field">
+                        <label for="fAffluenza">Affluenza (%)</label>
+                        <input id="fAffluenza" type="number" min="0" max="100" placeholder="70" />
+                    </div>
+
+                    <div class="field">
+                        <label for="fIngresso">Ingresso (€) — 0 = gratis</label>
+                        <input id="fIngresso" type="number" min="0" placeholder="10" />
+                    </div>
+
+                    <div class="field">
+                        <label for="fDrink">Drink medio (€)</label>
+                        <input id="fDrink" type="number" min="0" placeholder="8" />
+                    </div>
+
+                    <div class="field">
+                        <label for="fNote">Messaggio per gli utenti (opzionale)</label>
+                        <input id="fNote" type="text" placeholder="Es. Tavoli sold out, ingresso ridotto entro 00:30…" maxlength="80" />
+                        <div class="inline-helper">Appare come avviso sul tuo locale.</div>
+                    </div>
+
+                    <div class="field">
+                        <label>Immagine del locale</label>
+                        <p style="font-size:0.75rem;color:#fca5a5;margin-bottom:0.5rem;">Non caricare immagini protette da copyright. Usa solo foto tue o di cui hai i diritti.</p>
+
+                        <label for="fImageFile" class="btn btn-secondary" style="margin-bottom:0.5rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.5rem;">
+                            📷 Carica dalla galleria
+                        </label>
+                        <input id="fImageFile" type="file" accept="image/*" hidden />
+                        <div id="uploadProgress" style="display:none;font-size:0.78rem;color:var(--accent3);margin-bottom:0.5rem;">Caricamento…</div>
+
+                        <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;">
+                            <div style="flex:1;height:0.5px;background:var(--card-border);"></div>
+                            <span style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">oppure incolla un link</span>
+                            <div style="flex:1;height:0.5px;background:var(--card-border);"></div>
+                        </div>
+
+                        <input id="fImageUrl" type="url" placeholder="https://esempio.com/foto-locale.jpg" />
+                        <div id="imagePreview" style="margin-top:0.5rem;border-radius:10px;overflow:hidden;display:none;max-height:180px;">
+                            <img id="imagePreviewImg" src="" alt="Anteprima" style="width:100%;height:180px;object-fit:cover;display:block;" />
+                        </div>
+                    </div>
+
+                    <div style="margin:1.25rem 0 0;padding-top:1rem;border-top:0.5px solid var(--card-border);">
+                        <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;margin-bottom:0.15rem;">Social</h2>
+                        <p class="inline-helper" style="margin-bottom:0.85rem;">Icone Instagram e Facebook sulle card in <strong>locali.html</strong>. URL completo oppure @nome o slug pagina.</p>
+                        <div class="field" style="margin-bottom:0.85rem;">
+                            <label for="fInstagram">Instagram (opzionale)</label>
+                            <input id="fInstagram" type="text" placeholder="https://instagram.com/tuolocale oppure @tuolocale" maxlength="200" autocomplete="off" />
+                        </div>
+                        <div class="field" style="margin-bottom:0;">
+                            <label for="fFacebook">Facebook (opzionale)</label>
+                            <input id="fFacebook" type="text" placeholder="https://facebook.com/tuolocale" maxlength="200" autocomplete="off" />
+                        </div>
+                    </div>
+
+                    <!-- ─── EVENTI ─── -->
+                    <div style="margin:1.5rem 0 0.75rem;padding-top:1rem;border-top:0.5px solid var(--card-border);">
+                        <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;margin-bottom:0.15rem;">Eventi e serate</h2>
+                        <p style="color:var(--muted);font-size:0.82rem;margin-bottom:1rem;">Aggiungi le prossime serate. Appariranno nella pagina Locali con il calendario.</p>
+                    </div>
+
+                    <div id="eventiList"></div>
+
+                    <button type="button" class="btn btn-secondary" id="addEventoBtn" style="margin-bottom:1.5rem;">+ Aggiungi evento</button>
+
+                    <div class="field">
+                        <label for="fMusica">Genere musicale</label>
+                        <select id="fMusica">
+                            <option value="">— Seleziona —</option>
+                            <option>Techno</option>
+                            <option>House</option>
+                            <option>Reggaeton</option>
+                            <option>Pop / commerciali</option>
+                            <option>Hip hop</option>
+                            <option>EDM</option>
+                            <option>Latin</option>
+                            <option>Indie / alternativa</option>
+                            <option>Commercial / dance</option>
+                            <option>Altro</option>
+                        </select>
+                        <input id="fMusicaAltro" type="text" placeholder="Scrivi il tuo genere (es. Tech house, Hard techno…)" style="display:none;margin-top:0.55rem;" />
+                        <div class="inline-helper" id="fMusicaAltroHint" style="display:none;">Questo testo verrà mostrato come sticker/descrizione del locale.</div>
+                    </div>
+
+                    <div class="field">
+                        <label>Sticker del locale (max 4)</label>
+                        <p style="color:var(--muted);font-size:0.82rem;margin-top:-0.25rem;margin-bottom:0.6rem;">
+                            Fino a <strong>4 sticker in totale</strong> tra preset e personalizzati. Testo breve, rispettoso (niente volgarità), visibile sulla mappa in home.
+                        </p>
+                        <div id="stickersWrap" style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+                            <label class="sticker-pill">
+                                <input type="checkbox" class="stickerOpt" value="nightclub" />
+                                <span class="tag tag-music">Nightclub</span>
+                            </label>
+                            <label class="sticker-pill">
+                                <input type="checkbox" class="stickerOpt" value="free_entry" />
+                                <span class="tag tag-free">Ingresso gratis</span>
+                            </label>
+                            <label class="sticker-pill">
+                                <input type="checkbox" class="stickerOpt" value="vip" />
+                                <span class="tag tag-vip">VIP</span>
+                            </label>
+                            <label class="sticker-pill">
+                                <input type="checkbox" class="stickerOpt" value="cocktail_bar" />
+                                <span class="tag tag-free">Cocktail bar</span>
+                            </label>
+                            <label class="sticker-pill">
+                                <input type="checkbox" class="stickerOpt" value="techno" />
+                                <span class="tag tag-music">Techno</span>
+                            </label>
+                            <label class="sticker-pill">
+                                <input type="checkbox" class="stickerOpt" value="house" />
+                                <span class="tag tag-music">House</span>
+                            </label>
+                        </div>
+                        <div id="stickersHint" style="margin-top:0.5rem;font-size:0.78rem;color:var(--muted);">0/4 selezionati</div>
+
+                        <div class="custom-stickers-block">
+                            <p style="font-size:0.78rem;color:var(--muted);margin-bottom:0.65rem;line-height:1.45;">
+                                Sticker personalizzati: scegli il colore del bordo/testo. Solo lettere, numeri, spazi e apostrofi (max 28 caratteri).
+                            </p>
+                            <div id="customStickersList"></div>
+                            <button type="button" class="btn btn-secondary" id="addCustomStickerBtn">+ Aggiungi sticker personalizzato</button>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="fPicco">Orario picco</label>
+                        <select id="fPicco">
+                            <option value="">— Seleziona —</option>
+                            <option>22:00</option>
+                            <option>22:30</option>
+                            <option>23:00</option>
+                            <option>23:30</option>
+                            <option>00:00</option>
+                            <option>00:30</option>
+                            <option>01:00</option>
+                            <option>01:30</option>
+                            <option>02:00</option>
+                            <option>02:30</option>
+                            <option>03:00</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="fAge">Fascia età prevalente</label>
+                        <select id="fAge">
+                            <option value="">— Seleziona —</option>
+                            <option>School (14+)</option>
+                            <option>16+</option>
+                            <option>18–21</option>
+                            <option>18–24</option>
+                            <option>19–26</option>
+                            <option>20–28</option>
+                            <option>22–28</option>
+                            <option>23–30</option>
+                            <option>25–35</option>
+                            <option>30+</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label>Stato locale</label>
+                        <div class="toggle-row">
+                            <span id="apertoLabel">Chiuso</span>
+                            <label class="toggle">
+                                <input type="checkbox" id="fAperto" />
+                                <div class="slider"></div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="map-scheda-home-block" style="margin-bottom:1.25rem;">
+                        <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;margin-bottom:0.35rem;">Chat pubblica (badge Google)</h2>
+                        <p class="inline-helper" style="margin-bottom:0.75rem;">
+                            Indica l’email con cui accedi in <strong>chat.html</strong> con Google: così compaiono gli stemmi
+                            <strong>Discoteca</strong> e <strong>PR · nome locale</strong> accanto al nome. Le email PR sono facoltative.
+                        </p>
+                        <div class="field">
+                            <label for="fChatDiscotecaEmail">Email ufficiale locale (badge «Discoteca»)</label>
+                            <input type="email" id="fChatDiscotecaEmail" maxlength="254" autocomplete="email" placeholder="es. info@tuolocale.it" />
+                            <p class="inline-helper" style="margin-top:0.35rem;margin-bottom:0;">Se lasci vuoto, in chat si usa l’email partner solo se già impostata sul documento locale (di solito da admin).</p>
+                        </div>
+                        <div class="field" style="margin-top:0.85rem;">
+                            <label class="map-vis-pill" style="cursor:pointer;display:inline-flex;align-items:center;gap:0.45rem;">
+                                <input type="checkbox" id="fChatPrEnabled" />
+                                <span class="map-vis-pill-ui">Abilita badge PR (email sotto)</span>
+                            </label>
+                        </div>
+                        <div class="field" id="fChatPrBlock" style="margin-top:0.5rem;display:none;">
+                            <label for="fChatPrEmails">Email dei PR (una per riga)</label>
+                            <textarea id="fChatPrEmails" rows="4" maxlength="2000" placeholder="pr1@agenzia.it&#10;pr2@…" style="width:100%;min-height:5.5rem;font-family:inherit;font-size:0.9rem;padding:0.55rem 0.65rem;border-radius:10px;border:1px solid var(--card-border);background:var(--bg2);color:var(--text);resize:vertical;"></textarea>
+                            <p class="inline-helper" style="margin-top:0.35rem;margin-bottom:0;">Disattiva la spunta sopra per nascondere questa sezione e togliere i badge PR dalla chat (le email non vengono più usate finché non riabiliti).</p>
+                        </div>
+                        <p class="inline-helper" style="margin-top:0.75rem;margin-bottom:0;line-height:1.45;">
+                            Gli stemmi valgono nella <strong>chat ufficiale del locale</strong> (stanza = ID documento Firestore).
+                            <a id="partnerChatRoomLink" href="chat.html" target="_blank" rel="noopener">Apri quella chat →</a>
+                        </p>
+                    </div>
+
+                    <div class="map-scheda-home-block">
+                        <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;margin-bottom:0.2rem;">Scheda sulla mappa (home)</h2>
+                        <p class="inline-helper" style="margin-bottom:0.75rem;">Nome, distanza, stelle e badge LIVE/CHIUSO restano sempre visibili. Deseleziona le opzioni qui sotto per rendere la card più compatta.</p>
+                        <div class="map-vis-pills" role="group" aria-label="Elementi opzionali sulla card in home">
+                            <label class="map-vis-pill">
+                                <input type="checkbox" id="mapShowAffluenza" checked />
+                                <span class="map-vis-pill-ui">Barra affluenza</span>
+                            </label>
+                            <label class="map-vis-pill">
+                                <input type="checkbox" id="mapShowStickers" checked />
+                                <span class="map-vis-pill-ui">Sticker</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-primary" id="saveBtn">Salva modifiche</button>
+                    <button type="button" class="btn btn-danger" id="logoutBtn">Esci dall'account</button>
+                </div>
+
+                <aside class="dash-side">
+                    <div class="panel" style="padding:1.6rem 1.4rem;">
+                        <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;margin-bottom:0.15rem;">Recensioni del tuo locale</h2>
+                        <p style="color:var(--muted);font-size:0.82rem;margin-bottom:0.75rem;">Queste sono le recensioni inviate dagli utenti (non la media).</p>
+                        <div style="display:flex;flex-wrap:wrap;gap:0.65rem;align-items:flex-end;margin-bottom:0.85rem;">
+                            <div class="field" style="margin:0;flex:1;min-width:160px;">
+                                <label for="reviewFilterDate">Filtra per giornata</label>
+                                <input id="reviewFilterDate" class="review-date-input" type="date" />
+                            </div>
+                            <button type="button" class="btn btn-secondary" id="reviewFilterClear" style="padding:0.5rem 0.9rem;font-size:0.82rem;margin-bottom:0.05rem;">Tutte le date</button>
+                        </div>
+                        <div id="partnerReviews" style="display:flex;flex-direction:column;gap:0.65rem;"></div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Custom calendar overlay -->
+    <div class="cal-overlay" id="calOverlay" aria-hidden="true">
+        <div class="cal" role="dialog" aria-modal="true" aria-label="Seleziona data evento">
+            <div class="cal-top">
+                <div class="cal-month" id="calMonthLabel">—</div>
+                <div class="cal-nav">
+                    <button class="cal-btn" id="calPrev" type="button" aria-label="Mese precedente">‹</button>
+                    <button class="cal-btn" id="calNext" type="button" aria-label="Mese successivo">›</button>
+                </div>
+            </div>
+            <div class="cal-grid">
+                <div class="cal-dow">
+                    <div>Lun</div><div>Mar</div><div>Mer</div><div>Gio</div><div>Ven</div><div>Sab</div><div>Dom</div>
+                </div>
+                <div class="cal-days" id="calDays"></div>
+            </div>
+            <div class="cal-bottom">
+                <button class="cal-action" id="calClear" type="button">Pulisci</button>
+                <button class="cal-action primary" id="calApply" type="button">Conferma</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="adminTypedConfirmModal" class="admin-confirm-modal" hidden aria-hidden="true">
+        <div class="admin-confirm-backdrop" id="adminTypedConfirmBackdrop"></div>
+        <div class="admin-confirm-panel" role="dialog" aria-modal="true" aria-labelledby="adminTypedConfirmTitle">
+            <h3 id="adminTypedConfirmTitle">Conferma</h3>
+            <p id="adminTypedConfirmBody" class="inline-helper" style="margin-bottom:0.75rem;"></p>
+            <div class="field" style="margin-bottom:0;">
+                <label for="adminTypedConfirmInput">Digita <strong>Conferma</strong> (maiuscola C, resto minuscolo)</label>
+                <input type="text" id="adminTypedConfirmInput" autocomplete="off" />
+            </div>
+            <div id="adminTypedConfirmErr" class="admin-confirm-err"></div>
+            <div style="display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:flex-end;margin-top:1rem;">
+                <button type="button" class="btn btn-secondary" id="adminTypedConfirmCancel">Annulla</button>
+                <button type="button" class="btn btn-primary" id="adminTypedConfirmOk" style="background:linear-gradient(135deg,#b91c1c,#7f1d1d);border:none;">Procedi</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>© 2026 FindMyNight · <a href="index.html">Torna al sito</a></p>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+    <script src="fmn-firebase-public.js"></script>
+    <script src="fmn-secrets.defaults.js"></script>
+
+    <script>
+        if (!window.FMN_FIREBASE_CONFIG) {
+            throw new Error('FindMyNight: carica fmn-firebase-public.js prima di questo script.');
+        }
+        firebase.initializeApp(window.FMN_FIREBASE_CONFIG);
+        const auth    = firebase.auth();
+        const db      = firebase.firestore();
+        const storage = firebase.storage();
+
+        // Admin: recensioni, console partner globale, ecc. (+ FMN_ADMIN_EMAILS da fmn-secrets.local.js)
+        const ADMIN_EMAILS = new Set(
+            [
+                'findmynight.info@gmail.com',
+                'oscar-admin@findmynight.it'
+            ].concat(
+                Array.isArray(window.FMN_ADMIN_EMAILS) ? window.FMN_ADMIN_EMAILS : []
+            ).map((e) => String(e || '').toLowerCase().trim()).filter(Boolean)
+        );
+
+        // ── Password toggle ──
+        const passToggle = document.getElementById('passToggle');
+        const loginPassEl = document.getElementById('loginPass');
+        const eyeIcon = document.getElementById('eyeIcon');
+        passToggle.addEventListener('click', () => {
+            const show = loginPassEl.type === 'password';
+            loginPassEl.type = show ? 'text' : 'password';
+            eyeIcon.innerHTML = show
+                ? '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>'
+                : '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+        });
+
+        // ── Custom calendar (partner) ──
+        const calOverlay    = document.getElementById('calOverlay');
+        const calMonthLabel = document.getElementById('calMonthLabel');
+        const calDaysEl     = document.getElementById('calDays');
+        const calPrev       = document.getElementById('calPrev');
+        const calNext       = document.getElementById('calNext');
+        const calClear      = document.getElementById('calClear');
+        const calApply      = document.getElementById('calApply');
+
+        let calView = null;
+        let calSelected = null;
+        let calTargetIdx = null;
+
+        function pad2(n) { return String(n).padStart(2, '0'); }
+        function toISODate(d) { return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`; }
+
+        function openCalendar(eventIdx, currentVal) {
+            calTargetIdx = eventIdx;
+            const base = currentVal ? new Date(currentVal + 'T00:00:00') : new Date();
+            calSelected = currentVal ? new Date(currentVal + 'T00:00:00') : null;
+            calView = new Date(base.getFullYear(), base.getMonth(), 1);
+            renderCal();
+            calOverlay.style.display = 'flex';
+            calOverlay.setAttribute('aria-hidden', 'false');
+        }
+
+        function closeCal() {
+            calOverlay.style.display = 'none';
+            calOverlay.setAttribute('aria-hidden', 'true');
+        }
+
+        function renderCal() {
+            if (!calView) return;
+            const name = calView.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' });
+            calMonthLabel.textContent = name.charAt(0).toUpperCase() + name.slice(1);
+            calDaysEl.innerHTML = '';
+            const first = new Date(calView.getFullYear(), calView.getMonth(), 1);
+            const dow = (first.getDay() + 6) % 7;
+            const daysInMonth = new Date(calView.getFullYear(), calView.getMonth() + 1, 0).getDate();
+            for (let i = 0; i < dow; i++) {
+                const b = document.createElement('button');
+                b.className = 'day muted'; b.type = 'button'; b.textContent = '·'; b.disabled = true;
+                calDaysEl.appendChild(b);
+            }
+            const selTs = calSelected ? calSelected.getTime() : null;
+            for (let day = 1; day <= daysInMonth; day++) {
+                const d = new Date(calView.getFullYear(), calView.getMonth(), day);
+                const b = document.createElement('button');
+                b.className = 'day'; b.type = 'button'; b.textContent = String(day);
+                if (selTs && d.getTime() === selTs) b.classList.add('selected');
+                b.addEventListener('click', () => {
+                    calSelected = d;
+                    renderCal();
+                });
+                calDaysEl.appendChild(b);
+            }
+        }
+
+        calPrev.addEventListener('click', () => { calView = new Date(calView.getFullYear(), calView.getMonth()-1, 1); renderCal(); });
+        calNext.addEventListener('click', () => { calView = new Date(calView.getFullYear(), calView.getMonth()+1, 1); renderCal(); });
+        calClear.addEventListener('click', () => {
+            if (calTargetIdx != null && eventiData[calTargetIdx]) {
+                eventiData[calTargetIdx].data = '';
+            }
+            closeCal();
+            renderEventi();
+        });
+        calApply.addEventListener('click', () => {
+            if (calTargetIdx != null && eventiData[calTargetIdx] && calSelected) {
+                eventiData[calTargetIdx].data = toISODate(calSelected);
+            }
+            closeCal();
+            renderEventi();
+        });
+        calOverlay.addEventListener('click', e => { if (e.target === calOverlay) closeCal(); });
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && calOverlay.getAttribute('aria-hidden') === 'false') closeCal();
+        });
+
+        // ── Elementi DOM ──
+        const loginPanel  = document.getElementById('loginPanel');
+        const dashPanel   = document.getElementById('dashPanel');
+        const loginEmail  = document.getElementById('loginEmail');
+        const loginPass   = document.getElementById('loginPass');
+        const loginBtn    = document.getElementById('loginBtn');
+        const loginError  = document.getElementById('loginError');
+        const navLogout     = document.getElementById('navLogout');
+        const navLogoutWrap = document.getElementById('navLogoutWrap');
+        const logoutBtn   = document.getElementById('logoutBtn');
+        const saveBtn     = document.getElementById('saveBtn');
+        const dashError   = document.getElementById('dashError');
+        const dashOk      = document.getElementById('dashOk');
+        const pillName    = document.getElementById('pillName');
+        const pillUpdated = document.getElementById('pillUpdated');
+        const apertoLabel = document.getElementById('apertoLabel');
+        const fAperto     = document.getElementById('fAperto');
+        const liveBadgeEl = document.getElementById('dashLiveBadge');
+        const fVenueIsBar = document.getElementById('fVenueIsBar');
+        const fNote       = document.getElementById('fNote');
+        const mapShowAffluenza = document.getElementById('mapShowAffluenza');
+        const mapShowStickers = document.getElementById('mapShowStickers');
+
+        const fMusica        = document.getElementById('fMusica');
+        const fMusicaAltro   = document.getElementById('fMusicaAltro');
+        const fMusicaAltroHint = document.getElementById('fMusicaAltroHint');
+
+        const fImageUrl       = document.getElementById('fImageUrl');
+        const fImageFile      = document.getElementById('fImageFile');
+        const uploadProgress  = document.getElementById('uploadProgress');
+        const imagePreview    = document.getElementById('imagePreview');
+        const imagePreviewImg = document.getElementById('imagePreviewImg');
+        const eventiList      = document.getElementById('eventiList');
+        const addEventoBtn    = document.getElementById('addEventoBtn');
+        const stickersHint    = document.getElementById('stickersHint');
+        const partnerReviewsEl = document.getElementById('partnerReviews');
+        const reviewFilterDate = document.getElementById('reviewFilterDate');
+        const reviewFilterClear = document.getElementById('reviewFilterClear');
+
+        let currentVenueId = null;
+        /** UID Firebase del partner collegato al documento venues (solo admin UI / salvataggio). */
+        let currentVenuePartnerUid = '';
+        const ADMIN_CONFIRM_WORD = 'Conferma';
+        let partnerReviewsCache = [];
+        let partnerReviewsVenueLabel = '';
+        let eventiData = [];
+        /** Sticker personalizzati partner: { text, color } — max righe = 4 − preset selezionati */
+        let customStickers = [];
+
+        const STICKERS_MAX = 4;
+        const stickerCheckboxes = Array.from(document.querySelectorAll('.stickerOpt'));
+        const customStickersList = document.getElementById('customStickersList');
+        const addCustomStickerBtn = document.getElementById('addCustomStickerBtn');
+
+        const STICKER_BANNED_WORDS = new Set([
+            'merda', 'merde', 'cazzo', 'cazzi', 'puttana', 'puttane', 'stronzo', 'stronza', 'stronzi',
+            'frocio', 'froci', 'troia', 'troie', 'bastardo', 'bastardi', 'vaffanculo', 'coglione', 'coglioni',
+            'minchia', 'suca', 'succhia', 'mortacci', 'fanculo', 'bitch', 'fuck', 'shit', 'dick', 'cunt',
+            'asshole', 'piss', 'slut', 'whore', 'nigger', 'nigga', 'retard', 'faggot'
+        ]);
+
+        function normalizeStickerTokens(s) {
+            return String(s || '')
+                .toLowerCase()
+                .normalize('NFD')
+                .replace(/\p{Diacritic}/gu, '')
+                .split(/[^a-z0-9]+/g)
+                .filter(Boolean);
+        }
+
+        function stickerTextHasProfanity(s) {
+            for (const w of normalizeStickerTokens(s)) {
+                if (STICKER_BANNED_WORDS.has(w)) return true;
+            }
+            return false;
+        }
+
+        function isStickerTextAllowed(raw) {
+            const t = String(raw || '').trim();
+            if (t.length < 1 || t.length > 28) return false;
+            if (!/^[\p{L}\p{N}\s\-'’.]+$/u.test(t)) return false;
+            if (stickerTextHasProfanity(t)) return false;
+            return true;
+        }
+
+        function sanitizeStickerColor(c) {
+            const s = String(c || '').trim();
+            if (/^#([0-9a-fA-F]{6})$/.test(s)) return s.toLowerCase();
+            if (/^#([0-9a-fA-F]{3})$/.test(s)) {
+                const h = s.slice(1);
+                return `#${h[0]}${h[0]}${h[1]}${h[1]}${h[2]}${h[2]}`.toLowerCase();
+            }
+            return '#c084fc';
+        }
+
+        function presetCheckedCount() {
+            return stickerCheckboxes.filter((x) => x.checked).length;
+        }
+
+        function customFilledCount() {
+            return customStickers.filter((r) => (r.text || '').trim().length > 0).length;
+        }
+
+        function stickerTotalEffective() {
+            return presetCheckedCount() + customFilledCount();
+        }
+
+        function maxCustomStickerRows() {
+            return Math.max(0, STICKERS_MAX - presetCheckedCount());
+        }
+
+        function trimCustomSlotsByPreset() {
+            const maxR = maxCustomStickerRows();
+            if (customStickers.length > maxR) customStickers.length = maxR;
+        }
+
+        function buildStickersArrayForSave() {
+            const out = [];
+            for (const c of stickerCheckboxes) {
+                if (!c.checked) continue;
+                if (out.length >= STICKERS_MAX) break;
+                out.push(c.value);
+            }
+            for (const row of customStickers) {
+                const t = (row.text || '').trim();
+                if (!t || !isStickerTextAllowed(t)) continue;
+                if (out.length >= STICKERS_MAX) break;
+                out.push({
+                    type: 'custom',
+                    text: t.slice(0, 28),
+                    color: sanitizeStickerColor(row.color)
+                });
+            }
+            return out;
+        }
+
+        function loadStickersFromVenue(stickersArr) {
+            stickerCheckboxes.forEach((c) => { c.checked = false; });
+            customStickers = [];
+            if (!Array.isArray(stickersArr)) {
+                renderCustomStickerRows();
+                syncStickerUi();
+                return;
+            }
+            for (const item of stickersArr.slice(0, STICKERS_MAX)) {
+                if (typeof item === 'string') {
+                    const cb = stickerCheckboxes.find((c) => c.value === item);
+                    if (cb) cb.checked = true;
+                } else if (item && typeof item === 'object' && !Array.isArray(item)) {
+                    const typ = String(item.type || '');
+                    const tx = String(item.text || '').trim().slice(0, 28);
+                    if (typ === 'custom' && tx) {
+                        customStickers.push({
+                            text: tx,
+                            color: sanitizeStickerColor(item.color)
+                        });
+                    }
+                }
+            }
+            trimCustomSlotsByPreset();
+            renderCustomStickerRows();
+            syncStickerUi();
+        }
+
+        function renderCustomStickerRows() {
+            if (!customStickersList) return;
+            customStickersList.innerHTML = '';
+            customStickers.forEach((row, idx) => {
+                const wrap = document.createElement('div');
+                wrap.className = 'custom-sticker-row';
+
+                const inp = document.createElement('input');
+                inp.type = 'text';
+                inp.className = 'custom-sticker-text';
+                inp.maxLength = 28;
+                inp.placeholder = 'es. Ladies night, tavoli VIP…';
+                inp.value = row.text || '';
+                inp.dataset.idx = String(idx);
+                const tv = (row.text || '').trim();
+                if (tv && !isStickerTextAllowed(tv)) inp.classList.add('custom-sticker-text--invalid');
+
+                const col = document.createElement('input');
+                col.type = 'color';
+                col.className = 'custom-sticker-color';
+                col.value = sanitizeStickerColor(row.color);
+                col.dataset.idx = String(idx);
+                col.title = 'Colore sticker';
+
+                const rm = document.createElement('button');
+                rm.type = 'button';
+                rm.className = 'btn btn-secondary custom-sticker-remove';
+                rm.textContent = 'Rimuovi';
+                rm.dataset.idx = String(idx);
+
+                wrap.appendChild(inp);
+                wrap.appendChild(col);
+                wrap.appendChild(rm);
+                customStickersList.appendChild(wrap);
+            });
+
+            customStickersList.querySelectorAll('.custom-sticker-text').forEach((el) => {
+                el.addEventListener('input', () => {
+                    const i = Number(el.dataset.idx);
+                    if (!Number.isFinite(i) || !customStickers[i]) return;
+                    customStickers[i].text = el.value;
+                    el.classList.toggle('custom-sticker-text--invalid', el.value.trim().length > 0 && !isStickerTextAllowed(el.value));
+                    syncStickerUi();
+                });
+            });
+            customStickersList.querySelectorAll('.custom-sticker-color').forEach((el) => {
+                el.addEventListener('input', () => {
+                    const i = Number(el.dataset.idx);
+                    if (!Number.isFinite(i) || !customStickers[i]) return;
+                    customStickers[i].color = sanitizeStickerColor(el.value);
+                });
+            });
+            customStickersList.querySelectorAll('.custom-sticker-remove').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const i = Number(btn.dataset.idx);
+                    if (!Number.isFinite(i)) return;
+                    customStickers.splice(i, 1);
+                    renderCustomStickerRows();
+                    syncStickerUi();
+                });
+            });
+        }
+
+        function syncStickerUi() {
+            trimCustomSlotsByPreset();
+            const total = stickerTotalEffective();
+            const atCap = total >= STICKERS_MAX;
+            stickerCheckboxes.forEach((x) => {
+                x.disabled = !x.checked && atCap;
+            });
+            if (addCustomStickerBtn) {
+                addCustomStickerBtn.disabled =
+                    customStickers.length >= maxCustomStickerRows() || total >= STICKERS_MAX;
+            }
+            if (stickersHint) {
+                stickersHint.textContent = `${total}/${STICKERS_MAX} in totale (${presetCheckedCount()} preset + ${customFilledCount()} personalizzati)`;
+            }
+        }
+
+        stickerCheckboxes.forEach((c) => {
+            c.addEventListener('change', () => {
+                if (stickerTotalEffective() > STICKERS_MAX) {
+                    c.checked = false;
+                    showMsg(dashError, 'Massimo 4 sticker in totale (preset + personalizzati).');
+                }
+                trimCustomSlotsByPreset();
+                renderCustomStickerRows();
+                syncStickerUi();
+            });
+        });
+
+        if (addCustomStickerBtn) {
+            addCustomStickerBtn.addEventListener('click', () => {
+                trimCustomSlotsByPreset();
+                if (customStickers.length >= maxCustomStickerRows()) return;
+                if (stickerTotalEffective() >= STICKERS_MAX) return;
+                customStickers.push({ text: '', color: '#a855f7' });
+                renderCustomStickerRows();
+                syncStickerUi();
+                const inputs = customStickersList.querySelectorAll('.custom-sticker-text');
+                const last = inputs[inputs.length - 1];
+                if (last) last.focus();
+            });
+        }
+
+        renderCustomStickerRows();
+        syncStickerUi();
+
+        function setMusicaUiFromValue(value) {
+            const opts = new Set(Array.from(fMusica?.options || []).map(o => o.value || o.textContent).filter(Boolean));
+            const v = (value || '').toString();
+            if (!fMusica) return;
+            if (!v) {
+                fMusica.value = '';
+                if (fMusicaAltro) fMusicaAltro.value = '';
+                if (fMusicaAltro) fMusicaAltro.style.display = 'none';
+                if (fMusicaAltroHint) fMusicaAltroHint.style.display = 'none';
+                return;
+            }
+            if (opts.has(v)) {
+                fMusica.value = v;
+                if (v === 'Altro') {
+                    if (fMusicaAltro) fMusicaAltro.style.display = 'block';
+                    if (fMusicaAltroHint) fMusicaAltroHint.style.display = 'block';
+                } else {
+                    if (fMusicaAltro) { fMusicaAltro.value = ''; fMusicaAltro.style.display = 'none'; }
+                    if (fMusicaAltroHint) fMusicaAltroHint.style.display = 'none';
+                }
+                return;
+            }
+            // valore custom salvato in passato
+            fMusica.value = 'Altro';
+            if (fMusicaAltro) { fMusicaAltro.value = v; fMusicaAltro.style.display = 'block'; }
+            if (fMusicaAltroHint) fMusicaAltroHint.style.display = 'block';
+        }
+
+        if (fMusica) {
+            fMusica.addEventListener('change', () => {
+                const v = fMusica.value;
+                const isOther = v === 'Altro';
+                if (fMusicaAltro) fMusicaAltro.style.display = isOther ? 'block' : 'none';
+                if (fMusicaAltroHint) fMusicaAltroHint.style.display = isOther ? 'block' : 'none';
+                if (!isOther && fMusicaAltro) fMusicaAltro.value = '';
+            });
+        }
+
+        function syncDashLiveBadge() {
+            if (!liveBadgeEl || !fAperto) return;
+            const isBar = fVenueIsBar && fVenueIsBar.checked;
+            liveBadgeEl.classList.remove('closed', 'bar-open');
+            if (!fAperto.checked) {
+                if (apertoLabel) apertoLabel.textContent = 'Chiuso';
+                liveBadgeEl.textContent = '● CHIUSO';
+                liveBadgeEl.classList.add('closed');
+                return;
+            }
+            if (apertoLabel) apertoLabel.textContent = 'Aperto';
+            if (isBar) {
+                liveBadgeEl.textContent = '● APERTO';
+                liveBadgeEl.classList.add('bar-open');
+            } else {
+                liveBadgeEl.textContent = '● LIVE';
+            }
+        }
+
+        /** Radio admin (lista) ↔ checkbox form */
+        function syncAdminVenueKindRadiosFromCheckbox() {
+            const disco = document.getElementById('adminEditVenueKindDisco');
+            const bar = document.getElementById('adminEditVenueKindBar');
+            if (!disco || !bar || !fVenueIsBar) return;
+            if (fVenueIsBar.checked) {
+                bar.checked = true;
+                disco.checked = false;
+            } else {
+                disco.checked = true;
+                bar.checked = false;
+            }
+        }
+
+        function refreshAdminVenueKindEditUi() {
+            const disco = document.getElementById('adminEditVenueKindDisco');
+            const bar = document.getElementById('adminEditVenueKindBar');
+            if (!disco || !bar) return;
+            const en = !!(isAdminUser() && currentVenueId);
+            disco.disabled = !en;
+            bar.disabled = !en;
+            if (en) syncAdminVenueKindRadiosFromCheckbox();
+        }
+
+        // ── Chat: badge Discoteca / PR (mostra blocco PR solo se abilitato) ──
+        const fChatPrEnabledEl = document.getElementById('fChatPrEnabled');
+        function syncChatPrBlockVisibility() {
+            const blk = document.getElementById('fChatPrBlock');
+            if (!blk || !fChatPrEnabledEl) return;
+            blk.style.display = fChatPrEnabledEl.checked ? 'block' : 'none';
+        }
+        if (fChatPrEnabledEl) fChatPrEnabledEl.addEventListener('change', syncChatPrBlockVisibility);
+
+        function parsePrEmailsForSave(raw) {
+            const out = [];
+            const seen = new Set();
+            String(raw || '')
+                .split(/[\n,;]+/)
+                .map((s) => s.trim().toLowerCase())
+                .filter(Boolean)
+                .forEach((e) => {
+                    if (e.length > 254 || seen.has(e)) return;
+                    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) return;
+                    seen.add(e);
+                    out.push(e);
+                });
+            return out.slice(0, 20);
+        }
+
+        // ── Toggle aperto / bar (badge titolo) ──
+        fAperto.addEventListener('change', () => syncDashLiveBadge());
+        if (fVenueIsBar) {
+            fVenueIsBar.addEventListener('change', () => {
+                syncAdminVenueKindRadiosFromCheckbox();
+                syncDashLiveBadge();
+            });
+        }
+
+        // ── Image preview (URL) ──
+        fImageUrl.addEventListener('input', () => {
+            const url = fImageUrl.value.trim();
+            if (url && (url.startsWith('http://') || url.startsWith('https://'))) {
+                imagePreviewImg.src = url;
+                imagePreview.style.display = 'block';
+                imagePreviewImg.onerror = () => { imagePreview.style.display = 'none'; };
+            } else {
+                imagePreview.style.display = 'none';
+            }
+        });
+
+        // ── Image upload (galleria / fotocamera) ──
+        fImageFile.addEventListener('change', async () => {
+            const file = fImageFile.files[0];
+            if (!file || !currentVenueId) return;
+
+            uploadProgress.style.display = 'block';
+            uploadProgress.textContent = 'Caricamento…';
+
+            try {
+                const allowed = new Set(['image/jpeg', 'image/png', 'image/webp']);
+                if (!allowed.has(file.type)) {
+                    throw new Error('Formato non supportato. Usa JPG, PNG o WebP (HEIC non supportato).');
+                }
+                if (file.size > 12 * 1024 * 1024) {
+                    throw new Error('Immagine troppo grande (max 12 MB).');
+                }
+
+                const toDataUrl = (blob) => new Promise((resolve, reject) => {
+                    const r = new FileReader();
+                    r.onload = () => resolve(r.result);
+                    r.onerror = () => reject(new Error('Lettura file fallita'));
+                    r.readAsDataURL(blob);
+                });
+
+                const loadImg = (src) => new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.onload = () => resolve(img);
+                    img.onerror = () => reject(new Error('Immagine non leggibile'));
+                    img.src = src;
+                });
+
+                const src = await toDataUrl(file);
+                const img = await loadImg(src);
+
+                const MAX_SIDE = 1600;
+                const w0 = img.naturalWidth || img.width;
+                const h0 = img.naturalHeight || img.height;
+                const scale = Math.min(1, MAX_SIDE / Math.max(w0, h0));
+                const w = Math.max(1, Math.round(w0 * scale));
+                const h = Math.max(1, Math.round(h0 * scale));
+
+                const canvas = document.createElement('canvas');
+                canvas.width = w;
+                canvas.height = h;
+                const ctx = canvas.getContext('2d');
+                if (!ctx) throw new Error('Canvas non supportato');
+                ctx.drawImage(img, 0, 0, w, h);
+
+                const outBlob = await new Promise((resolve, reject) => {
+                    canvas.toBlob((b) => {
+                        if (!b) reject(new Error('Conversione immagine fallita'));
+                        else resolve(b);
+                    }, 'image/jpeg', 0.86);
+                });
+
+                // Upload sempre come JPEG (più compatibile)
+                const path = `venues/${currentVenueId}/cover.jpg`;
+                const ref = storage.ref(path);
+                const snap = await ref.put(outBlob, { contentType: 'image/jpeg', cacheControl: 'public,max-age=31536000' });
+                const downloadUrl = await snap.ref.getDownloadURL();
+
+                fImageUrl.value = downloadUrl;
+                imagePreviewImg.src = downloadUrl;
+                imagePreview.style.display = 'block';
+                uploadProgress.textContent = 'Caricata! Ricordati di cliccare "Salva modifiche".';
+            } catch (err) {
+                uploadProgress.textContent = '';
+                uploadProgress.style.display = 'none';
+                showMsg(dashError, `Errore upload: ${err.message}`);
+            }
+        });
+
+        // ── Eventi management ──
+        function formatDateLabel(isoStr) {
+            if (!isoStr) return 'Seleziona data';
+            const d = new Date(isoStr + 'T00:00:00');
+            return d.toLocaleDateString('it-IT', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' });
+        }
+
+        function renderEventi() {
+            eventiList.innerHTML = '';
+            eventiData.forEach((ev, i) => {
+                const card = document.createElement('div');
+                card.className = 'evento-card';
+                card.innerHTML = `
+                    <button type="button" class="evento-remove" data-idx="${i}" title="Rimuovi evento">✕</button>
+                    <div class="field">
+                        <label>Data</label>
+                        <button type="button" class="btn btn-secondary ev-date-btn" data-idx="${i}" style="margin-top:0;justify-content:space-between;padding:0.6rem 0.85rem;font-weight:400;font-size:0.88rem;">
+                            <span class="ev-date-label" style="${ev.data ? 'color:var(--text);' : 'color:var(--muted);opacity:0.7;'}">${formatDateLabel(ev.data)}</span>
+                            <span style="font-size:0.9rem;">📅</span>
+                        </button>
+                    </div>
+                    <div class="field">
+                        <label>Nome serata</label>
+                        <input type="text" class="ev-nome" data-idx="${i}" value="${escHtml(ev.nome || '')}" placeholder="es. Follia, Sunset Party…" />
+                    </div>
+                    <div class="field" style="margin-bottom:0;">
+                        <label>DJ / Artista</label>
+                        <input type="text" class="ev-dj" data-idx="${i}" value="${escHtml(ev.dj || '')}" placeholder="es. DJ Marco, DJ Luna…" />
+                    </div>
+                `;
+                eventiList.appendChild(card);
+            });
+
+            eventiList.querySelectorAll('.evento-remove').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    eventiData.splice(Number(btn.dataset.idx), 1);
+                    renderEventi();
+                });
+            });
+
+            eventiList.querySelectorAll('.ev-date-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const idx = Number(btn.dataset.idx);
+                    openCalendar(idx, eventiData[idx].data || '');
+                });
+            });
+
+            eventiList.querySelectorAll('.ev-nome, .ev-dj').forEach(input => {
+                input.addEventListener('input', () => {
+                    const idx = Number(input.dataset.idx);
+                    if (input.classList.contains('ev-nome'))  eventiData[idx].nome = input.value;
+                    if (input.classList.contains('ev-dj'))    eventiData[idx].dj   = input.value;
+                });
+            });
+        }
+
+        function escHtml(s) {
+            return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+        }
+
+        addEventoBtn.addEventListener('click', () => {
+            eventiData.push({ data: '', nome: '', dj: '' });
+            renderEventi();
+            const lastCard = eventiList.lastElementChild;
+            if (lastCard) lastCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+
+        // ── LOGIN ──
+        loginBtn.addEventListener('click', async () => {
+            loginError.style.display = 'none';
+            const email = loginEmail.value.trim();
+            const pass  = loginPass.value;
+            if (!email || !pass) {
+                showMsg(loginError, 'Inserisci email e password.');
+                return;
+            }
+            loginBtn.textContent = 'Accesso in corso…';
+            loginBtn.disabled = true;
+            try {
+                await auth.signInWithEmailAndPassword(email, pass);
+            } catch (err) {
+                const msgs = {
+                    'auth/user-not-found':      'Account non trovato.',
+                    'auth/wrong-password':       'Password errata.',
+                    'auth/invalid-email':        'Email non valida.',
+                    'auth/invalid-credential':   'Credenziali non valide.',
+                    'auth/too-many-requests':    'Troppi tentativi, riprova tra poco.',
+                };
+                showMsg(loginError, msgs[err.code] || `Errore: ${err.message}`);
+            } finally {
+                loginBtn.textContent = 'Accedi';
+                loginBtn.disabled = false;
+            }
+        });
+
+        loginPass.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') loginBtn.click();
+        });
+
+        // ── LOGOUT ──
+        function doLogout() { auth.signOut(); }
+        logoutBtn.addEventListener('click', doLogout);
+        navLogout.addEventListener('click', (e) => { e.preventDefault(); doLogout(); });
+
+        // ── AUTO-LOGOUT per inattività (5 minuti) ──
+        const INACTIVITY_TIMEOUT_MS = 5 * 60 * 1000;
+        let inactivityTimer = null;
+        function resetInactivityTimer() {
+            if (inactivityTimer) clearTimeout(inactivityTimer);
+            inactivityTimer = setTimeout(() => {
+                if (auth.currentUser) doLogout();
+            }, INACTIVITY_TIMEOUT_MS);
+        }
+        ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll', 'click'].forEach((ev) => {
+            document.addEventListener(ev, resetInactivityTimer, { passive: true });
+        });
+
+        // ── AUTH STATE ──
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                loginPanel.setAttribute('hidden', '');
+                dashPanel.removeAttribute('hidden');
+                if (navLogoutWrap) navLogoutWrap.removeAttribute('hidden');
+                resetInactivityTimer();
+                await loadVenueData(user);
+                if (isAdminUser()) {
+                    try {
+                        await refreshAdminVenueList();
+                    } catch (e) {
+                        dashOk.style.display = 'none';
+                        showMsg(
+                            dashError,
+                            `Elenco locali admin: ${e.message || e}. In Firebase → Firestore → Rules serve la lettura della collezione "venues" per il tuo account admin.`
+                        );
+                    }
+                }
+            } else {
+                loginPanel.removeAttribute('hidden');
+                dashPanel.setAttribute('hidden', '');
+                if (navLogoutWrap) navLogoutWrap.setAttribute('hidden', '');
+                currentVenueId = null;
+                currentVenuePartnerUid = '';
+                if (inactivityTimer) { clearTimeout(inactivityTimer); inactivityTimer = null; }
+            }
+        });
+
+        /**
+         * Risolve l’ID venue collegato al partner.
+         * Ordine: partners/{authUid} → partners (email / authUid / uid) → venues (partnerUid / partnerEmail).
+         * Se il collegamento era solo su email o slug doc, prova a creare/aggiornare partners/{authUid} (merge).
+         */
+        async function resolvePartnerVenueId(user) {
+            const uid = user.uid;
+            const email = (user.email || '').toLowerCase().trim();
+
+            const venueIdFromPartnerData = (data) => {
+                if (!data || typeof data !== 'object') return null;
+                const v = data.venueId != null ? String(data.venueId).trim() : '';
+                return v || null;
+            };
+
+            async function ensurePartnersUidDoc(venueId) {
+                if (!venueId || !uid) return;
+                try {
+                    const payload = { venueId };
+                    if (email) payload.email = email;
+                    await db.collection('partners').doc(uid).set(payload, { merge: true });
+                } catch (_) {
+                    /* regole Firestore possono bloccare la scrittura */
+                }
+            }
+
+            const pByUid = await db.collection('partners').doc(uid).get();
+            if (pByUid.exists) {
+                const vid = venueIdFromPartnerData(pByUid.data());
+                if (vid) return vid;
+            }
+
+            const tryPartnerSnap = async (snap) => {
+                for (const d of snap.docs) {
+                    const vid = venueIdFromPartnerData(d.data());
+                    if (vid) {
+                        await ensurePartnersUidDoc(vid);
+                        return vid;
+                    }
+                }
+                return null;
+            };
+
+            if (email) {
+                const byEmail = await db.collection('partners').where('email', '==', email).limit(5).get();
+                const v1 = await tryPartnerSnap(byEmail);
+                if (v1) return v1;
+            }
+
+            const byAuthUid = await db.collection('partners').where('authUid', '==', uid).limit(1).get();
+            const v2 = await tryPartnerSnap(byAuthUid);
+            if (v2) return v2;
+
+            const byUidField = await db.collection('partners').where('uid', '==', uid).limit(1).get();
+            const v3 = await tryPartnerSnap(byUidField);
+            if (v3) return v3;
+
+            const byPartnerUidVenue = await db.collection('venues').where('partnerUid', '==', uid).limit(1).get();
+            if (!byPartnerUidVenue.empty) {
+                const id = byPartnerUidVenue.docs[0].id;
+                await ensurePartnersUidDoc(id);
+                return id;
+            }
+
+            if (email) {
+                const byPartnerEmailVenue = await db.collection('venues').where('partnerEmail', '==', email).limit(1).get();
+                if (!byPartnerEmailVenue.empty) {
+                    const id = byPartnerEmailVenue.docs[0].id;
+                    await ensurePartnersUidDoc(id);
+                    return id;
+                }
+            }
+
+            return null;
+        }
+
+        const ADMIN_VENUE_OVERRIDE_KEY = 'fmn_admin_venue_id';
+
+        // ── CARICA DATI VENUE (form) ──
+        async function loadVenueIntoForm(venueId) {
+            currentVenueId = venueId;
+            const venueDoc = await db.collection('venues').doc(venueId).get();
+            if (!venueDoc.exists) {
+                showMsg(dashError, 'Documento locale non trovato. Contatta FindMyNight.');
+                currentVenueId = null;
+                currentVenuePartnerUid = '';
+                refreshAdminPartnerBlockVisibility();
+                const pcl0 = document.getElementById('partnerChatRoomLink');
+                if (pcl0) {
+                    pcl0.href = 'chat.html';
+                    pcl0.hidden = true;
+                }
+                return;
+            }
+            const d = venueDoc.data();
+            const displayName = d.name || venueId;
+            pillName.textContent = displayName;
+            const fVenueName = document.getElementById('fVenueName');
+            if (fVenueName) fVenueName.value = d.name != null ? String(d.name) : '';
+            currentVenuePartnerUid = (d.partnerUid != null && String(d.partnerUid).trim())
+                ? String(d.partnerUid).trim()
+                : '';
+            const fAdminPartnerEmail = document.getElementById('fAdminPartnerEmail');
+            if (fAdminPartnerEmail) {
+                fAdminPartnerEmail.value = d.partnerEmail ? String(d.partnerEmail).toLowerCase().trim() : '';
+            }
+            const uidDisp = document.getElementById('adminPartnerUidDisplay');
+            if (uidDisp) uidDisp.textContent = currentVenuePartnerUid || '— (nessun account collegato)';
+            refreshAdminPartnerBlockVisibility();
+            document.getElementById('fEventoNome').value = d.eventoNome || '';
+            document.getElementById('fAffluenza').value  = d.affluenzaPct ?? '';
+            document.getElementById('fIngresso').value   = d.ingresso ?? '';
+            document.getElementById('fDrink').value      = d.drinkEuro ?? '';
+            if (fNote) fNote.value = d.note || '';
+            setMusicaUiFromValue(d.musica || '');
+            document.getElementById('fPicco').value      = d.picco || '';
+            document.getElementById('fAge').value        = d.ageRange || '';
+            fAperto.checked = d.aperto !== false;
+            if (fVenueIsBar) fVenueIsBar.checked = d.isBar === true;
+            syncDashLiveBadge();
+
+            loadStickersFromVenue(Array.isArray(d.stickers) ? d.stickers : []);
+
+            const mc = d.mapCard && typeof d.mapCard === 'object' ? d.mapCard : {};
+            if (mapShowAffluenza) mapShowAffluenza.checked = mc.affluenza !== false;
+            if (mapShowStickers) mapShowStickers.checked = mc.stickers !== false;
+
+            fImageUrl.value = d.imageUrl || '';
+            if (d.imageUrl) {
+                imagePreviewImg.src = d.imageUrl;
+                imagePreview.style.display = 'block';
+            } else {
+                imagePreview.style.display = 'none';
+            }
+
+            const fInstagram = document.getElementById('fInstagram');
+            const fFacebook = document.getElementById('fFacebook');
+            if (fInstagram) fInstagram.value = d.instagram != null ? String(d.instagram) : '';
+            if (fFacebook) fFacebook.value = d.facebook != null ? String(d.facebook) : '';
+
+            eventiData = Array.isArray(d.eventi) ? d.eventi.map(e => ({
+                data: e.data || '',
+                nome: e.nome || '',
+                dj:   e.dj   || ''
+            })) : [];
+            renderEventi();
+
+            if (d.aggiornatoAt && d.aggiornatoAt.toDate) {
+                pillUpdated.textContent = d.aggiornatoAt.toDate().toLocaleString('it-IT');
+            } else {
+                pillUpdated.textContent = 'Mai';
+            }
+
+            if (reviewFilterDate) reviewFilterDate.value = '';
+            loadPartnerReviews(venueId, d.name || venueId);
+            refreshAdminVenueKindEditUi();
+
+            const fChatDE = document.getElementById('fChatDiscotecaEmail');
+            if (fChatDE) fChatDE.value = d.chatDiscotecaEmail != null ? String(d.chatDiscotecaEmail) : '';
+            if (fChatPrEnabledEl) fChatPrEnabledEl.checked = d.chatPrEnabled === true;
+            const fChatPrTA = document.getElementById('fChatPrEmails');
+            if (fChatPrTA) {
+                fChatPrTA.value = Array.isArray(d.chatPrEmails)
+                    ? d.chatPrEmails.map((e) => String(e || '').trim()).filter(Boolean).join('\n')
+                    : '';
+            }
+            syncChatPrBlockVisibility();
+
+            const partnerChatRoomLink = document.getElementById('partnerChatRoomLink');
+            if (partnerChatRoomLink) {
+                if (venueId) {
+                    partnerChatRoomLink.href = `chat.html?room=${encodeURIComponent(venueId)}`;
+                    partnerChatRoomLink.hidden = false;
+                } else {
+                    partnerChatRoomLink.href = 'chat.html';
+                    partnerChatRoomLink.hidden = true;
+                }
+            }
+        }
+
+        function refreshAdminPartnerBlockVisibility() {
+            const b = document.getElementById('adminVenuePartnerBlock');
+            if (!b) return;
+            b.hidden = !(isAdminUser() && currentVenueId);
+        }
+
+        function updateAdminConsoleVisibility() {
+            const el = document.getElementById('adminConsole');
+            const pillAdm = document.getElementById('pillAdminMode');
+            const adm = isAdminUser();
+            if (el) el.hidden = !adm;
+            if (pillAdm) pillAdm.hidden = !adm;
+            const linkId = document.getElementById('adminCreateLinkVenueId');
+            if (linkId) linkId.textContent = currentVenueId || '—';
+            const delVenue = document.getElementById('adminDeleteVenueBtn');
+            if (delVenue) delVenue.disabled = !adm || !currentVenueId;
+            const saveKind = document.getElementById('adminSaveVenueKindBtn');
+            if (saveKind) saveKind.disabled = !adm || !currentVenueId;
+            refreshAdminPartnerBlockVisibility();
+            refreshAdminVenueKindEditUi();
+        }
+
+        let adminVenuesCache = [];
+
+        function renderAdminVenueSelectOptions() {
+            const sel = document.getElementById('adminVenueSelect');
+            const fil = document.getElementById('adminVenueFilter');
+            if (!sel) return;
+            const q = (fil && fil.value ? fil.value : '').toLowerCase().trim();
+            sel.innerHTML = '';
+            adminVenuesCache
+                .filter((v) => {
+                    if (!q) return true;
+                    const n = String(v.name || '').toLowerCase();
+                    const id = String(v.id || '').toLowerCase();
+                    return n.includes(q) || id.includes(q);
+                })
+                .forEach((v) => {
+                    const o = document.createElement('option');
+                    o.value = v.id;
+                    o.textContent = `${v.name || '(senza nome)'} · ${v.id}`;
+                    sel.appendChild(o);
+                });
+            if (currentVenueId && Array.from(sel.options).some((o) => o.value === currentVenueId)) {
+                sel.value = currentVenueId;
+            }
+        }
+
+        async function refreshAdminVenueList() {
+            if (!isAdminUser()) return;
+            const snap = await db.collection('venues').limit(400).get();
+            adminVenuesCache = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+            adminVenuesCache.sort((a, b) => String(a.name || a.id).localeCompare(String(b.name || b.id), 'it', { sensitivity: 'base' }));
+            renderAdminVenueSelectOptions();
+        }
+
+        function getSecondaryAuthApp() {
+            try {
+                return firebase.app('FMN_Secondary');
+            } catch (e) {
+                return firebase.initializeApp(window.FMN_FIREBASE_CONFIG, 'FMN_Secondary');
+            }
+        }
+
+        async function canEditCurrentVenue() {
+            if (!currentVenueId || !auth.currentUser) return false;
+            if (isAdminUser()) return true;
+            const mine = await resolvePartnerVenueId(auth.currentUser);
+            return mine === currentVenueId;
+        }
+
+        // ── CARICA DASHBOARD (risolve venue partner o override admin) ──
+        async function loadVenueData(user) {
+            dashError.style.display = 'none';
+            dashOk.style.display = 'none';
+            updateAdminConsoleVisibility();
+            try {
+                if (!user) {
+                    showMsg(dashError, 'Sessione non valida. Effettua di nuovo l’accesso.');
+                    return;
+                }
+                let targetVenueId = null;
+                if (isAdminUser()) {
+                    try {
+                        const s = sessionStorage.getItem(ADMIN_VENUE_OVERRIDE_KEY);
+                        if (s && String(s).trim()) targetVenueId = String(s).trim();
+                    } catch (_) { /* ignore */ }
+                    /* Gli admin non devono eseguire query “partner” su tutta la collezione partners:
+                       con le regole Firestore tipiche quelle query falliscono e bloccano la dashboard. */
+                    if (!targetVenueId) {
+                        pillName.textContent = '— (seleziona)';
+                        pillUpdated.textContent = '—';
+                        currentVenueId = null;
+                        currentVenuePartnerUid = '';
+                        if (partnerReviewsEl) {
+                            partnerReviewsEl.innerHTML = '<div style="color:var(--muted);font-size:0.85rem;">Apri un locale dall’elenco admin.</div>';
+                        }
+                        showMsg(dashOk, 'Modalità amministratore: aggiorna l’elenco, scegli un locale e clicca «Apri locale selezionato».');
+                        updateAdminConsoleVisibility();
+                        return;
+                    }
+                } else {
+                    try {
+                        targetVenueId = await resolvePartnerVenueId(user);
+                    } catch (e) {
+                        showMsg(
+                            dashError,
+                            `Impossibile verificare il collegamento al locale (${e.message || e}). Controlla le regole Firestore per "partners" e "venues", oppure contatta FindMyNight.`
+                        );
+                        return;
+                    }
+                    if (!targetVenueId) {
+                        showMsg(
+                            dashError,
+                            'Nessun locale associato a questo account. Contatta FindMyNight per verificare il collegamento al tuo locale.'
+                        );
+                        return;
+                    }
+                }
+
+                try {
+                    await loadVenueIntoForm(targetVenueId);
+                } catch (inner) {
+                    const perm =
+                        inner &&
+                        (inner.code === 'permission-denied' ||
+                            /permission|insufficient/i.test(String(inner.message || '')));
+                    if (isAdminUser() && perm) {
+                        try {
+                            sessionStorage.removeItem(ADMIN_VENUE_OVERRIDE_KEY);
+                        } catch (_) { /* ignore */ }
+                        currentVenueId = null;
+                        currentVenuePartnerUid = '';
+                        pillName.textContent = '— (seleziona)';
+                        pillUpdated.textContent = '—';
+                        if (partnerReviewsEl) {
+                            partnerReviewsEl.innerHTML = '<div style="color:var(--muted);font-size:0.85rem;">Apri un locale dall’elenco admin.</div>';
+                        }
+                        showMsg(
+                            dashError,
+                            'Lettura del locale negata da Firestore (regole o documento errato). Verifica che il tuo account possa leggere "venues" e che l’ID sia corretto; l’override salvato è stato rimosso.'
+                        );
+                        updateAdminConsoleVisibility();
+                        return;
+                    }
+                    throw inner;
+                }
+                updateAdminConsoleVisibility();
+            } catch (err) {
+                showMsg(dashError, `Errore nel caricare i dati: ${err.message}`);
+            }
+        }
+
+        function starsFromNum(n) {
+            const v = Math.max(1, Math.min(5, Math.round(Number(n) || 0)));
+            return '★'.repeat(v) + '☆'.repeat(5 - v);
+        }
+
+        function isAdminUser() {
+            const u = auth.currentUser;
+            const email = u && u.email ? String(u.email).toLowerCase() : '';
+            if (!email) return false;
+            return ADMIN_EMAILS.has(email) || email.startsWith('mazzolenioscar');
+        }
+
+        /** Modale: l’utente deve digitare esattamente "Conferma". */
+        function askAdminTypedConfirm(title, bodyText) {
+            return new Promise((resolve) => {
+                const modal = document.getElementById('adminTypedConfirmModal');
+                if (!modal) {
+                    resolve(false);
+                    return;
+                }
+                const titleEl = document.getElementById('adminTypedConfirmTitle');
+                const bodyEl = document.getElementById('adminTypedConfirmBody');
+                const inp = document.getElementById('adminTypedConfirmInput');
+                const errEl = document.getElementById('adminTypedConfirmErr');
+                const btnOk = document.getElementById('adminTypedConfirmOk');
+                const btnCancel = document.getElementById('adminTypedConfirmCancel');
+                const backdrop = document.getElementById('adminTypedConfirmBackdrop');
+                if (titleEl) titleEl.textContent = title;
+                if (bodyEl) bodyEl.textContent = bodyText;
+                if (inp) inp.value = '';
+                if (errEl) errEl.textContent = '';
+
+                let onKey = null;
+                const finish = (v) => {
+                    modal.hidden = true;
+                    modal.setAttribute('aria-hidden', 'true');
+                    document.body.style.overflow = '';
+                    if (onKey) document.removeEventListener('keydown', onKey);
+                    resolve(v);
+                };
+
+                const tryOk = () => {
+                    if (!inp) return;
+                    if (inp.value.trim() === ADMIN_CONFIRM_WORD) finish(true);
+                    else if (errEl) errEl.textContent = `Scrivi esattamente: ${ADMIN_CONFIRM_WORD}`;
+                };
+
+                onKey = (e) => {
+                    if (e.key === 'Escape') finish(false);
+                };
+                document.addEventListener('keydown', onKey);
+
+                if (btnCancel) btnCancel.onclick = () => finish(false);
+                if (backdrop) backdrop.onclick = () => finish(false);
+                if (btnOk) btnOk.onclick = tryOk;
+                if (inp) {
+                    inp.onkeydown = (e) => {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            tryOk();
+                        }
+                    };
+                }
+
+                modal.hidden = false;
+                modal.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+                if (inp) inp.focus();
+            });
+        }
+
+        /** Elimina venues/{id}, reviews con venueId, partners/{uid} se presente. Non elimina l’utente Auth. */
+        async function adminDeleteVenueAndRelated(venueId) {
+            const vid = String(venueId || '').trim();
+            if (!vid) return;
+            const venueRef = db.collection('venues').doc(vid);
+            const vSnap = await venueRef.get();
+            const partnerUid = vSnap.exists && vSnap.data().partnerUid
+                ? String(vSnap.data().partnerUid).trim()
+                : '';
+            for (;;) {
+                const q = await db.collection('reviews').where('venueId', '==', vid).limit(400).get();
+                if (q.empty) break;
+                const batch = db.batch();
+                q.docs.forEach((d) => batch.delete(d.ref));
+                await batch.commit();
+            }
+            if (partnerUid) {
+                try {
+                    await db.collection('partners').doc(partnerUid).delete();
+                } catch (_) { /* permessi o doc assente */ }
+            }
+            await venueRef.delete();
+        }
+
+        async function deleteReviewById(reviewId) {
+            if (!reviewId) return;
+            if (!isAdminUser()) {
+                showMsg(dashError, 'Permessi insufficienti per cancellare recensioni.');
+                return;
+            }
+            const ok = await askAdminTypedConfirm(
+                'Eliminare questa recensione?',
+                'Azione irreversibile. Per confermare digita Conferma nel campo qui sotto.'
+            );
+            if (!ok) return;
+            try {
+                await db.collection('reviews').doc(reviewId).delete();
+                const label = partnerReviewsVenueLabel || (pillName && pillName.textContent) || 'Locale';
+                if (currentVenueId) await loadPartnerReviews(currentVenueId, label);
+            } catch (e) {
+                showMsg(dashError, `Errore nel cancellare: ${e.message}`);
+            }
+        }
+
+        function reviewLocalDateKey(createdAt) {
+            if (!createdAt || !createdAt.toDate) return null;
+            const d = createdAt.toDate();
+            return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+        }
+
+        function renderPartnerReviewsUI() {
+            if (!partnerReviewsEl) return;
+            const filterDay = (reviewFilterDate && reviewFilterDate.value) ? reviewFilterDate.value.trim() : '';
+            if (!partnerReviewsCache.length) {
+                partnerReviewsEl.innerHTML = '<div style="color:var(--muted);font-size:0.85rem;">Nessuna recensione ancora.</div>';
+                return;
+            }
+            let items = partnerReviewsCache;
+            if (filterDay) {
+                items = partnerReviewsCache.filter((r) => reviewLocalDateKey(r.createdAt) === filterDay);
+            }
+            if (!items.length) {
+                partnerReviewsEl.innerHTML = '<div style="color:var(--muted);font-size:0.85rem;">Nessuna recensione in questa giornata.</div>';
+                return;
+            }
+            const venueName = partnerReviewsVenueLabel || 'Locale';
+            partnerReviewsEl.innerHTML = items.map((r) => {
+                const when = (r.createdAt && r.createdAt.toDate) ? r.createdAt.toDate().toLocaleDateString('it-IT') : '';
+                const nick = r.nickname ? escHtml(r.nickname) : 'Anonimo';
+                const rating = starsFromNum(r.rating);
+                const text = r.text ? escHtml(r.text) : '';
+                const delBtn = isAdminUser()
+                    ? `<button type="button" data-del-review="${escHtml(r.id)}" style="border:0.5px solid rgba(239,68,68,0.35);background:rgba(239,68,68,0.10);color:#fecaca;border-radius:12px;padding:0.35rem 0.55rem;cursor:pointer;font-size:0.78rem;">Elimina</button>`
+                    : '';
+                return `
+                      <div style="padding:0.85rem 0.9rem;border-radius:14px;border:0.5px solid rgba(255,255,255,0.10);background:rgba(255,255,255,0.03);">
+                        <div style="display:flex;justify-content:space-between;gap:0.75rem;align-items:baseline;">
+                          <div style="font-weight:800;font-family:'Syne',sans-serif;">${escHtml(venueName)}</div>
+                          <div style="color:#fbbf24;letter-spacing:1px;font-size:0.85rem;">${rating}</div>
+                        </div>
+                        <div style="color:rgba(255,255,255,0.55);font-size:0.78rem;margin-top:0.2rem;display:flex;align-items:center;justify-content:space-between;gap:0.75rem;">
+                          <span>${nick}${when ? ` · ${when}` : ''}</span>
+                          ${delBtn}
+                        </div>
+                        ${text ? `<div style="margin-top:0.55rem;color:rgba(255,255,255,0.80);font-size:0.92rem;line-height:1.5;white-space:pre-wrap;">${text}</div>`
+                            : `<div style="margin-top:0.55rem;color:rgba(255,255,255,0.60);font-size:0.92rem;font-style:italic;">Solo valutazione</div>`}
+                      </div>
+                    `;
+            }).join('');
+            partnerReviewsEl.querySelectorAll('[data-del-review]').forEach((b) => {
+                b.addEventListener('click', () => deleteReviewById(b.getAttribute('data-del-review')));
+            });
+        }
+
+        async function loadPartnerReviews(venueId, venueName) {
+            if (!partnerReviewsEl) return;
+            partnerReviewsEl.innerHTML = '<div style="color:var(--muted);font-size:0.85rem;">Caricamento…</div>';
+            partnerReviewsCache = [];
+            partnerReviewsVenueLabel = venueName || 'Locale';
+            try {
+                const snap = await db.collection('reviews')
+                    .where('venueId', '==', String(venueId))
+                    .limit(200)
+                    .get();
+                const items = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                items.sort((a, b) => {
+                    const ta = a && a.createdAt && a.createdAt.toMillis ? a.createdAt.toMillis() : 0;
+                    const tb = b && b.createdAt && b.createdAt.toMillis ? b.createdAt.toMillis() : 0;
+                    return tb - ta;
+                });
+                partnerReviewsCache = items;
+                renderPartnerReviewsUI();
+                const cntLine = document.getElementById('adminReviewsCountLine');
+                const cntEl = document.getElementById('adminReviewCount');
+                if (cntLine && cntEl && isAdminUser()) {
+                    cntEl.textContent = String(partnerReviewsCache.length);
+                    cntLine.style.display = 'block';
+                } else if (cntLine) {
+                    cntLine.style.display = 'none';
+                }
+            } catch (e) {
+                partnerReviewsCache = [];
+                const cntLine = document.getElementById('adminReviewsCountLine');
+                if (cntLine) cntLine.style.display = 'none';
+                const msg = e && e.message ? e.message : 'errore';
+                partnerReviewsEl.innerHTML = `<div style="color:#fca5a5;font-size:0.85rem;">Errore nel caricare le recensioni.<br><span style="color:rgba(255,255,255,0.6);">${escHtml(msg)}</span></div>`;
+            }
+        }
+
+        if (reviewFilterDate) reviewFilterDate.addEventListener('change', () => renderPartnerReviewsUI());
+        if (reviewFilterClear) {
+            reviewFilterClear.addEventListener('click', () => {
+                if (reviewFilterDate) reviewFilterDate.value = '';
+                renderPartnerReviewsUI();
+            });
+        }
+
+        (function wireAdminConsole() {
+            const adminFilter = document.getElementById('adminVenueFilter');
+            const adminRefresh = document.getElementById('adminRefreshVenuesBtn');
+            const adminOpen = document.getElementById('adminOpenVenueBtn');
+            const adminClear = document.getElementById('adminClearOverrideBtn');
+            const adminCreate = document.getElementById('adminCreatePartnerBtn');
+            const adminPostRev = document.getElementById('adminPostReviewBtn');
+            const adminCreateMsg = document.getElementById('adminCreatePartnerMsg');
+
+            if (adminFilter) {
+                adminFilter.addEventListener('input', () => renderAdminVenueSelectOptions());
+            }
+            const adminEditBar = document.getElementById('adminEditVenueKindBar');
+            const adminEditDisco = document.getElementById('adminEditVenueKindDisco');
+            if (adminEditBar) {
+                adminEditBar.addEventListener('change', () => {
+                    if (adminEditBar.checked && fVenueIsBar) {
+                        fVenueIsBar.checked = true;
+                        syncDashLiveBadge();
+                    }
+                });
+            }
+            if (adminEditDisco) {
+                adminEditDisco.addEventListener('change', () => {
+                    if (adminEditDisco.checked && fVenueIsBar) {
+                        fVenueIsBar.checked = false;
+                        syncDashLiveBadge();
+                    }
+                });
+            }
+            const adminSaveVenueKindBtn = document.getElementById('adminSaveVenueKindBtn');
+            if (adminSaveVenueKindBtn) {
+                adminSaveVenueKindBtn.addEventListener('click', async () => {
+                    dashError.style.display = 'none';
+                    dashOk.style.display = 'none';
+                    if (!isAdminUser() || !currentVenueId) {
+                        showMsg(dashError, 'Apri prima un locale dall’elenco.');
+                        return;
+                    }
+                    if (!(await canEditCurrentVenue())) {
+                        showMsg(dashError, 'Non hai permesso di aggiornare questo locale.');
+                        return;
+                    }
+                    const isBar = document.getElementById('adminEditVenueKindBar') && document.getElementById('adminEditVenueKindBar').checked;
+                    if (fVenueIsBar) fVenueIsBar.checked = !!isBar;
+                    adminSaveVenueKindBtn.disabled = true;
+                    try {
+                        await db.collection('venues').doc(currentVenueId).set({
+                            isBar: !!isBar,
+                            aggiornatoAt: firebase.firestore.FieldValue.serverTimestamp()
+                        }, { merge: true });
+                        syncDashLiveBadge();
+                        syncAdminVenueKindRadiosFromCheckbox();
+                        if (pillUpdated) pillUpdated.textContent = 'Adesso';
+                        showMsg(dashOk, 'Tipo Bar / Discoteca aggiornato sul sito.');
+                    } catch (e) {
+                        const code = e && e.code;
+                        const hint =
+                            code === 'permission-denied'
+                                ? ' Firestore: esegui dalla cartella del sito «firebase deploy --only firestore:rules» (serve .firebaserc e login). In alternativa: (A) Authentication → il tuo utente → Custom claims → aggiungi {"fmnAdmin":true}; oppure (B) crea il documento Firestore _config/fmn_admins con campo uids = array del tuo UID Firebase.'
+                                : '';
+                        showMsg(dashError, `Salvataggio tipo: ${e.message || e}.${hint}`);
+                    } finally {
+                        adminSaveVenueKindBtn.disabled = false;
+                        updateAdminConsoleVisibility();
+                    }
+                });
+            }
+            if (adminRefresh) {
+                adminRefresh.addEventListener('click', async () => {
+                    dashError.style.display = 'none';
+                    try {
+                        adminRefresh.disabled = true;
+                        await refreshAdminVenueList();
+                    } catch (e) {
+                        showMsg(dashError, `Elenco locali: ${e.message || e}`);
+                    } finally {
+                        adminRefresh.disabled = false;
+                    }
+                });
+            }
+            if (adminOpen) {
+                adminOpen.addEventListener('click', async () => {
+                    const sel = document.getElementById('adminVenueSelect');
+                    const id = sel && sel.value ? String(sel.value).trim() : '';
+                    if (!id) {
+                        showMsg(dashError, 'Seleziona un locale nell’elenco.');
+                        return;
+                    }
+                    try {
+                        sessionStorage.setItem(ADMIN_VENUE_OVERRIDE_KEY, id);
+                    } catch (_) { /* ignore */ }
+                    await loadVenueData(auth.currentUser);
+                });
+            }
+            if (adminClear) {
+                adminClear.addEventListener('click', async () => {
+                    try {
+                        sessionStorage.removeItem(ADMIN_VENUE_OVERRIDE_KEY);
+                    } catch (_) { /* ignore */ }
+                    await loadVenueData(auth.currentUser);
+                });
+            }
+            const adminDelVenue = document.getElementById('adminDeleteVenueBtn');
+            if (adminDelVenue) {
+                adminDelVenue.addEventListener('click', async () => {
+                    dashError.style.display = 'none';
+                    dashOk.style.display = 'none';
+                    if (!isAdminUser() || !currentVenueId) {
+                        showMsg(dashError, 'Apri prima un locale da eliminare.');
+                        return;
+                    }
+                    const vid = currentVenueId;
+                    const vlabel = (pillName && pillName.textContent) ? pillName.textContent.trim() : vid;
+                    const ok = await askAdminTypedConfirm(
+                        'Eliminare definitivamente il locale?',
+                        `Stai per eliminare "${vlabel}" (${vid}), tutte le recensioni Firestore con questo venueId e il documento partners collegato. L’account Firebase Auth del partner non viene rimosso automaticamente.`
+                    );
+                    if (!ok) return;
+                    adminDelVenue.disabled = true;
+                    try {
+                        await adminDeleteVenueAndRelated(vid);
+                        try {
+                            sessionStorage.removeItem(ADMIN_VENUE_OVERRIDE_KEY);
+                        } catch (_) { /* ignore */ }
+                        showMsg(dashOk, 'Locale e dati collegati eliminati da Firestore.');
+                        await refreshAdminVenueList();
+                        await loadVenueData(auth.currentUser);
+                    } catch (e) {
+                        showMsg(dashError, `Eliminazione: ${e.message || e}`);
+                    } finally {
+                        adminDelVenue.disabled = false;
+                        updateAdminConsoleVisibility();
+                    }
+                });
+            }
+            const adminPwdReset = document.getElementById('adminPartnerPasswordResetBtn');
+            if (adminPwdReset) {
+                adminPwdReset.addEventListener('click', async () => {
+                    dashError.style.display = 'none';
+                    dashOk.style.display = 'none';
+                    if (!isAdminUser()) return;
+                    const em = (document.getElementById('fAdminPartnerEmail')?.value || '').trim().toLowerCase();
+                    if (!em) {
+                        showMsg(dashError, 'Inserisci l’email del partner per inviare il reset.');
+                        return;
+                    }
+                    adminPwdReset.disabled = true;
+                    try {
+                        await auth.sendPasswordResetEmail(em);
+                        showMsg(dashOk, `Email di reimpostazione password inviata a ${em}.`);
+                    } catch (e) {
+                        const map = {
+                            'auth/invalid-email': 'Email non valida.',
+                            'auth/user-not-found': 'Nessun utente Firebase con questa email.',
+                        };
+                        showMsg(dashError, map[e.code] || `Reset password: ${e.message || e}`);
+                    } finally {
+                        adminPwdReset.disabled = false;
+                    }
+                });
+            }
+            if (adminCreate) {
+                adminCreate.addEventListener('click', async () => {
+                    dashError.style.display = 'none';
+                    if (adminCreateMsg) adminCreateMsg.style.display = 'none';
+                    if (!isAdminUser()) {
+                        showMsg(dashError, 'Solo amministratori possono creare account partner.');
+                        return;
+                    }
+                    const email = (document.getElementById('adminNewPartnerEmail')?.value || '').trim().toLowerCase();
+                    const pass = document.getElementById('adminNewPartnerPass')?.value || '';
+                    const vid = currentVenueId;
+                    if (!vid) {
+                        showMsg(dashError, 'Apri prima un locale (documento venues) da collegare.');
+                        return;
+                    }
+                    if (!email || !pass || pass.length < 6) {
+                        showMsg(dashError, 'Inserisci email valida e password di almeno 6 caratteri.');
+                        return;
+                    }
+                    adminCreate.disabled = true;
+                    try {
+                        const sec = getSecondaryAuthApp().auth();
+                        const cred = await sec.createUserWithEmailAndPassword(email, pass);
+                        const uid = cred.user.uid;
+                        await sec.signOut();
+                        await db.collection('partners').doc(uid).set({
+                            venueId: vid,
+                            email,
+                            authUid: uid
+                        }, { merge: true });
+                        const isBar = document.getElementById('adminVenueKindBar') && document.getElementById('adminVenueKindBar').checked;
+                        await db.collection('venues').doc(vid).set({
+                            partnerEmail: email,
+                            partnerUid: uid,
+                            isBar: !!isBar
+                        }, { merge: true });
+                        await loadVenueIntoForm(vid);
+                        if (adminCreateMsg) {
+                            adminCreateMsg.textContent = `Creato account ${email} (UID ${uid}). Il partner può accedere con queste credenziali.`;
+                            adminCreateMsg.style.display = 'block';
+                        }
+                        document.getElementById('adminNewPartnerEmail').value = '';
+                        document.getElementById('adminNewPartnerPass').value = '';
+                    } catch (e) {
+                        const map = {
+                            'auth/email-already-in-use': 'Email già registrata in Firebase.',
+                            'auth/invalid-email': 'Email non valida.',
+                            'auth/weak-password': 'Password troppo debole.',
+                        };
+                        showMsg(dashError, map[e.code] || `Creazione account: ${e.message || e}`);
+                    } finally {
+                        adminCreate.disabled = false;
+                    }
+                });
+            }
+            if (adminPostRev) {
+                adminPostRev.addEventListener('click', async () => {
+                    dashError.style.display = 'none';
+                    if (!isAdminUser()) {
+                        showMsg(dashError, 'Solo amministratori.');
+                        return;
+                    }
+                    const vid = currentVenueId;
+                    if (!vid) {
+                        showMsg(dashError, 'Apri prima un locale.');
+                        return;
+                    }
+                    const rating = Number(document.getElementById('adminReviewRating')?.value);
+                    const nick = (document.getElementById('adminReviewNick')?.value || '').trim().slice(0, 32);
+                    const text = (document.getElementById('adminReviewText')?.value || '').trim().slice(0, 1200);
+                    if (!Number.isFinite(rating) || rating < 1 || rating > 5) {
+                        showMsg(dashError, 'Voto non valido.');
+                        return;
+                    }
+                    adminPostRev.disabled = true;
+                    try {
+                        const vname = pillName ? pillName.textContent.trim() : null;
+                        const rid = `admin_${vid}_${Date.now()}`;
+                        await db.collection('reviews').doc(rid).set({
+                            venueId: String(vid),
+                            venueName: vname && vname !== '— (seleziona)' ? vname : null,
+                            rating,
+                            nickname: nick || 'FindMyNight',
+                            text: text || null,
+                            source: 'admin',
+                            createdBy: auth.currentUser.email || null,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                        showMsg(dashOk, 'Recensione pubblicata.');
+                        document.getElementById('adminReviewText').value = '';
+                        await loadPartnerReviews(vid, vname || 'Locale');
+                    } catch (e) {
+                        showMsg(dashError, `Recensione: ${e.message || e}`);
+                    } finally {
+                        adminPostRev.disabled = false;
+                    }
+                });
+            }
+        })();
+
+        // ── SALVA ──
+        saveBtn.addEventListener('click', async () => {
+            dashError.style.display = 'none';
+            dashOk.style.display = 'none';
+
+            if (!currentVenueId) {
+                showMsg(dashError, 'Nessun locale collegato.');
+                return;
+            }
+
+            if (!(await canEditCurrentVenue())) {
+                showMsg(dashError, 'Non hai permesso di modificare questo locale.');
+                return;
+            }
+
+            const invalidStickerText = customStickers.some((r) => {
+                const t = (r.text || '').trim();
+                return t.length > 0 && !isStickerTextAllowed(t);
+            });
+            if (invalidStickerText) {
+                showMsg(dashError, 'Correggi o rimuovi gli sticker personalizzati in rosso (solo lettere/numeri/spazi, niente volgarità).');
+                return;
+            }
+
+            saveBtn.textContent = 'Salvataggio…';
+            saveBtn.disabled = true;
+
+            try {
+                const fVenueNameEl = document.getElementById('fVenueName');
+                const venueName = fVenueNameEl && fVenueNameEl.value ? fVenueNameEl.value.trim() : '';
+                if (!venueName) {
+                    showMsg(dashError, 'Il nome locale non può essere vuoto.');
+                    saveBtn.textContent = 'Salva modifiche';
+                    saveBtn.disabled = false;
+                    return;
+                }
+
+                const cleanEventi = eventiData
+                    .filter(e => e.data || e.nome || e.dj)
+                    .map(e => ({ data: e.data || '', nome: e.nome || '', dj: e.dj || '' }));
+
+                const data = {
+                    name:         venueName.slice(0, 120),
+                    isBar:        !!(fVenueIsBar && fVenueIsBar.checked),
+                    eventoNome:   document.getElementById('fEventoNome').value.trim() || null,
+                    affluenzaPct: clampNum(document.getElementById('fAffluenza').value, 0, 100),
+                    ingresso:     clampNum(document.getElementById('fIngresso').value, 0, 999),
+                    drinkEuro:    clampNum(document.getElementById('fDrink').value, 0, 999),
+                    note:         (fNote && fNote.value) ? fNote.value.trim().slice(0, 80) : null,
+                    musica:       (() => {
+                        const v = (fMusica && fMusica.value) ? fMusica.value : '';
+                        if (!v) return null;
+                        if (v !== 'Altro') return v;
+                        const custom = (fMusicaAltro && fMusicaAltro.value) ? fMusicaAltro.value.trim() : '';
+                        return custom || 'Altro';
+                    })(),
+                    picco:        document.getElementById('fPicco').value || null,
+                    ageRange:     document.getElementById('fAge').value || null,
+                    aperto:       fAperto.checked,
+                    stickers:     buildStickersArrayForSave(),
+                    mapCard: {
+                        affluenza: !!(mapShowAffluenza && mapShowAffluenza.checked),
+                        stickers: !!(mapShowStickers && mapShowStickers.checked),
+                        stars: true
+                    },
+                    chatDiscotecaEmail: (() => {
+                        const el = document.getElementById('fChatDiscotecaEmail');
+                        const v = el && el.value ? el.value.trim().toLowerCase() : '';
+                        return v ? v.slice(0, 254) : null;
+                    })(),
+                    chatPrEnabled: !!(fChatPrEnabledEl && fChatPrEnabledEl.checked),
+                    chatPrEmails: (() => {
+                        const on = !!(fChatPrEnabledEl && fChatPrEnabledEl.checked);
+                        if (!on) return [];
+                        const ta = document.getElementById('fChatPrEmails');
+                        return parsePrEmailsForSave(ta ? ta.value : '');
+                    })(),
+                    instagram: (() => {
+                        const el = document.getElementById('fInstagram');
+                        const v = el && el.value ? el.value.trim().slice(0, 200) : '';
+                        return v || null;
+                    })(),
+                    facebook: (() => {
+                        const el = document.getElementById('fFacebook');
+                        const v = el && el.value ? el.value.trim().slice(0, 200) : '';
+                        return v || null;
+                    })(),
+                    imageUrl:     fImageUrl.value.trim() || null,
+                    eventi:       cleanEventi,
+                    aggiornatoAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+
+                if (isAdminUser()) {
+                    const pe = document.getElementById('fAdminPartnerEmail');
+                    const raw = pe && pe.value ? pe.value.trim().toLowerCase() : '';
+                    data.partnerEmail = raw || null;
+                }
+
+                await db.collection('venues').doc(currentVenueId).set(data, { merge: true });
+
+                if (isAdminUser() && currentVenuePartnerUid && data.partnerEmail) {
+                    await db.collection('partners').doc(currentVenuePartnerUid).set({
+                        email: data.partnerEmail,
+                        venueId: currentVenueId
+                    }, { merge: true });
+                }
+
+                if (pillName) pillName.textContent = venueName.slice(0, 120);
+                showMsg(dashOk, 'Salvato! Le modifiche sono già visibili sul sito.');
+                pillUpdated.textContent = 'Adesso';
+            } catch (err) {
+                showMsg(dashError, `Errore nel salvare: ${err.message}`);
+            } finally {
+                saveBtn.textContent = 'Salva modifiche';
+                saveBtn.disabled = false;
+            }
+        });
+
+        // ── UTILS ──
+        function showMsg(el, text) {
+            el.textContent = text;
+            el.style.display = 'block';
+        }
+
+        function clampNum(val, min, max) {
+            const n = Number(val);
+            if (isNaN(n)) return null;
+            return Math.max(min, Math.min(max, n));
+        }
+
+        // Menu mobile (hamburger) — come index
+        (function () {
+            const nav = document.getElementById('siteNav');
+            const btn = document.getElementById('navMenuBtn');
+            const backdrop = document.getElementById('navMenuBackdrop');
+            const list = document.getElementById('navMainList');
+            if (!nav || !btn || !backdrop || !list) return;
+
+            function setNavOpen(open) {
+                nav.classList.toggle('nav-open', open);
+                btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+                btn.setAttribute('aria-label', open ? 'Chiudi menu' : 'Apri menu');
+                document.body.style.overflow = open ? 'hidden' : '';
+            }
+
+            btn.addEventListener('click', () => setNavOpen(!nav.classList.contains('nav-open')));
+            backdrop.addEventListener('click', () => setNavOpen(false));
+            list.querySelectorAll('a').forEach((a) => {
+                a.addEventListener('click', () => setNavOpen(false));
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && nav.classList.contains('nav-open')) setNavOpen(false);
+            });
+        })();
+
+    </script>
+    <script src="fmn-analytics.js" defer></script>
+    <script src="fmn-cookie-consent.js" defer></script>
+    <script src="fmn-chat-widget.js" defer></script>
+
+</body>
+</html>
