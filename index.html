@@ -3790,8 +3790,8 @@
         <ul id="navMainList" class="nav-main-list">
             <li><a href="locali.html">Locali</a></li>
             <li><a href="#features">Funzionalità</a></li>
-            <li><a href="#how">Come funziona</a></li>
-            <li><a href="#pricing">Prezzi</a></li>
+            <li><a href="recensioni.html">Recensioni</a></li>
+            <li><a href="valutazione-idea.html">Valuta l'idea</a></li>
             <li><a href="chat.html">Chat</a></li>
             <li><a href="partner.html">Area Partner</a></li>
             <li><a href="#cta" class="nav-cta">Inizia gratis →</a></li>
@@ -4557,10 +4557,8 @@
 
                 if (fb && fb.isBar === true) {
                     club.isBar = true;
-                }
-                const isNightclub = Array.isArray(club.tags) ? club.tags.some(t => typeof t === 'string' && t.includes('nightclub')) : false;
-                if (!isNightclub && !club.isBar) {
-                    club.isBar = true; // For overpass places without nightclub tag
+                } else if (club.isBar == null && !isNightclub(club)) {
+                    club.isBar = true;
                 }
             });
         }
@@ -4650,6 +4648,20 @@
                 localStorage.setItem(LAST_LOCATION_KEY, JSON.stringify({ lat: loc.lat, lng: loc.lng, ts: Date.now() }));
                 persistMapFocusForLocali({ type: 'gps', lat: loc.lat, lng: loc.lng, label: 'La tua posizione' });
             } catch { /* ignore */ }
+        }
+
+        /** Ultima posizione salvata (stesso TTL del salvataggio) per eventuali riusi futuri. */
+        function peekLastLocationForWarmStart() {
+            try {
+                const raw = localStorage.getItem(LAST_LOCATION_KEY);
+                if (!raw) return null;
+                const o = JSON.parse(raw);
+                if (!o || !Number.isFinite(o.lat) || !Number.isFinite(o.lng) || !o.ts) return null;
+                if (Date.now() - o.ts > LAST_LOCATION_TTL_MS) return null;
+                return { lat: o.lat, lng: o.lng };
+            } catch {
+                return null;
+            }
         }
 
         // “Discovery” veloce: una città casuale in Italia (niente geolocalizzazione richiesta)
@@ -4974,7 +4986,7 @@
                 return result;
             }
 
-            await new Promise((r) => setTimeout(r, 280));
+            await new Promise((r) => setTimeout(r, 120));
             const shuffled = [...OVERPASS_ENDPOINTS].sort(() => Math.random() - 0.5);
             for (const ep of shuffled) {
                 try {
@@ -5552,7 +5564,7 @@
             }
 
             const enriched = [];
-            const GAP_MS = 100;
+            const GAP_MS = 45;
 
             async function enrichOneClub(club) {
                 try {
@@ -5609,88 +5621,85 @@
             const location = new window.google.maps.LatLng(center.lat, center.lng);
             const radius = Math.max(1000, Math.min(50000, radiusMeters));
             const denied = (st) => st === 'REQUEST_DENIED' || st === 'OVER_QUERY_LIMIT';
+            const OK = window.google.maps.places.PlacesServiceStatus.OK;
 
-            // 1) Nearby Search per categoria "night_club" + keyword
-            let nearbyStatus = 'UNKNOWN';
-            const nearbyResults = await new Promise((resolve) => {
-                service.nearbySearch({
+            const runNearby = (opts) => new Promise((resolve) => {
+                service.nearbySearch(opts, (res, status) => {
+                    if (denied(status)) {
+                        console.warn('Places nearbySearch (chiave/API):', status);
+                        resolve(null);
+                        return;
+                    }
+                    if (status !== OK || !res) {
+                        resolve([]);
+                        return;
+                    }
+                    resolve(res);
+                });
+            });
+
+            const [nearbyResults, barResultsRaw] = await Promise.all([
+                runNearby({
                     location,
                     radius,
                     type: 'night_club',
                     keyword: 'discoteca club'
-                }, (res, status) => {
-                    nearbyStatus = status;
-                    if (denied(status)) {
-                        console.warn('Places nearbySearch (chiave/API non abilitata):', status);
-                        resolve(null);
-                        return;
-                    }
-                    if (status !== window.google.maps.places.PlacesServiceStatus.OK || !res) {
-                        console.warn('Places nearbySearch status:', status);
-                        resolve([]);
-                        return;
-                    }
-                    resolve(res);
-                });
-            });
-            if (!Array.isArray(nearbyResults)) return [];
-
-            // 2) Se ZERO_RESULTS su night_club, proviamo "bar" con keyword (in Italia molti locali sono classificati così)
-            let barStatus = 'SKIPPED';
-            const barResults = nearbyResults.length ? [] : await new Promise((resolve) => {
-                service.nearbySearch({
+                }),
+                runNearby({
                     location,
                     radius,
-                    type: 'bar',
-                    keyword: 'discoteca nightclub club'
-                }, (res, status) => {
-                    barStatus = status;
-                    if (denied(status)) {
-                        console.warn('Places nearbySearch(bar):', status);
-                        resolve(null);
-                        return;
-                    }
-                    if (status !== window.google.maps.places.PlacesServiceStatus.OK || !res) {
-                        console.warn('Places nearbySearch(bar) status:', status);
-                        resolve([]);
-                        return;
-                    }
-                    resolve(res);
-                });
-            });
-            if (!Array.isArray(barResults)) return [];
-
-            // 3) Ultimo tentativo: textSearch
-            let textStatus = 'SKIPPED';
-            const pooled = nearbyResults.length ? nearbyResults : (barResults.length ? barResults : []);
-            const textResults = pooled.length ? [] : await new Promise((resolve) => {
-                service.textSearch({
-                    location,
-                    radius,
-                    query: 'discoteca nightclub'
-                }, (res, status) => {
-                    textStatus = status;
-                    if (denied(status)) {
-                        console.warn('Places textSearch (chiave/API):', status);
-                        resolve(null);
-                        return;
-                    }
-                    if (status !== window.google.maps.places.PlacesServiceStatus.OK || !res) {
-                        console.warn('Places textSearch status:', status);
-                        resolve([]);
-                        return;
-                    }
-                    resolve(res);
-                });
-            });
-            if (!Array.isArray(textResults)) return [];
-
-            const results = (pooled.length ? pooled : textResults) || [];
-            if (!results.length) {
+                    type: 'bar'
+                })
+            ]);
+            if (nearbyResults === null || barResultsRaw === null) {
                 return [];
             }
 
-            const clubs = results
+            const mergeByPlaceId = (lists) => {
+                const map = new Map();
+                for (const list of lists) {
+                    if (!Array.isArray(list)) continue;
+                    for (const p of list) {
+                        const pid = p && p.place_id;
+                        if (!pid || map.has(pid)) continue;
+                        map.set(pid, p);
+                    }
+                }
+                return [...map.values()];
+            };
+
+            let pooled = mergeByPlaceId([nearbyResults, barResultsRaw]);
+            let textResults = [];
+            if (!pooled.length) {
+                textResults = await new Promise((resolve) => {
+                    service.textSearch({
+                        location,
+                        radius,
+                        query: 'discoteca nightclub bar'
+                    }, (res, status) => {
+                        if (denied(status)) {
+                            console.warn('Places textSearch (chiave/API):', status);
+                            resolve(null);
+                            return;
+                        }
+                        if (status !== OK || !res) {
+                            console.warn('Places textSearch status:', status);
+                            resolve([]);
+                            return;
+                        }
+                        resolve(res);
+                    });
+                });
+                if (!Array.isArray(textResults)) {
+                    return [];
+                }
+                pooled = textResults;
+            }
+            if (!pooled.length) {
+                return [];
+            }
+
+            const clubs = pooled
                 .map((p) => {
                     const loc = p.geometry && p.geometry.location;
                     if (!loc) return null;
@@ -5702,11 +5711,13 @@
                     const total = typeof p.user_ratings_total === 'number' ? p.user_ratings_total : null;
                     const ratingText = (rating != null && total != null) ? `${rating.toFixed(1)} (${total})` : (rating != null ? rating.toFixed(1) : '—');
                     const starsText = (rating != null) ? starsFromRating(rating) : '—';
+                    const gTypes = Array.isArray(p.types) ? p.types : [];
+                    const isBar = (gTypes.includes('bar') || gTypes.includes('pub')) && !gTypes.includes('night_club');
 
                     return {
                         id: `google:${p.place_id || p.name}`,
                         name: p.name || 'Locale',
-                        address: (p.vicinity || ''),
+                        address: (p.vicinity || p.formatted_address || ''),
                         lat,
                         lng,
                         distanceKm: kmBetween(center, { lat, lng }),
@@ -5717,7 +5728,8 @@
                         crowdPercent: 0,
                         ageText: '—',
                         source: 'Google',
-                        googlePlaceTypes: Array.isArray(p.types) ? p.types.slice() : []
+                        googlePlaceTypes: gTypes.slice(),
+                        isBar
                     };
                 })
                 .filter(Boolean)
@@ -5858,9 +5870,8 @@
                 sidebar.appendChild(card);
             });
 
-            clubs.forEach((club, idx) => {
+            clubs.forEach((club) => {
                 const card = document.createElement('div');
-                const isFirst = idx === 0 && !nearbySponsored.length;
                 const dkm = (typeof club.distanceKm === 'number' && Number.isFinite(club.distanceKm))
                     ? club.distanceKm.toFixed(1)
                     : '—';
@@ -5911,15 +5922,22 @@
                         else if (s === 'house') addSticker('House', 'tag-music');
                     });
                     if (!stickerHtmlParts.length) {
-                        addSticker(club.seedTipo || 'Discoteca', 'tag-music');
+                        if (club.isBar) {
+                            addSticker('Bar', 'tag-free');
+                        } else {
+                            addSticker(club.seedTipo || 'Discoteca', 'tag-music');
+                        }
                         if (club.seedIngresso === 0) addSticker('Ingresso gratis', 'tag-free');
                     }
                 }
                 const compactClass = (!showMapAff || !showMapStickers || !showMapStars) ? ' club-card--compact' : '';
-                card.className = 'club-card' + (isFirst ? ' active' : '') + compactClass;
+                card.className = 'club-card' + compactClass;
+                const addrRaw = (club.address && String(club.address).trim()) ? String(club.address).trim() : '';
+                const addrHtml = addrRaw ? escapeHtml(addrRaw) : '';
+                const metaBase = addrHtml ? `${addrHtml} · ${distMeta}` : distMeta;
                 const metaLine = showMapAff
-                    ? `<div class="club-meta">${distMeta}</div>`
-                    : `<div class="club-meta">${distMeta}${badgeHtml}</div>`;
+                    ? `<div class="club-meta">${metaBase}</div>`
+                    : `<div class="club-meta">${metaBase}${badgeHtml}</div>`;
                 const tagsBlock = stickerHtmlParts.length
                     ? `<div class="club-tags">${stickerHtmlParts.join('')}</div>`
                     : '';
@@ -5950,8 +5968,6 @@
 
                 sidebar.appendChild(card);
             });
-
-            showClubDetails(clubs[0]);
         }
 
         function initMap() {
@@ -5970,8 +5986,8 @@
             }).addTo(leafletMap);
 
             // Marker posizione utente (se permessa)
-            // preferGpsAsSearchCenter=true (tap “Usa la posizione attuale”): usa sempre il GPS come centro ricerca.
-            // false (avvio automatico): se hai già scelto un luogo con la ricerca, non sovrascrivere.
+            // preferGpsAsSearchCenter=true (tap “Usa la posizione attuale” o avvio dopo consenso): forza GPS come centro ricerca e stessa precisione del pulsante.
+            // false: se hai già scelto un luogo con la ricerca, non sovrascrivere (solo aggiorna marker se useGpsAsCenter è false).
             function requestUserLocation(preferGpsAsSearchCenter = false) {
                 if (!('geolocation' in navigator)) return;
 
@@ -5983,6 +5999,7 @@
                 }
 
                 navigator.geolocation.getCurrentPosition((pos) => {
+                    const prevLocForReload = userLocation;
                     const here = { lat: pos.coords.latitude, lng: pos.coords.longitude };
                     userLocation = here;
                     discoveryCenter = null;
@@ -6004,12 +6021,9 @@
 
                     userLocationMarker.on('click', () => openInMapsChooser(here.lat, here.lng, 'La tua posizione'));
 
-                    // Senza ricerca su un luogo: centra subito la mappa sulla tua posizione.
+                    // Aggiorna la vista mappa senza scrollare la pagina (evita di “tirare su” l’utente dalle altre sezioni).
                     if (!manualCenter && leafletMap) {
                         leafletMap.flyTo([here.lat, here.lng], 13, { duration: 0.75, easeLinearity: 0.25 });
-                        if (!preferGpsAsSearchCenter) {
-                            document.getElementById('map')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        }
                     }
 
                     const useGpsAsCenter = preferGpsAsSearchCenter || !manualCenter;
@@ -6023,15 +6037,24 @@
                         tempSearchMarker = null;
                     }
 
-                    loadClubs();
+                    const skipClubReload = Boolean(
+                        prevLocForReload
+                        && !preferGpsAsSearchCenter
+                        && kmBetween(prevLocForReload, here) < 0.12
+                    );
+                    if (!skipClubReload) {
+                        loadClubs();
+                    }
                 }, (err) => {
                     console.warn('Geolocation non disponibile:', err && err.message ? err.message : err);
                     loadClubs();
-                }, { enableHighAccuracy: true, timeout: 12000, maximumAge: 120000 });
+                }, preferGpsAsSearchCenter
+                    ? { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 }
+                    : { enableHighAccuracy: false, timeout: 7000, maximumAge: 180000 });
             }
 
-            // Esposti per il bootstrap (evita prompt automatici non voluti)
-            window.__requestUserLocationAuto = () => requestUserLocation(false);
+            // Stesso comportamento del pulsante “Usa la posizione attuale” (anche subito dopo il consenso al prompt).
+            window.__requestUserLocationAuto = () => requestUserLocation(true);
             // “Usa la posizione attuale”: forza il centro ricerca sul GPS (mostra prompt se necessario)
             window.__requestUserLocation = () => requestUserLocation(true);
 
@@ -6053,6 +6076,9 @@
                 const crowdPercent = 0;
                 const ageText = '—';
                 const distanceKm = kmBetween(center, { lat, lng });
+                const amen = String(tags.amenity || '').toLowerCase();
+                const clubTag = String(tags.club || '').toLowerCase();
+                const isBar = amen === 'bar' && clubTag !== 'nightclub';
                 return {
                     id: `${el.type}/${el.id}`,
                     name,
@@ -6068,7 +6094,8 @@
                     source: 'OSM',
                     osmAmenity: tags.amenity || '',
                     osmLeisure: tags.leisure || '',
-                    osmClub: tags.club || ''
+                    osmClub: tags.club || '',
+                    isBar
                 };
             }).filter(Boolean)
                 .sort((a, b) => a.distanceKm - b.distanceKm)
@@ -6084,7 +6111,7 @@
             const lng = Number(center.lng);
             const r = Math.max(1000, Math.min(100000, Math.round(radiusMeters)));
             const query = `
-              [out:json][timeout:15];
+              [out:json][timeout:22];
               (
                 node["amenity"="nightclub"](around:${r},${lat},${lng});
                 way["amenity"="nightclub"](around:${r},${lat},${lng});
@@ -6104,12 +6131,15 @@
                 node["amenity"="bar"]["club"="nightclub"](around:${r},${lat},${lng});
                 way["amenity"="bar"]["club"="nightclub"](around:${r},${lat},${lng});
                 relation["amenity"="bar"]["club"="nightclub"](around:${r},${lat},${lng});
+                node["amenity"="bar"]["name"](around:${r},${lat},${lng});
+                way["amenity"="bar"]["name"](around:${r},${lat},${lng});
+                relation["amenity"="bar"]["name"](around:${r},${lat},${lng});
               );
               out center tags;
             `.replace(/\s+/g, ' ').trim();
 
             const controller = new AbortController();
-            const timeout = setTimeout(() => controller.abort(), 15000);
+            const timeout = setTimeout(() => controller.abort(), 24000);
             let res;
             try {
                 res = await fetch(endpoint, {
@@ -6263,6 +6293,9 @@
                 node["amenity"="bar"]["club"="nightclub"](around:${r},${lat},${lng});
                 way["amenity"="bar"]["club"="nightclub"](around:${r},${lat},${lng});
                 relation["amenity"="bar"]["club"="nightclub"](around:${r},${lat},${lng});
+                node["amenity"="bar"]["name"](around:${r},${lat},${lng});
+                way["amenity"="bar"]["name"](around:${r},${lat},${lng});
+                relation["amenity"="bar"]["name"](around:${r},${lat},${lng});
               );
               out center tags;
             `.replace(/\s+/g, ' ').trim();
@@ -6525,8 +6558,8 @@
         initMap();
         (async () => {
             // HTTPS: chiedi subito la posizione (compare il prompt se il browser non ha ancora scelto).
-            // Se il permesso è già "granted", non facciamo discovery qui: loadClubs parte dal callback GPS.
-            // Se è "prompt", carichiamo subito anche esempi Italia così la mappa non resta vuota mentre l’utente decide.
+            // Stessa logica del pulsante “Usa la posizione attuale” così, dopo il consenso, centro e ricerca coincidono con quel flusso.
+            // Se è "prompt", nel frattempo carichiamo anche esempi Italia così la mappa non resta vuota mentre l’utente decide.
             try {
                 if (window.isSecureContext && 'geolocation' in navigator && typeof window.__requestUserLocationAuto === 'function') {
                     let geoDenied = false;
@@ -6540,11 +6573,19 @@
                     } catch {
                         /* Safari / permessi: proseguiamo senza alreadyGranted */
                     }
+                    if (!geoDenied && alreadyGranted) {
+                        const warm = peekLastLocationForWarmStart();
+                        if (warm && !manualCenter) {
+                            userLocation = warm;
+                            discoveryCenter = null;
+                            currentRadiusKm = Math.max(currentRadiusKm, 18);
+                            loadClubs();
+                        }
+                        window.__requestUserLocationAuto();
+                        return;
+                    }
                     if (!geoDenied) {
                         window.__requestUserLocationAuto();
-                    }
-                    if (!geoDenied && alreadyGranted) {
-                        return;
                     }
                 }
             } catch {
