@@ -11,6 +11,19 @@
         });
     }
 
+    function loadStyle(href, integrity) {
+        return new Promise(function (resolve, reject) {
+            var l = document.createElement('link');
+            l.rel = 'stylesheet';
+            l.href = href;
+            l.crossOrigin = '';
+            if (integrity) l.integrity = integrity;
+            l.onload = function () { resolve(); };
+            l.onerror = function () { reject(new Error('Failed to load ' + href)); };
+            document.head.appendChild(l);
+        });
+    }
+
     function whenDomReady(fn) {
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', fn, { once: true });
@@ -30,6 +43,12 @@
 
             // Carica dipendenze solo quando serve la mappa
             Promise.resolve()
+                .then(function () {
+                    return loadStyle(
+                        'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
+                        'sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY='
+                    );
+                })
                 .then(function () { return loadScript('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'); })
                 .then(function () { return loadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js'); })
                 .then(function () { return loadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js'); })
@@ -49,7 +68,7 @@
                 start();
                 break;
             }
-        }, { root: null, threshold: 0.01, rootMargin: '250px 0px' });
+        }, { root: null, threshold: 0.01, rootMargin: '0px 0px' });
         io.observe(mapSection);
     }
 
