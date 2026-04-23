@@ -1,8 +1,80 @@
-if (!window.FMN_FIREBASE_CONFIG) {
-            throw new Error('FindMyNight: carica fmn-firebase-public.js prima di questo script.');
+// Core loader (mobile performance): carica il codice mappa solo quando #map entra nel viewport.
+(function () {
+    function loadScript(src) {
+        return new Promise(function (resolve, reject) {
+            var s = document.createElement('script');
+            s.src = src;
+            s.defer = true;
+            s.onload = function () { resolve(); };
+            s.onerror = function () { reject(new Error('Failed to load ' + src)); };
+            document.head.appendChild(s);
+        });
+    }
+
+    function whenDomReady(fn) {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', fn, { once: true });
+        } else {
+            fn();
         }
-        firebase.initializeApp(window.FMN_FIREBASE_CONFIG);
-        const db = firebase.firestore();
+    }
+
+    function observeMapAndBoot() {
+        var mapSection = document.getElementById('map');
+        if (!mapSection) return;
+
+        var started = false;
+        function start() {
+            if (started) return;
+            started = true;
+
+            // Carica dipendenze solo quando serve la mappa
+            Promise.resolve()
+                .then(function () { return loadScript('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'); })
+                .then(function () { return loadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js'); })
+                .then(function () { return loadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js'); })
+                .then(function () { return loadScript('fmn-firebase-public.js'); })
+                .then(function () { return loadScript('fmn-secrets.defaults.js'); })
+                .then(function () { return loadScript('main-map.js'); });
+        }
+
+        if (typeof IntersectionObserver === 'undefined') {
+            start();
+            return;
+        }
+        var io = new IntersectionObserver(function (entries) {
+            for (var i = 0; i < entries.length; i++) {
+                if (!entries[i].isIntersecting) continue;
+                io.disconnect();
+                start();
+                break;
+            }
+        }, { root: null, threshold: 0.01, rootMargin: '250px 0px' });
+        io.observe(mapSection);
+    }
+
+    whenDomReady(observeMapAndBoot);
+})();
+
+// Animazioni leggere: evita <details> e riduci main-thread su mobile
+(function () {
+    try {
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+                if (!e.isIntersecting) return;
+                e.target.style.opacity = '1';
+                e.target.style.transform = 'translateY(0)';
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.step, .plan-card, .stat-item').forEach(function (el) {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    } catch { /* ignore */ }
+})();
 
 // Funzionalità (desktop): card statiche sempre aperte, niente toggle
 (function () {
