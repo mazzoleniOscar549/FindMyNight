@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FindMyNight – Chat</title>
-    <meta name="description" content="Chat FindMyNight: messaggi con i locali partner e il team. Accedi con il tuo account per le stanze riservate.">
-    <meta name="robots" content="noindex, nofollow">
-    <link rel="canonical" href="https://findmynight.info/chat.html">
+    <title>FindMyNight – Contatti</title>
+    <meta name="description" content="Contatta FindMyNight: domande sul sito, collaborazioni per locali, supporto e segnalazioni. Siamo in provincia di Bergamo, Italia.">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://findmynight.info/contatti.html">
     <link rel="icon" href="immagini_locali/favicon.ico" sizes="any">
     <link rel="icon" type="image/png" sizes="32x32" href="immagini_locali/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="immagini_locali/favicon-16x16.png">
@@ -16,12 +16,20 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="FindMyNight">
     <meta property="og:locale" content="it_IT">
-    <meta property="og:title" content="FindMyNight – Chat">
-    <meta property="og:description" content="Messaggi con i locali partner e il team FindMyNight.">
-    <meta property="og:url" content="https://findmynight.info/chat.html">
+    <meta property="og:title" content="FindMyNight – Contatti">
+    <meta property="og:description" content="Scrivi a FindMyNight per collaborazioni, supporto e domande sul servizio.">
+    <meta property="og:url" content="https://findmynight.info/contatti.html">
     <meta property="og:image" content="https://findmynight.info/fmn-og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="FindMyNight — contatti">
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="FindMyNight – Contatti">
+    <meta name="twitter:description" content="Contatta FindMyNight per collaborazioni e supporto.">
     <meta name="twitter:image" content="https://findmynight.info/fmn-og-image.png">
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"ContactPage","name":"Contatti — FindMyNight","url":"https://findmynight.info/contatti.html","description":"Pagina contatti FindMyNight.","isPartOf":{"@type":"WebSite","name":"FindMyNight","url":"https://findmynight.info/"}}
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="fmn-chat-widget.css">
     <style>
@@ -38,8 +46,6 @@
             --card: rgba(255, 255, 255, 0.04);
             --card-border: rgba(255, 255, 255, 0.08);
             --glow: 0 0 40px rgba(168, 85, 247, 0.25);
-            /* Altezza barra fissa (nav + safe-area notch) — usata da .chat-app e overlay sidebar */
-            --chat-nav-chrome: calc(3.35rem + env(safe-area-inset-top, 0px));
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -53,11 +59,10 @@
             font-family: 'DM Sans', sans-serif;
             background: var(--bg);
             color: var(--text);
-            overflow: hidden;
+            overflow-x: hidden;
+            line-height: 1.6;
             min-height: 100vh;
             min-height: 100dvh;
-            height: 100dvh;
-            height: 100vh;
             padding-left: env(safe-area-inset-left, 0px);
             padding-right: env(safe-area-inset-right, 0px);
         }
@@ -72,19 +77,19 @@
             opacity: 0.4;
         }
 
-        /* ─── NAV (allineato a index / locali) ─── */
+        /* ─── NAV (come index) ─── */
         nav.site-nav {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 100;
-            padding: calc(0.75rem + env(safe-area-inset-top, 0px)) max(1rem, env(safe-area-inset-right, 0px)) 0.75rem max(1rem, env(safe-area-inset-left, 0px));
+            padding: calc(1rem + env(safe-area-inset-top, 0px)) max(5vw, env(safe-area-inset-right, 0px)) 1rem max(5vw, env(safe-area-inset-left, 0px));
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            gap: 0.65rem;
-            background: rgba(7, 6, 15, 0.88);
+            gap: 0.75rem;
+            background: rgba(7, 6, 15, 0.75);
             backdrop-filter: blur(16px);
             border-bottom: 0.5px solid var(--border);
         }
@@ -93,7 +98,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 0.6rem;
+            gap: 0.75rem;
             flex: 1 1 auto;
             min-width: 0;
         }
@@ -105,15 +110,15 @@
         .logo {
             display: inline-flex;
             align-items: center;
-            gap: 0.45rem;
+            gap: 0.55rem;
             min-width: 0;
-            flex-shrink: 1;
+            flex-shrink: 0;
         }
 
         .logo-text {
             font-family: 'Syne', sans-serif;
             font-weight: 800;
-            font-size: 1.12rem;
+            font-size: 1.3rem;
             letter-spacing: -0.02em;
             background: linear-gradient(135deg, #a855f7, #ec4899);
             -webkit-background-clip: text;
@@ -124,13 +129,13 @@
         .logo-beta {
             flex-shrink: 0;
             align-self: center;
-            margin-left: 0.08rem;
+            margin-left: 0.1rem;
             font-family: 'DM Sans', sans-serif;
-            font-size: 0.56rem;
+            font-size: 0.62rem;
             font-weight: 700;
             letter-spacing: 0.06em;
             color: rgba(233, 213, 255, 0.98);
-            padding: 0.18rem 0.42rem;
+            padding: 0.2rem 0.48rem;
             border-radius: 999px;
             border: 0.5px solid rgba(168, 85, 247, 0.42);
             background: rgba(168, 85, 247, 0.16);
@@ -143,7 +148,7 @@
             height: 26px;
             flex: 0 0 auto;
             border-radius: 8px;
-            filter: drop-shadow(0 8px 16px rgba(168, 85, 247, 0.3));
+            filter: drop-shadow(0 10px 20px rgba(168, 85, 247, 0.35));
         }
 
         .nav-menu-btn {
@@ -172,11 +177,16 @@
             background: rgba(241, 240, 250, 0.9);
             transition:
                 transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
-                opacity 0.22s ease;
+                opacity 0.22s ease,
+                top 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+                left 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+                margin 0.32s cubic-bezier(0.22, 1, 0.36, 1);
             transform-origin: center;
         }
 
-        .site-nav.nav-open .nav-menu-btn { gap: 0; }
+        .site-nav.nav-open .nav-menu-btn {
+            gap: 0;
+        }
 
         .site-nav.nav-open .nav-menu-btn span:nth-child(1),
         .site-nav.nav-open .nav-menu-btn span:nth-child(3) {
@@ -188,10 +198,13 @@
             margin-top: -1px;
         }
 
-        .site-nav.nav-open .nav-menu-btn span:nth-child(1) { transform: rotate(45deg); }
+        .site-nav.nav-open .nav-menu-btn span:nth-child(1) {
+            transform: rotate(45deg);
+        }
 
         .site-nav.nav-open .nav-menu-btn span:nth-child(2) {
             position: absolute;
+            left: 50%;
             width: 0;
             height: 0;
             margin: 0;
@@ -201,7 +214,9 @@
             pointer-events: none;
         }
 
-        .site-nav.nav-open .nav-menu-btn span:nth-child(3) { transform: rotate(-45deg); }
+        .site-nav.nav-open .nav-menu-btn span:nth-child(3) {
+            transform: rotate(-45deg);
+        }
 
         .nav-menu-backdrop {
             display: none;
@@ -211,11 +226,8 @@
             background: var(--bg);
         }
 
-        .site-nav.nav-open .nav-menu-backdrop { display: block; }
-
-        /* Chat: menu aperto sopra sidebar/chat; ordine interno backdrop < drawer < barra */
-        #chatApp .nav-menu-backdrop {
-            z-index: 0;
+        .site-nav.nav-open .nav-menu-backdrop {
+            display: block;
         }
 
         nav ul.nav-main-list {
@@ -237,7 +249,9 @@
             transition: color 0.2s;
         }
 
-        nav ul.nav-main-list a:hover { color: var(--text); }
+        nav ul.nav-main-list a:hover {
+            color: var(--text);
+        }
 
         nav ul.nav-main-list a[aria-current="page"] {
             color: var(--text);
@@ -254,789 +268,407 @@
             transition: opacity 0.2s !important;
         }
 
-        .nav-cta:hover { opacity: 0.85 !important; }
-
-        .nav-user {
-            display: flex;
-            align-items: center;
-            gap: 0.45rem;
-            min-width: 0;
+        .nav-cta:hover {
+            opacity: 0.85 !important;
         }
 
-        .nav-user img {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            border: 1.5px solid var(--accent);
-            flex-shrink: 0;
-        }
-
-        .nav-user .nav-display-name {
-            font-size: 0.8rem;
-            color: var(--muted);
-            min-width: 0;
-        }
-
-        .nav-user-meta {
-            display: flex;
-            flex-direction: column;
-            gap: 0.12rem;
-            align-items: flex-start;
-            min-width: 0;
-        }
-
-        .nav-chat-badge {
-            font-size: 0.58rem;
-            font-weight: 700;
-            letter-spacing: 0.03em;
-            color: #f5e9ff;
-            background: rgba(168, 85, 247, 0.28);
-            border: 0.5px solid rgba(216, 180, 254, 0.35);
-            padding: 0.06rem 0.38rem;
-            border-radius: 6px;
-            line-height: 1.25;
-            max-width: 100%;
-            word-break: break-word;
-        }
-
-        .nav-chat-badge[hidden] {
-            display: none !important;
-        }
-
-        .btn-logout {
-            background: rgba(255,255,255,0.06);
-            border: 0.5px solid var(--card-border);
-            color: var(--muted);
-            padding: 0.32rem 0.65rem;
-            border-radius: 8px;
-            font-size: 0.74rem;
-            cursor: pointer;
-            transition: background 0.2s;
-            flex-shrink: 0;
-        }
-
-        .btn-logout:hover { background: rgba(255,255,255,0.12); color: var(--text); }
-
-        /* Chat: barra = brand + (utente + Esci) + hamburger (desktop); su mobile seconda riga utente | Esci */
-        #chatApp .chat-nav-trailing {
-            display: flex;
-            align-items: center;
-            gap: 0.55rem;
-            margin-left: auto;
-            flex-shrink: 0;
-        }
-
-        #chatApp .chat-nav-secondary {
-            display: flex;
-            align-items: center;
-            gap: 0.55rem;
-            min-width: 0;
-        }
-
-        #chatApp .chat-nav-secondary .nav-user {
-            padding: 0.2rem 0.55rem 0.2rem 0.35rem;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.06);
-            border: 0.5px solid rgba(255, 255, 255, 0.1);
-            max-width: min(240px, 36vw);
-        }
-
-        #chatApp .chat-nav-secondary .btn-logout {
-            padding: 0.42rem 0.95rem;
-            border-radius: 10px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        #chatApp nav.site-nav .nav-menu-btn {
-            display: inline-flex;
-        }
-
-        #chatApp nav ul.nav-main-list {
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            top: 0;
-            right: 0;
-            z-index: 1;
-            width: min(19.5rem, 88vw);
-            max-width: 100%;
-            min-width: 0;
-            height: 100vh;
-            height: 100dvh;
-            margin: 0;
-            padding: calc(5.85rem + env(safe-area-inset-top, 0px)) 1.25rem calc(1.5rem + env(safe-area-inset-bottom, 0px));
-            align-items: stretch;
-            gap: 0;
-            background: var(--bg);
-            border-left: 0.5px solid rgba(168, 85, 247, 0.28);
-            box-shadow: -12px 0 48px rgba(0, 0, 0, 0.45);
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-            transform: translateX(102%);
-            transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        #chatApp nav.site-nav.nav-open ul.nav-main-list {
-            transform: translateX(0);
-        }
-
-        #chatApp .site-nav.nav-open {
-            z-index: 200;
-            background: transparent;
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
-            padding-top: 0;
-            padding-bottom: 0;
-        }
-
-        #chatApp .site-nav.nav-open .nav-top {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 2;
-            flex: none;
-            width: 100%;
-            max-width: none;
-            box-sizing: border-box;
-            padding: calc(0.75rem + env(safe-area-inset-top, 0px)) max(1rem, env(safe-area-inset-right, 0px)) 0.75rem max(1rem, env(safe-area-inset-left, 0px));
-            margin: 0;
-            background: var(--bg);
-            border-bottom: 0.5px solid var(--border);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
-        }
-
-        #chatApp nav ul.nav-main-list li {
-            border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
-        }
-
-        #chatApp nav ul.nav-main-list a {
-            display: flex;
-            align-items: center;
-            min-height: 48px;
-            padding: 0.35rem 0;
-            font-size: 0.98rem;
-        }
-
-        #chatApp nav ul.nav-main-list li:last-child {
-            border-bottom: none;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            padding-top: 0.35rem;
-            padding-bottom: 0.25rem;
-        }
-
-        #chatApp nav ul.nav-main-list a.nav-cta {
-            display: inline-flex !important;
-            align-items: center;
-            justify-content: center;
-            width: auto;
-            max-width: 100%;
-            min-height: 44px;
-            padding: 0.5rem 1.1rem !important;
-            box-sizing: border-box;
-            margin-left: -0.35rem;
-            margin-right: auto;
-        }
-
-        @media (min-width: 769px) {
-            #chatApp .chat-nav-secondary .nav-user .nav-display-name {
-                max-width: 12rem;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-            }
-        }
-
-        @media (max-width: 768px) {
-            /* Due righe: logo + menu | riga account (profilo a sinistra, Esci a destra).
-               L’altezza reale della nav supera ~6rem (badge, due righe nome): serve abbastanza offset
-               così il padding-top di .chat-app non fa partire la chat sotto account/Esci. */
-            #chatApp {
-                --chat-nav-chrome: calc(8.35rem + env(safe-area-inset-top, 0px));
-            }
-
-            #chatApp .nav-top {
-                display: grid;
-                grid-template-columns: minmax(0, 1fr) auto;
-                grid-template-rows: auto auto;
-                column-gap: 0.65rem;
-                row-gap: 0.45rem;
-                align-items: center;
-            }
-
-            #chatApp .nav-top > a.logo {
-                grid-column: 1;
-                grid-row: 1;
-                min-width: 0;
-            }
-
-            #chatApp .nav-top .chat-nav-trailing {
-                display: contents;
-            }
-
-            #chatApp .nav-top .nav-menu-btn {
-                grid-column: 2;
-                grid-row: 1;
-                justify-self: end;
-                align-self: center;
-            }
-
-            #chatApp .nav-top .chat-nav-secondary {
-                grid-column: 1 / -1;
-                grid-row: 2;
-                justify-content: space-between;
-                width: 100%;
-                padding-top: 0.4rem;
-                border-top: 0.5px solid rgba(255, 255, 255, 0.08);
-            }
-
-            #chatApp .chat-nav-secondary .nav-user {
-                max-width: min(220px, 58vw);
-                padding: 0.15rem 0.45rem 0.15rem 0.3rem;
-            }
-
-            #chatApp .chat-nav-secondary .nav-user img {
-                width: 26px;
-                height: 26px;
-            }
-
-            #chatApp .chat-nav-secondary .nav-user .nav-display-name {
-                font-size: 0.76rem;
-                max-width: 9rem;
-            }
-
-            #chatApp .chat-nav-secondary .btn-logout {
-                padding: 0.4rem 0.85rem;
-                font-size: 0.78rem;
-            }
-        }
-
-        /* ─── LOGIN SCREEN ─── */
-        .login-screen {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            min-height: 100dvh;
-            height: 100dvh;
-            height: 100vh;
-            gap: 1.5rem;
+        .page-hero {
+            padding: calc(9rem + env(safe-area-inset-top, 0px)) max(5vw, env(safe-area-inset-left, 0px)) 4rem max(5vw, env(safe-area-inset-right, 0px));
             text-align: center;
-            padding: 2rem max(1.5rem, env(safe-area-inset-left, 0px)) max(2rem, env(safe-area-inset-bottom, 0px)) max(1.5rem, env(safe-area-inset-right, 0px));
-            box-sizing: border-box;
+            position: relative;
         }
 
-        .login-screen h1 {
+        .page-hero .hero-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .page-hero .orb1 {
+            width: 400px; height: 400px;
+            background: var(--accent);
+            top: -100px; left: 10%;
+        }
+
+        .page-hero .orb2 {
+            width: 300px; height: 300px;
+            background: var(--accent2);
+            bottom: -50px; right: 10%;
+        }
+
+        .page-hero h1 {
             font-family: 'Syne', sans-serif;
-            font-size: 2.2rem;
+            font-size: 3rem;
             font-weight: 800;
+            margin-bottom: 0.8rem;
+            position: relative;
         }
 
-        .login-screen h1 span {
+        .page-hero h1 span {
             background: linear-gradient(135deg, var(--accent), var(--accent2));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        .login-screen p {
+        .page-hero p {
             color: var(--muted);
-            max-width: 400px;
-            font-size: 0.92rem;
-        }
-
-        .btn-google {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.7rem;
-            padding: 0.8rem 1.8rem;
-            background: #fff;
-            color: #333;
-            border: none;
-            border-radius: 12px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.15s, box-shadow 0.15s;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-        }
-
-        .btn-google:hover { transform: translateY(-1px); box-shadow: 0 6px 28px rgba(0,0,0,0.4); }
-
-        .btn-google svg { width: 20px; height: 20px; }
-
-        /* ─── CHAT LAYOUT ─── */
-        .chat-app {
-            display: none;
-            height: 100dvh;
-            height: 100vh;
-            padding-top: var(--chat-nav-chrome);
-            box-sizing: border-box;
-        }
-
-        .chat-app.active {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-        }
-
-        /* La nav è fixed ma resta nodo grid: occupa una riga su tutta la larghezza */
-        .chat-app.active > nav.site-nav {
-            grid-column: 1 / -1;
-        }
-
-        /* Area messaggi sotto un piano esplicito così il menu aperto (nav 200) la copre */
-        .chat-app.active > .chat-area {
+            font-size: 1.05rem;
+            max-width: 520px;
+            margin: 0 auto;
             position: relative;
-            z-index: 0;
         }
 
-        /* ─── SIDEBAR ─── */
-        .chat-sidebar {
-            background: var(--bg2);
-            border-right: 0.5px solid var(--card-border);
+        .contact-section {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 2rem 5vw 6rem;
+        }
+
+        .contact-cards {
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            gap: 1.2rem;
+            margin-bottom: 3rem;
         }
 
-        .sidebar-header {
-            padding: 1rem;
-            border-bottom: 0.5px solid var(--card-border);
-        }
-
-        .sidebar-header h2 {
-            font-family: 'Syne', sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 0.6rem;
-        }
-
-        .sidebar-search {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .sidebar-search input {
-            flex: 1;
-            padding: 0.55rem 0.8rem;
-            background: rgba(255,255,255,0.04);
+        .contact-card {
+            background: var(--card);
             border: 0.5px solid var(--card-border);
-            border-radius: 10px;
-            color: var(--text);
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.82rem;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .sidebar-search input:focus { border-color: var(--accent); }
-
-        .sidebar-search button {
-            padding: 0.55rem 0.8rem;
-            background: linear-gradient(135deg, var(--accent), var(--accent2));
-            border: none;
-            border-radius: 10px;
-            color: #fff;
-            font-size: 0.82rem;
-            font-weight: 600;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-
-        .venue-list {
-            flex: 1;
-            overflow-y: auto;
-            padding: 0.5rem;
-        }
-
-        .venue-list::-webkit-scrollbar { width: 4px; }
-        .venue-list::-webkit-scrollbar-thumb { background: rgba(168,85,247,0.3); border-radius: 100px; }
-
-        .venue-item {
-            padding: 0.7rem 0.8rem;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background 0.15s;
-            margin-bottom: 2px;
-        }
-
-        .venue-item:hover { background: rgba(255,255,255,0.04); }
-
-        .venue-item.active {
-            background: rgba(168,85,247,0.1);
-            border: 0.5px solid rgba(168,85,247,0.3);
-        }
-
-        .venue-item-name {
-            font-weight: 600;
-            font-size: 0.85rem;
-            margin-bottom: 0.15rem;
-        }
-
-        .venue-item-addr {
-            font-size: 0.72rem;
-            color: var(--muted);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .sidebar-empty {
-            padding: 2rem 1rem;
-            text-align: center;
-            color: var(--muted);
-            font-size: 0.82rem;
-        }
-
-        .venue-section-label {
-            font-size: 0.68rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--muted);
-            padding: 0.65rem 0.75rem 0.35rem;
-            margin-top: 0.15rem;
-        }
-
-        .venue-section-label:first-child {
-            padding-top: 0.35rem;
-            margin-top: 0;
-        }
-
-        .venue-item.venue-item-fmn {
-            border-left: 2px solid rgba(168, 85, 247, 0.65);
-        }
-
-        /* ─── CHAT AREA ─── */
-        .chat-area {
-            display: flex;
-            flex-direction: column;
-            background: var(--bg);
-            overflow: hidden;
-        }
-
-        .chat-header {
-            padding: 0.8rem 1.2rem;
-            border-bottom: 0.5px solid var(--card-border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: var(--bg2);
-        }
-
-        .chat-header-info h3 {
-            font-family: 'Syne', sans-serif;
-            font-size: 0.95rem;
-            font-weight: 700;
-        }
-
-        .chat-header-info p {
-            font-size: 0.72rem;
-            color: var(--muted);
-        }
-
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1rem 1.2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .chat-messages::-webkit-scrollbar { width: 4px; }
-        .chat-messages::-webkit-scrollbar-thumb { background: rgba(168,85,247,0.3); border-radius: 100px; }
-
-        .msg-row {
+            border-radius: 16px;
+            padding: 1.5rem 1.6rem;
             display: flex;
             align-items: flex-start;
-            gap: 0.6rem;
-            max-width: 85%;
-            position: relative;
-            transition: transform 0.15s ease;
-            touch-action: pan-y;
-            padding: 0.15rem 64px 0.15rem 0;
+            gap: 1.2rem;
+            transition: border-color 0.2s, background 0.2s;
         }
 
-        .msg-row.self {
-            margin-left: auto;
-            flex-direction: row-reverse;
-            padding: 0.15rem 0 0.15rem 64px;
+        .contact-card:hover {
+            border-color: rgba(168, 85, 247, 0.4);
+            background: rgba(168, 85, 247, 0.04);
         }
 
-        .msg-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
+        .contact-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
             flex-shrink: 0;
         }
 
-        .msg-content {
-            display: flex;
-            flex-direction: column;
-        }
+        .contact-icon.purple { background: rgba(168, 85, 247, 0.15); }
+        .contact-icon.pink   { background: rgba(236, 72, 153, 0.15); }
+        .contact-icon.cyan   { background: rgba(6, 182, 212, 0.15); }
 
-        .msg-name-line {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 0.35rem;
-            margin-bottom: 0.15rem;
-        }
-
-        .msg-name {
-            font-size: 0.68rem;
-            font-weight: 600;
-            color: var(--accent);
-            margin-bottom: 0;
-        }
-
-        .msg-row.self .msg-name-line {
-            justify-content: flex-end;
-            width: 100%;
-        }
-
-        .msg-row.self .msg-name { color: var(--accent3); text-align: right; }
-
-        .msg-chat-badge {
-            font-size: 0.58rem;
+        .contact-info h3 {
+            font-family: 'Syne', sans-serif;
             font-weight: 700;
-            color: #f0e6ff;
-            background: rgba(168, 85, 247, 0.22);
-            border: 0.5px solid rgba(192, 132, 252, 0.35);
-            padding: 0.05rem 0.32rem;
-            border-radius: 5px;
-            line-height: 1.25;
-            max-width: 100%;
-            word-break: break-word;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
         }
 
-        .msg-reply-quote {
-            background: rgba(168,85,247,0.08);
-            border-left: 2px solid var(--accent);
-            border-radius: 4px 8px 8px 4px;
-            padding: 0.3rem 0.6rem;
-            margin-bottom: 0.3rem;
-            font-size: 0.75rem;
+        .contact-info p {
             color: var(--muted);
-            cursor: pointer;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
         }
 
-        .msg-reply-quote strong {
+        .contact-info a {
             color: var(--accent);
-            font-size: 0.68rem;
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .contact-info a:hover { color: var(--text); }
+
+        .form-section h2 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .form-section h2 span {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .form-section > p {
+            color: var(--muted);
+            font-size: 0.88rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.55;
+        }
+
+        .form-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+            border: 0.5px solid rgba(168, 85, 247, 0.22);
+            border-radius: 20px;
+            padding: 1.5rem 1.35rem 1.4rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255,255,255,0.04);
+        }
+
+        .form-group {
+            margin-bottom: 1.15rem;
+        }
+
+        .form-group label {
             display: block;
-            margin-bottom: 0.1rem;
-        }
-
-        .msg-bubble {
-            padding: 0.55rem 0.85rem;
-            border-radius: 14px;
-            font-size: 0.85rem;
-            line-height: 1.45;
-            background: var(--bg3);
-            border: 0.5px solid var(--card-border);
-            word-break: break-word;
-        }
-
-        .msg-row.self .msg-bubble {
-            background: rgba(168,85,247,0.12);
-            border-color: rgba(168,85,247,0.25);
-        }
-
-        .msg-time {
-            font-size: 0.6rem;
-            color: var(--muted);
-            margin-top: 0.2rem;
-        }
-
-        .msg-row.self .msg-time { text-align: right; }
-
-        /* Azioni hover (PC) */
-        .msg-actions {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            right: 4px;
-            display: none;
-            gap: 0.25rem;
-            z-index: 5;
-        }
-
-        .msg-row.self .msg-actions { right: auto; left: 4px; }
-
-        .msg-row:hover .msg-actions { display: flex; }
-
-        .msg-action-btn {
-            width: 26px;
-            height: 26px;
-            border-radius: 8px;
-            border: 0.5px solid var(--card-border);
-            background: var(--bg2);
-            color: var(--muted);
-            font-size: 0.7rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.15s, color 0.15s;
-        }
-
-        .msg-action-btn:hover { background: rgba(255,255,255,0.1); color: var(--text); }
-        .msg-action-btn.delete:hover { background: rgba(239,68,68,0.2); color: #fca5a5; }
-
-        /* Swipe reply indicator (mobile) */
-        .msg-swipe-hint {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            left: -24px;
-            opacity: 0;
-            font-size: 0.85rem;
-            transition: opacity 0.15s;
-            pointer-events: none;
-        }
-
-        .msg-row.self .msg-swipe-hint { left: auto; right: -24px; }
-
-        /* Reply bar sopra l'input */
-        .reply-bar {
-            display: none;
-            padding: 0.5rem 1.2rem;
-            background: var(--bg2);
-            border-top: 0.5px solid var(--card-border);
-            align-items: center;
-            gap: 0.6rem;
-        }
-
-        .reply-bar.active { display: flex; }
-
-        .reply-bar-content {
-            flex: 1;
-            border-left: 2px solid var(--accent);
-            padding-left: 0.6rem;
-        }
-
-        .reply-bar-name {
-            font-size: 0.7rem;
+            font-size: 0.72rem;
             font-weight: 600;
-            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(136, 128, 168, 0.95);
+            margin-bottom: 0.42rem;
         }
 
-        .reply-bar-text {
-            font-size: 0.78rem;
-            color: var(--muted);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 300px;
-        }
-
-        .reply-bar-close {
-            width: 26px;
-            height: 26px;
-            border-radius: 8px;
-            border: 0.5px solid var(--card-border);
-            background: rgba(255,255,255,0.04);
-            color: var(--muted);
-            font-size: 0.75rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .reply-bar-close:hover { color: var(--text); }
-
-        .chat-input-area {
-            padding: 0.8rem 1.2rem;
-            border-top: 0.5px solid var(--card-border);
-            background: var(--bg2);
-            display: flex;
-            gap: 0.6rem;
-        }
-
-        .chat-input-area input {
-            flex: 1;
-            padding: 0.65rem 1rem;
-            background: rgba(255,255,255,0.04);
-            border: 0.5px solid var(--card-border);
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.78rem 1rem;
+            background: rgba(8, 6, 20, 0.65);
+            border: 0.5px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             color: var(--text);
             font-family: 'DM Sans', sans-serif;
-            font-size: 0.88rem;
+            font-size: 0.92rem;
             outline: none;
-            transition: border-color 0.2s;
+            color-scheme: dark;
+            transition: border-color 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
         }
 
-        .chat-input-area input:focus { border-color: var(--accent); }
-
-        .chat-input-area input:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(136, 128, 168, 0.65);
         }
 
-        .btn-send {
-            padding: 0.65rem 1.2rem;
-            background: linear-gradient(135deg, var(--accent), var(--accent2));
-            border: none;
-            border-radius: 12px;
-            color: #fff;
-            font-weight: 600;
-            font-size: 0.88rem;
-            cursor: pointer;
-            transition: transform 0.15s;
+        .form-group input:hover,
+        .form-group select:hover,
+        .form-group textarea:hover {
+            border-color: rgba(168, 85, 247, 0.28);
+            background: rgba(10, 8, 24, 0.75);
         }
 
-        .btn-send:hover { transform: translateY(-1px); }
-        .btn-send:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
-
-        .rate-limit-msg {
-            font-size: 0.7rem;
-            color: #fbbf24;
-            padding: 0 1.2rem 0.3rem;
-            display: none;
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: rgba(168, 85, 247, 0.55);
+            box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.14);
+            background: rgba(10, 8, 24, 0.88);
         }
 
-        .chat-placeholder {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
+        /* Campo compilato correttamente: accento ciano/viola, niente “verde form vecchio” */
+        .form-group input:user-valid:not(:placeholder-shown):not(:focus),
+        .form-group textarea:user-valid:not(:placeholder-shown):not(:focus) {
+            border-color: rgba(6, 182, 212, 0.42);
+            background: rgba(6, 182, 212, 0.08);
+            box-shadow: 0 0 0 1px rgba(6, 182, 212, 0.1);
+        }
+        .form-group select:user-valid:not(:focus):not(:invalid) {
+            border-color: rgba(6, 182, 212, 0.42);
+            background: rgba(6, 182, 212, 0.08);
+            box-shadow: 0 0 0 1px rgba(6, 182, 212, 0.1);
+        }
+
+        @supports not (selector(:user-valid)) {
+            .form-group input:not(:placeholder-shown):valid:not(:focus),
+            .form-group textarea:not(:placeholder-shown):valid:not(:focus) {
+                border-color: rgba(6, 182, 212, 0.42);
+                background: rgba(6, 182, 212, 0.08);
+                box-shadow: 0 0 0 1px rgba(6, 182, 212, 0.1);
+            }
+            .form-group select:valid:not(:focus) {
+                border-color: rgba(6, 182, 212, 0.42);
+                background: rgba(6, 182, 212, 0.08);
+                box-shadow: 0 0 0 1px rgba(6, 182, 212, 0.1);
+            }
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-group select option {
+            background: #13112a;
+            color: var(--text);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .btn-submit {
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            color: var(--muted);
             gap: 0.5rem;
+            width: 100%;
+            padding: 0.88rem 1.5rem;
+            margin-top: 0.65rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.92rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.2s ease;
+            box-shadow: 0 6px 28px rgba(168, 85, 247, 0.32);
         }
 
-        .chat-placeholder-icon { font-size: 3rem; opacity: 0.3; }
-        .chat-placeholder p { font-size: 0.88rem; }
+        .btn-submit:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 36px rgba(168, 85, 247, 0.42);
+        }
+        .btn-submit:disabled {
+            opacity: 0.72;
+            cursor: wait;
+            transform: none;
+        }
 
-        .system-msg {
+        @keyframes formOkEnter {
+            from { opacity: 0; transform: translateY(14px) scale(0.97); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes formOkRing {
+            from { transform: scale(0.6); opacity: 0; }
+            55% { transform: scale(1.08); opacity: 1; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        @keyframes formOkCheck {
+            from { stroke-dashoffset: 32; }
+            to { stroke-dashoffset: 0; }
+        }
+
+        .form-ok {
+            display: none;
             text-align: center;
-            font-size: 0.72rem;
-            color: var(--muted);
-            padding: 0.5rem 0;
-            font-style: italic;
+            padding: 0;
         }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        .loading-spinner {
-            width: 24px; height: 24px;
-            border: 3px solid rgba(168,85,247,0.2);
-            border-top-color: #a855f7;
+        .form-ok.form-ok--show {
+            display: block;
+            animation: formOkEnter 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+        .form-ok-inner {
+            padding: 2rem 1.25rem 2.1rem;
+            border-radius: 20px;
+            background: linear-gradient(165deg, rgba(74, 222, 128, 0.12), rgba(6, 182, 212, 0.08));
+            border: 0.5px solid rgba(74, 222, 128, 0.35);
+            box-shadow: 0 0 40px rgba(74, 222, 128, 0.12);
+        }
+        .form-ok-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 1rem;
             border-radius: 50%;
-            animation: spin .7s linear infinite;
-            margin: 2rem auto;
+            background: rgba(74, 222, 128, 0.15);
+            border: 0.5px solid rgba(74, 222, 128, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: formOkRing 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        .form-ok-icon svg {
+            width: 32px;
+            height: 32px;
+            stroke: #86efac;
+            stroke-width: 2.4;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 32;
+            stroke-dashoffset: 32;
+            animation: formOkCheck 0.5s ease forwards 0.22s;
+        }
+        .form-ok-title {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #ecfdf5;
+            margin-bottom: 0.35rem;
+        }
+        .form-ok-desc {
+            font-size: 0.88rem;
+            color: rgba(236, 253, 245, 0.78);
+            line-height: 1.55;
+            max-width: 360px;
+            margin: 0 auto;
         }
 
-        /* ─── RESPONSIVE ─── */
-        @media (max-width: 768px) {
+        .form-error {
+            display: none;
+            margin-bottom: 1rem;
+            padding: 0.85rem 1rem;
+            border-radius: 12px;
+            font-size: 0.88rem;
+            color: #fecaca;
+            background: rgba(239, 68, 68, 0.12);
+            border: 0.5px solid rgba(239, 68, 68, 0.35);
+        }
+        .form-error a { color: #67e8f9; }
+
+        #contactForm.contact-form--leave {
+            animation: contactFormOut 0.42s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        @keyframes contactFormOut {
+            to {
+                opacity: 0;
+                transform: translateY(-12px) scale(0.985);
+                filter: blur(1px);
+            }
+        }
+
+        footer {
+            border-top: 0.5px solid var(--card-border);
+            padding: 2rem 5vw;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .footer-copy {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-links a {
+            font-size: 0.8rem;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover { color: var(--text); }
+
+        @media (max-width: 640px) {
+            .page-hero h1 { font-size: 2.2rem; }
+            .form-row { grid-template-columns: 1fr; }
+            .form-card { padding: 1.2rem 1rem 1.15rem; border-radius: 16px; }
+            footer { grid-template-columns: 1fr; text-align: center; }
+            .footer-links { justify-content: center; }
+        }
+
+        @media (max-width: 1024px) {
             .nav-menu-btn {
                 display: inline-flex;
             }
@@ -1060,7 +692,7 @@
                 width: 100%;
                 max-width: none;
                 box-sizing: border-box;
-                padding: calc(0.75rem + env(safe-area-inset-top, 0px)) max(1rem, env(safe-area-inset-right, 0px)) 0.75rem max(1rem, env(safe-area-inset-left, 0px));
+                padding: calc(0.9rem + env(safe-area-inset-top, 0px)) max(4.5vw, env(safe-area-inset-right, 0px)) 0.9rem max(4.5vw, env(safe-area-inset-left, 0px));
                 margin: 0;
                 background: var(--bg);
                 border-bottom: 0.5px solid var(--border);
@@ -1072,13 +704,14 @@
                 top: 0;
                 right: 0;
                 z-index: 1901;
-                width: min(19.5rem, 88vw);
+                width: min(19.5rem, 86vw);
                 max-width: 100%;
                 min-width: 0;
+                flex-shrink: 0;
                 height: 100vh;
                 height: 100dvh;
                 margin: 0;
-                padding: calc(4.5rem + env(safe-area-inset-top, 0px)) 1.25rem calc(1.5rem + env(safe-area-inset-bottom, 0px));
+                padding: calc(4.85rem + env(safe-area-inset-top, 0px)) 1.35rem calc(2rem + env(safe-area-inset-bottom, 0px));
                 flex-direction: column;
                 align-items: stretch;
                 gap: 0;
@@ -1089,8 +722,6 @@
                 -webkit-overflow-scrolling: touch;
                 transform: translateX(102%);
                 transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
-                flex-wrap: nowrap;
-                justify-content: flex-start;
             }
 
             .site-nav.nav-open ul.nav-main-list {
@@ -1110,7 +741,7 @@
                 align-items: center;
                 min-height: 48px;
                 padding: 0.35rem 0;
-                font-size: 0.98rem;
+                font-size: 1rem;
             }
 
             nav ul.nav-main-list li:last-child {
@@ -1128,211 +759,24 @@
                 width: auto;
                 max-width: 100%;
                 min-height: 44px;
-                padding: 0.5rem 1.1rem !important;
+                padding: 0.5rem 1.15rem !important;
                 box-sizing: border-box;
-                margin-left: -0.35rem;
+                margin-left: -0.45rem;
                 margin-right: auto;
             }
 
             nav.site-nav {
-                padding: calc(0.75rem + env(safe-area-inset-top, 0px)) max(1rem, env(safe-area-inset-right, 0px)) 0.75rem max(1rem, env(safe-area-inset-left, 0px));
+                padding: calc(0.9rem + env(safe-area-inset-top, 0px)) max(4.5vw, env(safe-area-inset-right, 0px)) 0.9rem max(4.5vw, env(safe-area-inset-left, 0px));
             }
 
             .logo-text {
-                font-size: 1.02rem;
+                font-size: 1.12rem;
             }
 
             .logo-beta {
-                font-size: 0.52rem;
-                padding: 0.14rem 0.36rem;
+                font-size: 0.56rem;
+                padding: 0.16rem 0.4rem;
             }
-
-            .chat-app.active {
-                grid-template-columns: 1fr;
-                grid-template-rows: auto 1fr;
-                min-height: 0;
-            }
-
-            .chat-app.active > .chat-area {
-                grid-row: 2;
-                min-height: 0;
-                overflow: hidden;
-            }
-
-            #chatActive {
-                min-height: 0 !important;
-                flex: 1 1 auto !important;
-                height: auto !important;
-            }
-
-            .chat-messages {
-                flex: 1 1 auto;
-                min-height: 0;
-                -webkit-overflow-scrolling: touch;
-            }
-
-            .chat-input-area {
-                flex-shrink: 0;
-                padding-bottom: max(0.75rem, env(safe-area-inset-bottom, 0px));
-            }
-
-            .chat-input-area input {
-                font-size: 16px;
-            }
-
-            .venue-item-addr {
-                white-space: normal;
-                overflow: visible;
-                text-overflow: clip;
-                word-break: break-word;
-            }
-
-            .chat-sidebar {
-                display: none;
-            }
-
-            .chat-sidebar.mobile-show {
-                display: flex;
-                position: fixed;
-                top: var(--chat-nav-chrome);
-                left: 0;
-                right: 0;
-                bottom: 0;
-                z-index: 90;
-                min-height: 0;
-            }
-
-            .btn-back {
-                display: inline-flex !important;
-            }
-
-            .msg-actions {
-                display: none !important;
-            }
-
-            .msg-row {
-                max-width: 92%;
-                padding-right: 0 !important;
-            }
-
-            .msg-row.self {
-                padding-left: 0 !important;
-            }
-
-            .reply-bar-text {
-                max-width: min(200px, 55vw);
-            }
-
-            .chat-header,
-            .chat-messages,
-            .chat-input-area,
-            .reply-bar,
-            .rate-limit-msg {
-                padding-left: max(0.85rem, env(safe-area-inset-left, 0px));
-                padding-right: max(0.85rem, env(safe-area-inset-right, 0px));
-            }
-
-            .sidebar-header {
-                padding-left: max(1rem, env(safe-area-inset-left, 0px));
-                padding-right: max(1rem, env(safe-area-inset-right, 0px));
-            }
-
-            .venue-list {
-                padding-left: max(0.5rem, env(safe-area-inset-left, 0px));
-                padding-right: max(0.5rem, env(safe-area-inset-right, 0px));
-            }
-
-            .sidebar-search {
-                flex-wrap: wrap;
-            }
-
-            .sidebar-search input {
-                min-width: 0;
-            }
-
-            .sidebar-search button {
-                flex: 1 1 auto;
-                min-width: 5.5rem;
-            }
-
-            .login-screen h1 {
-                font-size: clamp(1.45rem, 7vw, 2.1rem);
-            }
-
-            /* Menu hamburger: spazio extra sopra così da "Locali" in giù le voci partono un po' più in basso */
-            #chatApp nav ul.nav-main-list {
-                padding: calc(6.55rem + env(safe-area-inset-top, 0px)) 1.25rem calc(1.5rem + env(safe-area-inset-bottom, 0px));
-            }
-        }
-
-        .btn-back {
-            display: none;
-            align-items: center;
-            justify-content: center;
-            width: 32px; height: 32px;
-            background: rgba(255,255,255,0.06);
-            border: 0.5px solid var(--card-border);
-            border-radius: 8px;
-            color: var(--muted);
-            font-size: 1rem;
-            cursor: pointer;
-            margin-right: 0.5rem;
-        }
-
-        /* Context menu (long-press mobile) */
-        .msg-context-menu {
-            position: fixed;
-            z-index: 200;
-            background: var(--bg2);
-            border: 0.5px solid var(--card-border);
-            border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-            padding: 0.3rem 0;
-            min-width: 150px;
-            display: none;
-        }
-
-        .msg-context-menu.show { display: block; }
-
-        .msg-context-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.6rem 1rem;
-            font-size: 0.82rem;
-            color: var(--text);
-            cursor: pointer;
-            background: none;
-            border: none;
-            width: 100%;
-            font-family: 'DM Sans', sans-serif;
-        }
-
-        .msg-context-item:hover { background: rgba(255,255,255,0.05); }
-        .msg-context-item.danger { color: #fca5a5; }
-        .msg-context-item.danger:hover { background: rgba(239,68,68,0.1); }
-
-        /* Welcome message */
-        .msg-welcome {
-            margin: 0.8rem auto 1.2rem;
-            max-width: 90%;
-            background: linear-gradient(135deg, rgba(168,85,247,0.08), rgba(14,165,233,0.08));
-            border: 0.5px solid rgba(168,85,247,0.2);
-            border-radius: 16px;
-            padding: 1rem 1.2rem;
-            text-align: center;
-        }
-
-        .msg-welcome-icon {
-            font-size: 1.6rem;
-            margin-bottom: 0.4rem;
-        }
-
-        .msg-welcome-text {
-            font-size: 0.82rem;
-            line-height: 1.6;
-            color: var(--text);
-            white-space: pre-line;
         }
 
         /* ─── COOKIE BANNER (essenziali) ─── */
@@ -1400,1298 +844,129 @@
         </div>
     </div>
 
-    <!-- LOGIN SCREEN -->
-    <div class="login-screen" id="loginScreen">
-        <h1>Chat <span>FindMyNight</span></h1>
-        <p>Entra nelle chat dei locali vicini a te. Chatta con chi esce stasera, scopri le serate e organizzati.</p>
-        <button class="btn-google" id="btnGoogleLogin">
-            <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-            Accedi con Google
-        </button>
-        <a href="index.html" style="margin-top: 1rem; color: var(--muted); font-size: 0.9rem; text-decoration: none; border-bottom: 1px solid transparent; transition: all 0.2s;" onmouseover="this.style.color='var(--text)'; this.style.borderBottomColor='var(--accent)';" onmouseout="this.style.color='var(--muted)'; this.style.borderBottomColor='transparent';">Oppure torna alla mappa</a>
-    </div>
+    <nav class="site-nav" id="siteNav">
+        <div class="nav-top">
+            <a href="index.html" class="logo">
+                <img src="logo.png" alt="" width="26" height="26" decoding="async" />
+                <span class="logo-text">FindMyNight</span>
+                <span class="logo-beta" title="Sito in beta: funzioni e contenuti in evoluzione" aria-label="Beta">beta</span>
+            </a>
+            <button type="button" class="nav-menu-btn" id="navMenuBtn" aria-expanded="false" aria-controls="navMainList" aria-label="Apri menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <div class="nav-menu-backdrop" id="navMenuBackdrop" aria-hidden="true"></div>
+        <ul id="navMainList" class="nav-main-list">
+            <li><a href="locali.html">Locali</a></li>
+            <li><a href="index.html#features">Funzionalità</a></li>
+            <li><a href="recensioni.html">Recensioni</a></li>
+            <li><a href="valutazione-idea.html">Valuta l'idea</a></li>
+            <li><a href="chat.html">Chat</a></li>
+            <li><a href="partner.html">Area Partner</a></li>
+            <li><a href="index.html#cta" class="nav-cta">Inizia gratis →</a></li>
+        </ul>
+    </nav>
 
-    <!-- CHAT APP -->
-    <div class="chat-app" id="chatApp">
-        <nav class="site-nav" id="siteNav">
-            <div class="nav-top">
-                <a href="index.html" class="logo">
-                    <img src="logo.png" alt="" width="26" height="26" decoding="async" />
-                    <span class="logo-text">FindMyNight</span>
-                    <span class="logo-beta" title="Sito in beta: funzioni e contenuti in evoluzione" aria-label="Beta">beta</span>
-                </a>
-                <div class="chat-nav-trailing">
-                    <div class="chat-nav-secondary">
-                        <div class="nav-user" id="navUser">
-                            <img id="navAvatar" src="" alt="">
-                            <div class="nav-user-meta">
-                                <span id="navName" class="nav-display-name"></span>
-                                <span id="navChatBadge" class="nav-chat-badge" hidden></span>
-                            </div>
+    <section class="page-hero">
+        <div class="hero-orb orb1"></div>
+        <div class="hero-orb orb2"></div>
+        <h1>Parliamo di <span>nightlife</span></h1>
+        <p>Hai un'idea, una proposta, o gestisci un locale? Scrivici — rispondiamo sempre.</p>
+    </section>
+
+    <section class="contact-section">
+
+        <div class="contact-cards">
+            <div class="contact-card">
+                <div class="contact-icon purple">📧</div>
+                <div class="contact-info">
+                    <h3>Email</h3>
+                    <p>Per proposte, collaborazioni o info generali.</p>
+                    <a href="mailto:findmynight.info@gmail.com">findmynight.info@gmail.com</a>
+                </div>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-icon pink">📱</div>
+                <div class="contact-info">
+                    <h3>Instagram</h3>
+                    <p>Seguici per aggiornamenti e anteprime.</p>
+                    <a href="https://instagram.com/findmynight" target="_blank" rel="noopener noreferrer">IG: @findmynight</a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-section">
+            <h2>Scrivici <span>direttamente</span></h2>
+            <p>Compila il form: il messaggio arriva come <strong>email</strong> alla nostra casella (servizio sicuro FormSubmit).</p>
+
+            <div class="form-error" id="formError" role="alert"></div>
+
+            <div class="form-card">
+                <form id="contactForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cName">Nome</label>
+                            <input type="text" id="cName" name="nome" placeholder="Il tuo nome" required autocomplete="name">
                         </div>
-                        <button type="button" class="btn-logout" id="btnLogout">Esci</button>
+                        <div class="form-group">
+                            <label for="cEmail">Email</label>
+                            <input type="email" id="cEmail" name="email" placeholder="nome@esempio.it" required autocomplete="email">
+                        </div>
                     </div>
-                    <button type="button" class="nav-menu-btn" id="navMenuBtn" aria-expanded="false" aria-controls="navMainList" aria-label="Apri menu">
-                        <span></span><span></span><span></span>
-                    </button>
-                </div>
-            </div>
-            <div class="nav-menu-backdrop" id="navMenuBackdrop" aria-hidden="true"></div>
-            <ul id="navMainList" class="nav-main-list">
-                <li><a href="locali.html">Locali</a></li>
-                <li><a href="index.html#features">Funzionalità</a></li>
-                <li><a href="recensioni.html">Recensioni</a></li>
-                <li><a href="valutazione-idea.html">Valuta l'idea</a></li>
-                <li><a href="chat.html" aria-current="page">Chat</a></li>
-                <li><a href="partner.html">Area Partner</a></li>
-                <li><a href="index.html#cta" class="nav-cta">Inizia gratis →</a></li>
-            </ul>
-        </nav>
 
-        <!-- SIDEBAR (su cellulare parte aperta così si vedono subito le discoteche) -->
-        <div class="chat-sidebar mobile-show" id="chatSidebar">
-            <div class="sidebar-header">
-                <h2>Discoteche e locali</h2>
-                <div class="sidebar-search">
-                    <input type="text" id="citySearch" placeholder="Cerca una città…" autocomplete="off">
-                    <button id="citySearchBtn">Cerca</button>
-                </div>
+                    <div class="form-group">
+                        <label for="cSubject">Motivo</label>
+                        <select id="cSubject" name="motivo" required>
+                            <option value="" disabled selected>Seleziona un motivo…</option>
+                            <option value="feedback">Feedback sul sito</option>
+                            <option value="locale">Registrare il mio locale</option>
+                            <option value="collaborazione">Proposta di collaborazione</option>
+                            <option value="bug">Segnalazione bug</option>
+                            <option value="altro">Altro</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cMessage">Messaggio</label>
+                        <textarea id="cMessage" name="messaggio" placeholder="Scrivi qui il tuo messaggio…" required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Invia messaggio</button>
+                </form>
             </div>
-            <div class="venue-list" id="venueList">
-                <div class="sidebar-empty">Cerca una città qui sopra, oppure attendi il caricamento dalla posizione (serve HTTPS).</div>
+
+            <div class="form-ok" id="formOk" role="status" aria-live="polite">
+                <div class="form-ok-inner">
+                    <div class="form-ok-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+                    </div>
+                    <p class="form-ok-title">Messaggio inviato</p>
+                    <p class="form-ok-desc">Grazie per averci scritto. Il team esaminerà la richiesta e ti risponderà all’indirizzo email indicato.</p>
+                </div>
             </div>
         </div>
 
-        <!-- CHAT AREA -->
-        <div class="chat-area" id="chatArea">
-            <div class="chat-placeholder" id="chatPlaceholder">
-                <div class="chat-placeholder-icon">💬</div>
-                <p>Scegli una discoteca dall’elenco, puoi anche cercare una città.</p>
-            </div>
+    </section>
 
-            <div id="chatActive" style="display:none;flex-direction:column;height:100%;">
-                <div class="chat-header">
-                    <div style="display:flex;align-items:center;">
-                        <button class="btn-back" id="btnBack">←</button>
-                        <div class="chat-header-info">
-                            <h3 id="chatVenueName">—</h3>
-                            <p id="chatVenueAddr">—</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="chat-messages" id="chatMessages"></div>
-                <div class="rate-limit-msg" id="rateLimitMsg">Attendi qualche secondo prima di inviare un altro messaggio…</div>
-                <div class="reply-bar" id="replyBar">
-                    <div class="reply-bar-content">
-                        <div class="reply-bar-name" id="replyBarName"></div>
-                        <div class="reply-bar-text" id="replyBarText"></div>
-                    </div>
-                    <button class="reply-bar-close" id="replyBarClose">✕</button>
-                </div>
-                <div class="chat-input-area">
-                    <input type="text" id="msgInput" placeholder="Scrivi un messaggio…" maxlength="500" autocomplete="off">
-                    <button class="btn-send" id="btnSend">Invia</button>
-                </div>
+    <footer>
+        <div>
+            <div class="logo" style="margin-bottom:0.5rem">
+                <img src="logo.png" alt="FindMyNight" />
+                FindMyNight
             </div>
+            <div class="footer-copy">© 2026 FindMyNight · Trova la tua serata perfetta</div>
         </div>
-    </div>
-
-    <!-- Context menu for long-press (mobile) -->
-    <div class="msg-context-menu" id="msgContextMenu"></div>
-
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-    <script src="fmn-firebase-public.js"></script>
-    <script src="fmn-secrets.defaults.js"></script>
+        <div class="footer-links">
+            <a href="privacy.html">Privacy</a>
+            <a href="partner.html">Partner</a>
+            <a href="contatti.html">Contatti</a>
+        </div>
+    </footer>
 
     <script>
-        if (!window.FMN_FIREBASE_CONFIG) {
-            throw new Error('FindMyNight: carica fmn-firebase-public.js prima di questo script.');
-        }
-        firebase.initializeApp(window.FMN_FIREBASE_CONFIG);
-
-        const auth = firebase.auth();
-        const db   = firebase.firestore();
-
-        /** Da `chat.html?room=ID_DOCUMENTO_VENUES` — stessa stanza dei badge Discoteca/PR. */
-        let pendingChatVenueDocId = null;
-        try {
-            const params = new URLSearchParams(window.location.search || '');
-            const raw = (params.get('room') || params.get('venueId') || '').trim();
-            if (raw.length >= 2 && raw.length <= 200 && raw.indexOf('/') === -1 && raw.indexOf('..') === -1) {
-                pendingChatVenueDocId = raw;
-            }
-        } catch { /* ignore */ }
-
-        /** Avatar se manca photoURL o se il caricamento remoto fallisce (404, referrer, ecc.) */
-        const DEFAULT_CHAT_AVATAR =
-            'data:image/svg+xml,' +
-            encodeURIComponent(
-                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">' +
-                    '<rect width="64" height="64" rx="32" fill="#13112a"/>' +
-                    '<circle cx="32" cy="24" r="11" fill="#8880a8"/>' +
-                    '<path d="M16 52c2.5-11 8.5-17 16-17s13.5 6 16 17" stroke="#8880a8" stroke-width="3.5" stroke-linecap="round"/>' +
-                    '</svg>'
-            );
-
-        function applyUserAvatar(img, photoURL) {
-            if (!img) return;
-            img.dataset.avatarFallback = '';
-            const url = (photoURL || '').trim();
-            img.decoding = 'async';
-            img.referrerPolicy = 'no-referrer';
-            img.onerror = () => {
-                img.onerror = null;
-                if (img.dataset.avatarFallback === '1') return;
-                img.dataset.avatarFallback = '1';
-                img.src = DEFAULT_CHAT_AVATAR;
-            };
-            img.src = url || DEFAULT_CHAT_AVATAR;
-        }
-
-        const CHAT_ADMIN_EMAILS = new Set(
-            [
-                'findmynight.info@gmail.com',
-                'oscar-admin@findmynight.it'
-            ].concat(
-                Array.isArray(window.FMN_ADMIN_EMAILS) ? window.FMN_ADMIN_EMAILS : []
-            ).map((e) => String(e || '').toLowerCase().trim()).filter(Boolean)
-        );
-        const RATE_LIMIT_MS = 5000;
-        const NOMINATIM = 'https://nominatim.openstreetmap.org/search';
-        const NOMINATIM_REVERSE = 'https://nominatim.openstreetmap.org/reverse';
-        const OVERPASS_ENDPOINTS = [
-            'https://overpass-api.de/api/interpreter',
-            'https://overpass.kumi.systems/api/interpreter',
-            'https://overpass.openstreetmap.fr/api/interpreter'
-        ];
-
-        let currentUser = null;
-        let isAdmin = false;
-        let lastSentAt = 0;
-        let currentRoomId = null;
-        let chatUnsubscribe = null;
-        let venuesCache = [];
-        const venueReverseAddressCache = new Map();
-        /** Badge Discoteca/PR da email: cache breve (vale in qualsiasi stanza). */
-        const OFFICIAL_CHAT_BADGE_TTL_MS = 90000;
-        let officialChatBadgeCache = { email: '', badge: null, venueId: null, ts: 0 };
-
-        /**
-         * Risolve stemma ufficiale dall’email Google vs `venues` (stessa logica delle regole Firestore).
-         * @returns {{ badge: string, venueId: string } | null}
-         */
-        async function resolveOfficialChatBadgeForUser(emailLower) {
-            if (!emailLower) return null;
-            const now = Date.now();
-            if (
-                officialChatBadgeCache.email === emailLower
-                && (now - officialChatBadgeCache.ts) < OFFICIAL_CHAT_BADGE_TTL_MS
-            ) {
-                if (!officialChatBadgeCache.badge || !officialChatBadgeCache.venueId) return null;
-                return { badge: officialChatBadgeCache.badge, venueId: officialChatBadgeCache.venueId };
-            }
-            let badge = null;
-            let venueId = null;
-            try {
-                const s1 = await db.collection('venues').where('chatDiscotecaEmail', '==', emailLower).limit(5).get();
-                if (!s1.empty) {
-                    badge = 'Discoteca';
-                    venueId = s1.docs[0].id;
-                } else {
-                    const s2 = await db.collection('venues').where('partnerEmail', '==', emailLower).limit(5).get();
-                    if (!s2.empty) {
-                        badge = 'Discoteca';
-                        venueId = s2.docs[0].id;
-                    } else {
-                        const s3 = await db.collection('venues').where('chatPrEmails', 'array-contains', emailLower).limit(25).get();
-                        for (const doc of s3.docs) {
-                            const d = doc.data() || {};
-                            if (d.chatPrEnabled !== true) continue;
-                            const n = String(d.name != null ? d.name : doc.id || '').trim() || 'Locale';
-                            badge = 'PR · ' + n;
-                            venueId = doc.id;
-                            break;
-                        }
-                    }
-                }
-            } catch (e) {
-                console.warn('[FindMyNight] stemma ufficiale chat:', e && e.message ? e.message : e);
-            }
-            officialChatBadgeCache = { email: emailLower, badge, venueId, ts: now };
-            if (!badge || !venueId) return null;
-            return { badge, venueId };
-        }
-
-        let replyTo = null; // { docId, displayName, text }
-
-        // ─── FILTRO PAROLACCE / BESTEMMIE ───
-        const BANNED_WORDS = [
-    // Italiano
-    'cazzo','cazzi','cazzone','cazzoni','cazzata','cazzate','stocazzo','stocazzi',
-    'minchia','minchione','minchioni','stronzo','stronzi','stronza','stronze',
-    'vaffanculo','affanculo','fanculo','fottiti','fottere','fottuto','fottuta',
-    'puttana','puttane','troia','troie','zoccola','zoccole','mignotta','mignotte',
-    'baldracca','baldracche','pompinara','pompinare',
-    'merda','merde','merdoso','merdosa','merdosi','merdose',
-    'coglione','coglioni','cogliona','coglione','coglioni',
-    'culo','culi','cul0','culone','culoni',
-    'bastardo','bastardi','bastarda','bastarde',
-    'ricchione','ricchioni','frocio','froci','frocia','froce',
-    'negro','negri','negra','negre',
-    'terrone','terroni','terrona','terrone',
-    'idiota','idioti','cretino','cretini','deficiente','deficienti',
-    'porco dio','porcodio','porca madonna','porcamadonna','dio cane','diocane',
-    'dio porco','dioporco','dio merda','dio bastardo',
-    'madonna puttana','madonna troia','cristo dio','porco gesù',
-    'mannaggia','mannaggia a dio','mannaggia la madonna',
-
-    // Inglese
-    'fuck','fucks','fucking','fucked','motherfucker','motherfuckers',
-    'shit','shits','shitty','bullshit',
-    'bitch','bitches',
-    'asshole','assholes','ass','dumbass','jackass',
-    'dick','dicks','cock','cocks',
-    'pussy','pussies','cunt','cunts',
-    'whore','whores','slut','sluts',
-    'bastard','bastards',
-    'nigger','niggers','nigga','niggas',
-    'faggot','faggots',
-    'retard','retards','retarded',
-    'damn','goddamn',
-
-    // Varianti “aggiramento filtro”
-    'f*ck','f**k','sh*t','s**t','b*tch','b!tch',
-    'c@zzo','c4zzo','c@zz0','m3rda','merd4',
-    'str0nzo','str0nza','putt@n@','tr0i@',
-    'v4ff4ncul0','vaff4nculo'
-];
-
-        function containsBannedWord(text) {
-            const lower = text.toLowerCase()
-                .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-                .replace(/[0@]/g, 'o').replace(/[1!]/g, 'i').replace(/[3]/g, 'e')
-                .replace(/[4]/g, 'a').replace(/[5\$]/g, 's').replace(/[^a-z\s]/g, ' ');
-            return BANNED_WORDS.some(w => {
-                const nw = w.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-                return lower.includes(nw);
-            });
-        }
-
-        // ─── AUTH ───
-        const loginScreen = document.getElementById('loginScreen');
-        const chatApp     = document.getElementById('chatApp');
-
-        const loginError = document.createElement('p');
-        loginError.style.cssText = 'color:#fca5a5;font-size:0.82rem;max-width:400px;display:none;';
-        document.getElementById('btnGoogleLogin').after(loginError);
-
-        // Al caricamento: controlla se torniamo da un redirect
-        auth.getRedirectResult().catch(() => {});
-
-        document.getElementById('btnGoogleLogin').addEventListener('click', async () => {
-            loginError.style.display = 'none';
-            const provider = new firebase.auth.GoogleAuthProvider();
-            try {
-                await auth.signInWithPopup(provider);
-            } catch (err) {
-                if (err.code === 'auth/popup-blocked' || err.code === 'auth/cancelled-popup-request') {
-                    // Popup bloccato → prova con redirect
-                    auth.signInWithRedirect(provider);
-                } else if (err.code === 'auth/unauthorized-domain') {
-                    if (location.protocol === 'file:') {
-                        loginError.textContent =
-                            'Apri il sito da HTTP/HTTPS (non da file://). In locale usa Live Server o `firebase serve`; online carica il sito sul tuo dominio.';
-                    } else {
-                        const host = location.host || 'questo dominio';
-                        loginError.textContent =
-                            `Dominio non autorizzato per Google login. In Firebase Console → Authentication → Scheda «Impostazioni» → Domini autorizzati, aggiungi «${host}» e salva.`;
-                    }
-                    loginError.style.display = 'block';
-                } else {
-                    loginError.textContent = `Errore login: ${err.message}`;
-                    loginError.style.display = 'block';
-                }
-            }
-        });
-
-        document.getElementById('btnLogout').addEventListener('click', () => {
-            auth.signOut();
-        });
-
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                currentUser = user;
-                const em = user.email ? String(user.email).toLowerCase().trim() : '';
-                isAdmin = em && CHAT_ADMIN_EMAILS.has(em);
-                loginScreen.style.display = 'none';
-                chatApp.classList.add('active');
-                applyUserAvatar(document.getElementById('navAvatar'), user.photoURL);
-                document.getElementById('navName').textContent = user.displayName || 'Utente';
-                cleanupOldMessages();
-                void (async () => {
-                    await refreshNavChatBadgeForCurrentRoom();
-                    if (pendingChatVenueDocId) {
-                        const id = pendingChatVenueDocId;
-                        pendingChatVenueDocId = null;
-                        try {
-                            await openChatByVenueDocId(id);
-                            await refreshNavChatBadgeForCurrentRoom();
-                            try {
-                                const u = new URL(window.location.href);
-                                u.searchParams.delete('room');
-                                u.searchParams.delete('venueId');
-                                const qs = u.searchParams.toString();
-                                history.replaceState(null, '', u.pathname + (qs ? '?' + qs : '') + u.hash);
-                            } catch { /* ignore */ }
-                        } catch (e) {
-                            console.warn('[FindMyNight] chat ?room=', e);
-                            pendingChatVenueDocId = id;
-                        }
-                    }
-                })();
-            } else {
-                currentUser = null;
-                isAdmin = false;
-                loginScreen.style.display = 'flex';
-                chatApp.classList.remove('active');
-                if (chatUnsubscribe) chatUnsubscribe();
-                officialChatBadgeCache = { email: '', badge: null, venueId: null, ts: 0 };
-                const nb = document.getElementById('navChatBadge');
-                if (nb) {
-                    nb.textContent = '';
-                    nb.hidden = true;
-                }
-            }
-        });
-
-        // ─── GEOCODING ───
-        async function geocodeCity(query) {
-            const q = (query || '').trim();
-            if (!q) return null;
-            const url = `${NOMINATIM}?format=json&limit=5&countrycodes=it&q=${encodeURIComponent(q)}`;
-            const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
-            if (!res.ok) return null;
-            const data = await res.json();
-            if (!data || !data.length) return null;
-            const SETTLE = new Set(['city','town','municipality','village','hamlet','administrative']);
-            const best = data.reduce((prev, curr) => {
-                const sc = (r) => {
-                    const c = (r.class||'').toLowerCase(), t = (r.type||'').toLowerCase();
-                    if (c === 'place' && (t === 'city' || t === 'town')) return 0;
-                    if (c === 'boundary' && t === 'administrative') return 2;
-                    if (c === 'place' && SETTLE.has(t)) return 3;
-                    return 50;
-                };
-                return sc(curr) < sc(prev) ? curr : prev;
-            });
-            return { lat: Number(best.lat), lng: Number(best.lon), label: best.display_name };
-        }
-
-        function isOsmVenueLikelyClosed(tags) {
-            if (!tags || typeof tags !== 'object') return false;
-            const g = (k) => (tags[k] ?? '').toString().trim().toLowerCase();
-            if (g('abandoned') === 'yes' || g('abandoned') === 'true' || g('abandoned') === '1') return true;
-            if (g('demolished') === 'yes') return true;
-            if (g('ruined') === 'yes') return true;
-            if (g('removed') === 'yes') return true;
-            if (tags['disused:amenity'] || tags['disused:leisure'] || tags['disused:shop']) return true;
-            if (tags['was:amenity'] || tags['was:leisure']) return true;
-            if (tags['end_date']) return true;
-            const op = g('operational_status');
-            if (op && /abandon|closed|defunct|demolish|inactive|dismantl|ceased|razed|vacant|disus/.test(op)) return true;
-            return false;
-        }
-
-        function kmBetween(a, b) {
-            const R = 6371;
-            const toR = (x) => (x * Math.PI) / 180;
-            const dLat = toR(b.lat - a.lat);
-            const dLng = toR(b.lng - a.lng);
-            const la1 = toR(a.lat);
-            const la2 = toR(b.lat);
-            const h = Math.sin(dLat / 2) ** 2 + Math.cos(la1) * Math.cos(la2) * Math.sin(dLng / 2) ** 2;
-            return 2 * R * Math.asin(Math.min(1, Math.sqrt(h)));
-        }
-
-        function normalizeVenueText(s) {
-            return (s || '').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-        }
-
-        /** Nome leggibile da tag OSM — allineato a locali.html (operator/official_name prima di name breve; comune con " di …"). */
-        function osmVenueDisplayName(tags) {
-            if (!tags || typeof tags !== 'object') return 'Locale';
-            const pick = (...keys) => {
-                for (const k of keys) {
-                    const v = (tags[k] ?? '').toString().trim();
-                    if (v) return v;
-                }
-                return '';
-            };
-            let base = pick('official_name', 'alt_name', 'operator', 'brand', 'name', 'name:it') || 'Locale';
-            const city = pick('addr:city', 'addr:town', 'addr:village', 'addr:hamlet');
-            if (city && base !== 'Locale') {
-                const bN = normalizeVenueText(base);
-                const cN = normalizeVenueText(city);
-                if (cN && !bN.includes(cN)) {
-                    base = `${base} di ${city}`;
-                }
-            }
-            return base;
-        }
-
-        /** Indirizzo da tag OSM (molti locali non hanno addr:street ma contact:*, addr:place, CAP, …). */
-        function osmVenueAddressFromTags(tags) {
-            if (!tags || typeof tags !== 'object') return '';
-            const t = (k) => (tags[k] ?? '').toString().trim();
-            const full = t('addr:full');
-            if (full) return full;
-            const street = [t('addr:street'), t('addr:housenumber')].filter(Boolean).join(' ').trim();
-            const contactStreet = t('contact:street');
-            const road = street || contactStreet;
-            const city =
-                t('addr:city') ||
-                t('addr:town') ||
-                t('addr:village') ||
-                t('addr:hamlet') ||
-                t('contact:city');
-            const place = t('addr:place') || t('addr:suburb') || t('addr:neighbourhood');
-            const pc = t('addr:postcode');
-            const prov = t('addr:province');
-            const locality = [pc, city || place].filter(Boolean).join(' ').trim();
-            let tail = locality;
-            if (prov && tail && !tail.includes(`(${prov})`)) {
-                tail = `${tail} (${prov})`;
-            } else if (prov && !tail) {
-                tail = `(${prov})`;
-            }
-            if (road && tail) return `${road}, ${tail}`;
-            if (road) return road;
-            if (tail) return tail;
-            return place || '';
-        }
-
-        async function reverseVenueAddressLine(lat, lng) {
-            if (!Number.isFinite(lat) || !Number.isFinite(lng)) return '';
-            const key = `${lat.toFixed(4)},${lng.toFixed(4)}`;
-            if (venueReverseAddressCache.has(key)) return venueReverseAddressCache.get(key);
-            try {
-                const url =
-                    `${NOMINATIM_REVERSE}?format=json&zoom=18&addressdetails=1&lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lng)}`;
-                const res = await fetch(url, { headers: { Accept: 'application/json' } });
-                if (!res.ok) {
-                    venueReverseAddressCache.set(key, '');
-                    return '';
-                }
-                const data = await res.json();
-                const a = data && data.address;
-                if (!a) {
-                    venueReverseAddressCache.set(key, '');
-                    return '';
-                }
-                const city = a.city || a.town || a.village || a.municipality || a.county || '';
-                const road = a.road || a.pedestrian || a.footway || '';
-                const house = a.house_number || '';
-                const street = [road, house].filter(Boolean).join(' ');
-                const parts = [];
-                if (street) parts.push(street);
-                if (city) parts.push(city);
-                const out = parts.join(', ') || (data.display_name || '').split(',').slice(0, 3).join(',').trim();
-                venueReverseAddressCache.set(key, out || '');
-                return out || '';
-            } catch {
-                venueReverseAddressCache.set(key, '');
-                return '';
-            }
-        }
-
-        async function backfillVenueAddressesIn(rootEl) {
-            if (!rootEl) return;
-            const items = [...rootEl.querySelectorAll('.venue-item[data-lat][data-lng]')].filter((el) => {
-                const a = el.querySelector('.venue-item-addr');
-                return a && !a.textContent.trim() && a.dataset.backfilled !== '1';
-            });
-            const max = 16;
-            for (let i = 0; i < Math.min(items.length, max); i++) {
-                const el = items[i];
-                const addrEl = el.querySelector('.venue-item-addr');
-                if (!addrEl) continue;
-                addrEl.dataset.backfilled = '1';
-                const lat = parseFloat(el.dataset.lat, 10);
-                const lng = parseFloat(el.dataset.lng, 10);
-                const line = await reverseVenueAddressLine(lat, lng);
-                if (line && el.isConnected) {
-                    addrEl.textContent = line;
-                    const vid = el.dataset.venueId;
-                    if (vid) {
-                        const v = venuesCache.find((x) => String(x.id) === vid);
-                        if (v) {
-                            v.address = line;
-                            const addrHdr = document.getElementById('chatVenueAddr');
-                            if (typeof currentRoomId === 'string' && currentRoomId && typeof chatRoomIdForVenue === 'function' && chatRoomIdForVenue(v) === currentRoomId && addrHdr) {
-                                addrHdr.textContent = line;
-                            }
-                        }
-                    }
-                }
-                if (i < max - 1) await new Promise((r) => setTimeout(r, 1100));
-            }
-        }
-
-        /** Locali con dashboard (Firestore) entro il raggio — chat room = id documento. */
-        async function loadFmnVenuesNear(center, radiusM) {
-            const rKm = Math.max(5, Math.min(100, radiusM / 1000));
-            try {
-                const snap = await db.collection('venues').limit(250).get();
-                const out = [];
-                snap.forEach((doc) => {
-                    const d = doc.data();
-                    const lat = Number(d.lat);
-                    const lng = Number(d.lng);
-                    if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
-                    const km = kmBetween(center, { lat, lng });
-                    if (km > rKm) return;
-                    const addr = (d.address || d.indirizzo || '').toString().trim();
-                    out.push({
-                        id: `fmn:${doc.id}`,
-                        name: (d.name || doc.id).toString(),
-                        address: addr,
-                        lat,
-                        lng,
-                        chatRoomId: doc.id
-                    });
-                });
-                out.sort((a, b) => kmBetween(center, a) - kmBetween(center, b));
-                return out;
-            } catch {
-                return [];
-            }
-        }
-
-        // ─── OVERPASS: discoteche / dancing / music venue (allineato a locali.html) ───
-        async function fetchVenues(center, radiusM) {
-            const lat = center.lat, lng = center.lng;
-            const r = Math.max(5000, Math.min(100000, radiusM));
-            const query = `[out:json][timeout:25];(node["amenity"="nightclub"](around:${r},${lat},${lng});way["amenity"="nightclub"](around:${r},${lat},${lng});relation["amenity"="nightclub"](around:${r},${lat},${lng});node["club"="nightclub"](around:${r},${lat},${lng});way["club"="nightclub"](around:${r},${lat},${lng});relation["club"="nightclub"](around:${r},${lat},${lng});node["leisure"="nightclub"](around:${r},${lat},${lng});way["leisure"="nightclub"](around:${r},${lat},${lng});relation["leisure"="nightclub"](around:${r},${lat},${lng});node["leisure"="dancing"](around:${r},${lat},${lng});way["leisure"="dancing"](around:${r},${lat},${lng});relation["leisure"="dancing"](around:${r},${lat},${lng});node["amenity"="music_venue"](around:${r},${lat},${lng});way["amenity"="music_venue"](around:${r},${lat},${lng});relation["amenity"="music_venue"](around:${r},${lat},${lng});node["amenity"="bar"]["club"="nightclub"](around:${r},${lat},${lng});way["amenity"="bar"]["club"="nightclub"](around:${r},${lat},${lng});relation["amenity"="bar"]["club"="nightclub"](around:${r},${lat},${lng}););out center tags;`;
-
-            try {
-                const result = await Promise.any(
-                    OVERPASS_ENDPOINTS.map(ep =>
-                        fetch(ep, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-                            body: new URLSearchParams({ data: query }),
-                            signal: AbortSignal.timeout(18000)
-                        }).then(r => r.json()).then(j => {
-                            const els = (j.elements || []).filter(
-                                (e) =>
-                                    e.tags &&
-                                    !isOsmVenueLikelyClosed(e.tags) &&
-                                    (e.tags.name || e.tags['name:it'] || e.tags.brand)
-                            );
-                            if (!els.length) return Promise.reject('empty');
-                            return els;
-                        })
-                    )
-                );
-                const mapped = result
-                    .map((el) => ({
-                        id: `${el.type}/${el.id}`,
-                        name: osmVenueDisplayName(el.tags),
-                        address: osmVenueAddressFromTags(el.tags || {}),
-                        lat: el.lat ?? el.center?.lat,
-                        lng: el.lon ?? el.center?.lon
-                    }))
-                    .filter((v) => Number.isFinite(v.lat) && Number.isFinite(v.lng));
-                /* Ordina per distanza: così il merge con i partner può prendere le N più vicine, non i primi 90 casuali da Overpass */
-                mapped.sort((a, b) => kmBetween({ lat, lng }, a) - kmBetween({ lat, lng }, b));
-                return mapped.slice(0, 120);
-            } catch {
-                return [];
-            }
-        }
-
-        function venueSlug(venue) {
-            return (venue.id || venue.name).toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').slice(0, 60);
-        }
-
-        function chatRoomIdForVenue(venue) {
-            if (venue && venue.chatRoomId) return String(venue.chatRoomId).replace(/[/\s]/g, '-').slice(0, 120);
-            return venueSlug(venue);
-        }
-
-        // ─── SIDEBAR: SEARCH + RENDER ───
-        /**
-         * Sezione "Su FindMyNight" in sidebar: elenca i locali con dashboard su Firestore (partner)
-         * entro il raggio — es. "Life Club Rovetta" con chat collegata al documento venue.
-         * ON: serve perché la stanza chat ufficiale del partner è `venues/{id}`; senza queste voci
-         * si aprono solo stanze OSM (slug) e i badge Discoteca/PR (legati al doc Firestore) non matchano.
-         */
-        const SHOW_FMNVENUES_IN_CHAT_SIDEBAR = true;
-
-        /**
-         * Locali “seed” (stessi dati di locali.html): su OSM spesso non compaiono o non sono amenity=nightclub,
-         * quindi Overpass non li restituisce. Li reinseriamo se il centro ricerca è abbastanza vicino.
-         */
-        const CHAT_VENUE_SEED_MAX_KM = 55;
-
-        function injectChatVenueSeeds(center, osmVenues) {
-            const list = Array.isArray(osmVenues) ? [...osmVenues] : [];
-            const nt = normalizeVenueText;
-
-            const life = {
-                id: 'seed:life-club-rovetta',
-                name: 'Life Club Rovetta',
-                address: 'Via Vogno 7, 24020 Rovetta (BG)',
-                lat: 45.8741,
-                lng: 9.9717
-            };
-            if (kmBetween(center, life) <= CHAT_VENUE_SEED_MAX_KM && !list.some((c) => nt(c.name).includes('life club'))) {
-                list.push(life);
-            }
-
-            const barSeeds = [
-                {
-                    id: 'seed:bar-da-spicchio-rovetta',
-                    name: 'Bar Da Spicchio',
-                    address: 'Via Nuova 12, 24020 Rovetta (BG)',
-                    lat: 45.8917564,
-                    lng: 9.9853276,
-                    isDuplicate: (c) => nt(c.name).includes('spicchio')
-                },
-                {
-                    id: 'seed:piccolo-bar-clusone',
-                    name: 'Piccolo Bar',
-                    address: 'Via Sales 2, 24023 Clusone (BG)',
-                    lat: 45.8831737,
-                    lng: 9.9343768,
-                    isDuplicate: (c) => {
-                        const t = nt(c.name);
-                        return t.includes('piccolo bar') && !t.includes('2.0');
-                    }
-                },
-                {
-                    id: 'seed:piccolo-bar-2-clusone',
-                    name: 'Piccolo Bar 2.0',
-                    address: 'Via Luigi Carrara 1, 24023 Clusone (BG)',
-                    lat: 45.8877922,
-                    lng: 9.9329784,
-                    isDuplicate: (c) => {
-                        const t = nt(c.name);
-                        return t.includes('piccolo bar') && t.includes('2.0');
-                    }
-                }
-            ];
-
-            for (const seed of barSeeds) {
-                const { isDuplicate, ...rest } = seed;
-                const pt = { lat: rest.lat, lng: rest.lng };
-                if (kmBetween(center, pt) > CHAT_VENUE_SEED_MAX_KM) continue;
-                if (list.some(isDuplicate)) continue;
-                list.push(rest);
-            }
-            return list;
-        }
-
-        /** Quanti locali mostrare in sidebar, ordinati per distanza dal punto (GPS o città cercata). */
-        const CHAT_SIDEBAR_NEAR_LIMIT = 30;
-
-        const cityInput = document.getElementById('citySearch');
-        const cityBtn   = document.getElementById('citySearchBtn');
-        const venueListEl = document.getElementById('venueList');
-
-        /**
-         * Unisce partner FMN + OSM, ordina per km dal `center`, restituisce al massimo CHAT_SIDEBAR_NEAR_LIMIT voci.
-         * center: { lat, lng } (es. posizione GPS o centro città da geocode).
-         */
-        function buildChatVenueListNearest(center, fmnList, osmList) {
-            const rows = [];
-            const seen = new Set();
-            function pushVenue(v, isFmn) {
-                if (!v || !Number.isFinite(v.lat) || !Number.isFinite(v.lng)) return;
-                const id = String(v.id || '');
-                if (id && seen.has(id)) return;
-                if (id) seen.add(id);
-                const km = kmBetween(center, v);
-                rows.push({ v, isFmn, km });
-            }
-            for (const v of fmnList || []) pushVenue(v, true);
-            for (const v of osmList || []) pushVenue(v, false);
-            rows.sort((a, b) => a.km - b.km);
-            return rows.slice(0, CHAT_SIDEBAR_NEAR_LIMIT);
-        }
-
-        function renderVenueListNearest(center, fmnVenues, osmVenues) {
-            const merged = buildChatVenueListNearest(center, fmnVenues, osmVenues);
-            venuesCache = merged.map((x) => x.v);
-            venueListEl.innerHTML = '';
-            if (!merged.length) {
-                venueListEl.innerHTML = '<div class="sidebar-empty">Nessuna discoteca trovata in questa zona</div>';
-                return;
-            }
-            const appendOne = (v, isFmn) => {
-                const item = document.createElement('div');
-                item.className = 'venue-item' + (isFmn ? ' venue-item-fmn' : '');
-                item.dataset.venueId = String(v.id || '');
-                if (Number.isFinite(v.lat) && Number.isFinite(v.lng)) {
-                    item.dataset.lat = String(v.lat);
-                    item.dataset.lng = String(v.lng);
-                }
-                const addr = (v.address || '').trim();
-                item.innerHTML = `<div class="venue-item-name">${esc(v.name)}</div><div class="venue-item-addr">${addr ? esc(addr) : ''}</div>`;
-                item.addEventListener('click', () => openChat(v, item));
-                venueListEl.appendChild(item);
-            };
-            const lab = document.createElement('div');
-            lab.className = 'venue-section-label';
-            lab.textContent =
-                merged.length === 1
-                    ? 'Locale più vicino'
-                    : merged.length >= CHAT_SIDEBAR_NEAR_LIMIT
-                      ? `I ${CHAT_SIDEBAR_NEAR_LIMIT} più vicini`
-                      : `Locali vicini (${merged.length})`;
-            venueListEl.appendChild(lab);
-            merged.forEach(({ v, isFmn }) => appendOne(v, isFmn));
-            void backfillVenueAddressesIn(venueListEl);
-        }
-
-        async function searchCity() {
-            const q = cityInput.value.trim();
-            if (!q) return;
-            venueListEl.innerHTML = '<div class="loading-spinner"></div>';
-            const place = await geocodeCity(q);
-            if (!place) {
-                venueListEl.innerHTML = '<div class="sidebar-empty">Città non trovata</div>';
-                return;
-            }
-            const center = { lat: place.lat, lng: place.lng };
-            const [fmnVenues, osmRaw] = await Promise.all([
-                SHOW_FMNVENUES_IN_CHAT_SIDEBAR ? loadFmnVenuesNear(center, 50000) : Promise.resolve([]),
-                fetchVenues(center, 50000)
-            ]);
-            const osmVenues = injectChatVenueSeeds(center, osmRaw);
-            if (!fmnVenues.length && !osmVenues.length) {
-                venueListEl.innerHTML = '<div class="sidebar-empty">Nessuna discoteca trovata in questa zona</div>';
-                return;
-            }
-            renderVenueListNearest(center, fmnVenues, osmVenues);
-        }
-
-        cityBtn.addEventListener('click', searchCity);
-        cityInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') searchCity(); });
-
-        function esc(s) {
-            return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-        }
-
-        /** Apre la chat la cui stanza è l’ID documento `venues/{venueDocId}` (badge email partner). */
-        async function openChatByVenueDocId(venueDocId) {
-            const id = String(venueDocId || '').trim();
-            if (!id) return;
-            const doc = await db.collection('venues').doc(id).get();
-            if (!doc.exists) return;
-            const d = doc.data() || {};
-            const lat = Number(d.lat);
-            const lng = Number(d.lng);
-            if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
-            const addr = (d.address || d.indirizzo || '').toString().trim();
-            const venue = {
-                id: `fmn:${doc.id}`,
-                name: (d.name || doc.id).toString(),
-                address: addr,
-                lat,
-                lng,
-                chatRoomId: doc.id
-            };
-            await openChat(venue, null);
-        }
-
-        async function refreshNavChatBadgeForCurrentRoom() {
-            const badgeEl = document.getElementById('navChatBadge');
-            if (!badgeEl) return;
-            if (!currentUser) {
-                badgeEl.textContent = '';
-                badgeEl.hidden = true;
-                return;
-            }
-            const em = currentUser.email ? String(currentUser.email).toLowerCase().trim() : '';
-            if (!em) {
-                badgeEl.textContent = '';
-                badgeEl.hidden = true;
-                return;
-            }
-            const resolved = await resolveOfficialChatBadgeForUser(em);
-            if (resolved && resolved.badge) {
-                badgeEl.textContent = resolved.badge;
-                badgeEl.hidden = false;
-            } else {
-                badgeEl.textContent = '';
-                badgeEl.hidden = true;
-            }
-        }
-
-        // ─── CHAT ───
-        const chatPlaceholder = document.getElementById('chatPlaceholder');
-        const chatActive      = document.getElementById('chatActive');
-        const chatMessages    = document.getElementById('chatMessages');
-        const chatVenueName   = document.getElementById('chatVenueName');
-        const chatVenueAddr   = document.getElementById('chatVenueAddr');
-        const msgInput        = document.getElementById('msgInput');
-        const btnSend         = document.getElementById('btnSend');
-        const rateLimitMsg    = document.getElementById('rateLimitMsg');
-        const btnBack         = document.getElementById('btnBack');
-        const replyBar        = document.getElementById('replyBar');
-        const replyBarName    = document.getElementById('replyBarName');
-        const replyBarText    = document.getElementById('replyBarText');
-        const replyBarClose   = document.getElementById('replyBarClose');
-
-        function setReply(docId, displayName, text) {
-            replyTo = { docId, displayName, text };
-            replyBarName.textContent = displayName;
-            replyBarText.textContent = text.length > 80 ? text.slice(0, 80) + '…' : text;
-            replyBar.classList.add('active');
-            msgInput.focus();
-        }
-
-        function clearReply() {
-            replyTo = null;
-            replyBar.classList.remove('active');
-            replyBarName.textContent = '';
-            replyBarText.textContent = '';
-        }
-
-        replyBarClose.addEventListener('click', clearReply);
-
-        btnBack.addEventListener('click', () => {
-            document.getElementById('chatSidebar').classList.toggle('mobile-show');
-        });
-
-        async function openChat(venue, itemEl) {
-            document.querySelectorAll('.venue-item').forEach(i => i.classList.remove('active'));
-            if (itemEl) itemEl.classList.add('active');
-
-            const roomId = chatRoomIdForVenue(venue);
-            const isSameRoom = roomId === currentRoomId;
-
-            if (!isSameRoom) {
-                currentRoomId = roomId;
-
-                chatPlaceholder.style.display = 'none';
-                chatActive.style.display = 'flex';
-                chatVenueName.textContent = venue.name;
-                chatVenueAddr.textContent = venue.address || '';
-                chatMessages.innerHTML = '';
-                clearReply();
-
-                document.getElementById('chatSidebar').classList.remove('mobile-show');
-
-                if (chatUnsubscribe) chatUnsubscribe();
-
-                cleanupRoom(roomId);
-
-                chatUnsubscribe = db.collection('chatRooms').doc(roomId).collection('messages')
-                    .orderBy('timestamp', 'asc')
-                    .limitToLast(100)
-                    .onSnapshot((snap) => {
-                        chatMessages.innerHTML = '';
-                        if (snap.empty) {
-                            chatMessages.innerHTML = '<div class="system-msg">Nessun messaggio. Inizia la conversazione!</div>';
-                        }
-                        snap.forEach(doc => {
-                            const m = doc.data();
-                            renderMessage(doc.id, m);
-                        });
-                        chatMessages.scrollTop = chatMessages.scrollHeight;
-                    }, (err) => {
-                        chatMessages.innerHTML = `<div class="system-msg" style="color:#fca5a5;">Errore Firestore: ${err.message}. Controlla le regole di sicurezza nella console Firebase.</div>`;
-                    });
-            }
-
-            await refreshNavChatBadgeForCurrentRoom();
-        }
-
-        function renderMessage(docId, m) {
-            const isWelcome = m.isWelcome || m.uid === 'system-welcome';
-
-            if (isWelcome) {
-                const row = document.createElement('div');
-                row.className = 'msg-welcome';
-                row.dataset.msgId = docId;
-                row.innerHTML = `
-                    <div class="msg-welcome-icon">🎉</div>
-                    <div class="msg-welcome-text">${esc(m.text).replace(/\n/g, '<br>')}</div>
-                    ${isAdmin ? '<button class="msg-action-btn delete delete-btn" title="Elimina" style="margin:0.5rem auto 0;opacity:0.5;">🗑</button>' : ''}
-                `;
-                const wDelBtn = row.querySelector('.delete-btn');
-                if (wDelBtn) {
-                    wDelBtn.addEventListener('click', () => {
-                        if (confirm('Eliminare il messaggio di benvenuto?')) {
-                            db.collection('chatRooms').doc(currentRoomId).collection('messages').doc(docId).delete();
-                        }
-                    });
-                }
-                chatMessages.appendChild(row);
-                return;
-            }
-
-            const isSelf = currentUser && m.uid === currentUser.uid;
-            const canDelete = isAdmin || isSelf;
-            const row = document.createElement('div');
-            row.className = `msg-row${isSelf ? ' self' : ''}`;
-            row.dataset.msgId = docId;
-
-            let ts = '';
-            try { if (m.timestamp) ts = new Date(m.timestamp.toDate()).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }); }
-            catch { ts = 'ora'; }
-
-            let replyQuote = '';
-            if (m.replyTo && m.replyTo.displayName) {
-                replyQuote = `<div class="msg-reply-quote" data-scroll-to="${esc(m.replyTo.docId || '')}">
-                    <strong>${esc(m.replyTo.displayName)}</strong>
-                    ${esc((m.replyTo.text || '').slice(0, 60))}${(m.replyTo.text || '').length > 60 ? '…' : ''}
-                </div>`;
-            }
-
-            let actions = `<div class="msg-actions">
-                <button class="msg-action-btn reply-btn" title="Rispondi">↩</button>
-                ${canDelete ? '<button class="msg-action-btn delete delete-btn" title="Elimina">🗑</button>' : ''}
-            </div>`;
-
-            const badgeHtml = m.chatBadge
-                ? `<span class="msg-chat-badge">${esc(m.chatBadge)}</span>`
-                : '';
-
-            row.innerHTML = `
-                <img class="msg-avatar" alt="" width="32" height="32">
-                <div class="msg-content">
-                    <div class="msg-name-line">
-                        <div class="msg-name">${esc(m.displayName || 'Utente')}</div>
-                        ${badgeHtml}
-                    </div>
-                    ${replyQuote}
-                    <div class="msg-bubble">${esc(m.text)}</div>
-                    <div class="msg-time">${ts}</div>
-                </div>
-                ${actions}
-                <div class="msg-swipe-hint">↩</div>
-            `;
-
-            applyUserAvatar(row.querySelector('.msg-avatar'), m.photoURL);
-
-            row.querySelector('.reply-btn').addEventListener('click', () => {
-                setReply(docId, m.displayName || 'Utente', m.text);
-            });
-
-            const delBtn = row.querySelector('.delete-btn');
-            if (delBtn) {
-                delBtn.addEventListener('click', () => {
-                    if (confirm('Eliminare questo messaggio?')) {
-                        db.collection('chatRooms').doc(currentRoomId).collection('messages').doc(docId).delete();
-                    }
-                });
-            }
-
-            const quoteEl = row.querySelector('.msg-reply-quote');
-            if (quoteEl) {
-                quoteEl.addEventListener('click', () => {
-                    const targetId = quoteEl.dataset.scrollTo;
-                    if (!targetId) return;
-                    const target = chatMessages.querySelector(`[data-msg-id="${targetId}"]`);
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        target.style.background = 'rgba(168,85,247,0.12)';
-                        setTimeout(() => target.style.background = '', 1500);
-                    }
-                });
-            }
-
-            initSwipeToReply(row, docId, m.displayName || 'Utente', m.text);
-
-            chatMessages.appendChild(row);
-        }
-
-        // ─── SWIPE-TO-REPLY (mobile) + LONG-PRESS CONTEXT MENU ───
-        const contextMenu = document.getElementById('msgContextMenu');
-        let longPressTimer = null;
-
-        document.addEventListener('click', () => contextMenu.classList.remove('show'));
-        document.addEventListener('touchstart', (e) => {
-            if (!contextMenu.contains(e.target)) contextMenu.classList.remove('show');
-        }, { passive: true });
-
-        function showContextMenu(x, y, docId, displayName, text, canDelete) {
-            contextMenu.innerHTML = '';
-
-            const replyItem = document.createElement('button');
-            replyItem.className = 'msg-context-item';
-            replyItem.innerHTML = '↩ Rispondi';
-            replyItem.addEventListener('click', () => {
-                setReply(docId, displayName, text);
-                contextMenu.classList.remove('show');
-            });
-            contextMenu.appendChild(replyItem);
-
-            if (canDelete) {
-                const deleteItem = document.createElement('button');
-                deleteItem.className = 'msg-context-item danger';
-                deleteItem.innerHTML = '🗑 Elimina';
-                deleteItem.addEventListener('click', () => {
-                    contextMenu.classList.remove('show');
-                    if (confirm('Eliminare questo messaggio?')) {
-                        db.collection('chatRooms').doc(currentRoomId).collection('messages').doc(docId).delete();
-                    }
-                });
-                contextMenu.appendChild(deleteItem);
-            }
-
-            const menuW = 160, menuH = canDelete ? 90 : 50;
-            let left = Math.min(x, window.innerWidth - menuW - 10);
-            let top = y;
-            if (top + menuH > window.innerHeight) top = y - menuH;
-            contextMenu.style.left = left + 'px';
-            contextMenu.style.top = top + 'px';
-            contextMenu.classList.add('show');
-        }
-
-        function initSwipeToReply(row, docId, displayName, text) {
-            const THRESHOLD = 60;
-            let startX = 0, startY = 0, swiping = false, triggered = false;
-            const hint = row.querySelector('.msg-swipe-hint');
-            const isSelf = row.classList.contains('self');
-            const canDelete = isAdmin || isSelf;
-
-            row.addEventListener('touchstart', (e) => {
-                startX = e.touches[0].clientX;
-                startY = e.touches[0].clientY;
-                swiping = false;
-                triggered = false;
-
-                longPressTimer = setTimeout(() => {
-                    if (!swiping) {
-                        if (navigator.vibrate) navigator.vibrate(20);
-                        showContextMenu(startX, startY, docId, displayName, text, canDelete);
-                    }
-                }, 500);
-            }, { passive: true });
-
-            row.addEventListener('touchmove', (e) => {
-                const dx = e.touches[0].clientX - startX;
-                const dy = e.touches[0].clientY - startY;
-
-                if (Math.abs(dx) > 8 || Math.abs(dy) > 8) clearTimeout(longPressTimer);
-
-                if (!swiping && Math.abs(dy) > Math.abs(dx)) return;
-                swiping = true;
-
-                const dir = isSelf ? -dx : dx;
-                if (dir < 0) return;
-
-                const clamped = Math.min(dir, THRESHOLD + 20);
-                const tx = isSelf ? -clamped : clamped;
-                row.style.transform = `translateX(${tx}px)`;
-
-                if (hint) hint.style.opacity = Math.min(dir / THRESHOLD, 1);
-
-                if (dir >= THRESHOLD && !triggered) {
-                    triggered = true;
-                    if (navigator.vibrate) navigator.vibrate(15);
-                }
-            }, { passive: true });
-
-            row.addEventListener('touchend', () => {
-                clearTimeout(longPressTimer);
-                row.style.transform = '';
-                if (hint) hint.style.opacity = '0';
-                if (triggered) setReply(docId, displayName, text);
-                swiping = false;
-            }, { passive: true });
-        }
-
-        // ─── SEND MESSAGE ───
-        async function sendMessage() {
-            if (!currentUser || !currentRoomId) return;
-            const text = msgInput.value.trim();
-            if (!text) return;
-
-            if (containsBannedWord(text)) {
-                rateLimitMsg.textContent = 'Il messaggio contiene parole non consentite.';
-                rateLimitMsg.style.display = 'block';
-                setTimeout(() => rateLimitMsg.style.display = 'none', 3000);
-                return;
-            }
-
-            const now = Date.now();
-            if (now - lastSentAt < RATE_LIMIT_MS) {
-                rateLimitMsg.textContent = 'Attendi qualche secondo prima di inviare un altro messaggio…';
-                rateLimitMsg.style.display = 'block';
-                setTimeout(() => rateLimitMsg.style.display = 'none', 2000);
-                return;
-            }
-
-            msgInput.value = '';
-            msgInput.disabled = true;
-            btnSend.disabled = true;
-            lastSentAt = now;
-
-            const msgData = {
-                uid:         currentUser.uid,
-                displayName: currentUser.displayName || 'Utente',
-                photoURL:    currentUser.photoURL || '',
-                text:        text,
-                timestamp:   firebase.firestore.FieldValue.serverTimestamp()
-            };
-
-            const em = currentUser.email ? String(currentUser.email).toLowerCase().trim() : '';
-            if (em) {
-                const resolved = await resolveOfficialChatBadgeForUser(em);
-                if (resolved && resolved.badge && resolved.venueId) {
-                    msgData.chatBadge = resolved.badge;
-                    msgData.chatBadgeVenueId = resolved.venueId;
-                }
-            }
-
-            if (replyTo) {
-                msgData.replyTo = {
-                    docId:       replyTo.docId,
-                    displayName: replyTo.displayName,
-                    text:        replyTo.text.slice(0, 100)
-                };
-            }
-
-            clearReply();
-
-            try {
-                await db.collection('chatRooms').doc(currentRoomId).collection('messages').add(msgData);
-            } catch (err) {
-                console.error('Errore invio:', err);
-                if (err && err.code === 'permission-denied') {
-                    rateLimitMsg.textContent =
-                        'Invio bloccato dalle regole Firestore (stemmi ufficiali). Controlla email su Partner e che le regoli siano aggiornate.';
-                    rateLimitMsg.style.display = 'block';
-                    setTimeout(() => { rateLimitMsg.style.display = 'none'; }, 9000);
-                }
-            }
-
-            msgInput.disabled = false;
-            btnSend.disabled = false;
-            msgInput.focus();
-        }
-
-        btnSend.addEventListener('click', sendMessage);
-        msgInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') sendMessage(); });
-
-        // ─── PULIZIA MESSAGGI (lazy: ogni utente che entra pulisce i vecchi) ───
-        async function cleanupOldMessages() {
-            const now = new Date();
-            const cutoff = new Date(now);
-            cutoff.setHours(6, 0, 0, 0);
-            if (now < cutoff) cutoff.setDate(cutoff.getDate() - 1);
-
-            try {
-                const rooms = await db.collection('chatRooms').listDocuments();
-                for (const roomRef of rooms) {
-                    const old = await roomRef.collection('messages')
-                        .where('timestamp', '<', cutoff)
-                        .limit(100)
-                        .get();
-                    const batch = db.batch();
-                    old.forEach(doc => batch.delete(doc.ref));
-                    if (!old.empty) await batch.commit();
-                }
-            } catch {
-                // listDocuments non disponibile in compat SDK dal client,
-                // fallback: puliamo solo la room corrente quando la apriamo
-            }
-        }
-
-        const WELCOME_MSG = `Ciao a tutti! 👋 Benvenuti nella chat di questo locale su FindMyNight.
-
-Qui potete organizzarvi per la serata, chiedere info e conoscere chi esce stasera.
-
-🤝 FindMyNight funziona grazie a voi! Più la community è attiva, più è facile sapere dove si esce, quanta gente c'è e quali serate spacchino davvero. Condividete info, invitate amici e fate crescere il gruppo!
-
-📌 Regole:
-• Rispettate gli altri utenti
-• No spam, no contenuti offensivi
-• I messaggi vengono cancellati ogni mattina alle 6:00
-
-Buon divertimento e buona serata! 🎉
-— Team FindMyNight`;
-
-        async function ensureWelcomeMessage(roomId) {
-            if (!currentUser) return;
-            try {
-                const snap = await db.collection('chatRooms').doc(roomId).collection('messages')
-                    .where('isWelcome', '==', true)
-                    .limit(1)
-                    .get();
-
-                if (!snap.empty) {
-                    const existing = snap.docs[0];
-                    if (existing.data().text === WELCOME_MSG) return;
-                    await existing.ref.delete();
-                }
-
-                await db.collection('chatRooms').doc(roomId).collection('messages').add({
-                    uid:         currentUser.uid,
-                    displayName: 'FindMyNight',
-                    photoURL:    '',
-                    text:        WELCOME_MSG,
-                    timestamp:   firebase.firestore.FieldValue.serverTimestamp(),
-                    isWelcome:   true
-                });
-            } catch { /* ignore */ }
-        }
-
-        async function cleanupRoom(roomId) {
-            const now = new Date();
-            const cutoff = new Date(now);
-            cutoff.setHours(6, 0, 0, 0);
-            if (now < cutoff) cutoff.setDate(cutoff.getDate() - 1);
-
-            try {
-                const old = await db.collection('chatRooms').doc(roomId).collection('messages')
-                    .where('timestamp', '<', cutoff)
-                    .limit(200)
-                    .get();
-                const batch = db.batch();
-                old.forEach(doc => batch.delete(doc.ref));
-                if (!old.empty) await batch.commit();
-            } catch { /* ignore */ }
-
-            await ensureWelcomeMessage(roomId);
-        }
-
-        // Geolocation auto-search (discoteche OSM + locali Firestore vicini)
-        if ('geolocation' in navigator && window.isSecureContext) {
-            venueListEl.innerHTML = '<div class="loading-spinner"></div>';
-            navigator.geolocation.getCurrentPosition(
-                async (pos) => {
-                    const lat = pos.coords.latitude;
-                    const lng = pos.coords.longitude;
-                    const center = { lat, lng };
-                    const [fmnVenues, osmRaw] = await Promise.all([
-                        SHOW_FMNVENUES_IN_CHAT_SIDEBAR ? loadFmnVenuesNear(center, 50000) : Promise.resolve([]),
-                        fetchVenues(center, 50000)
-                    ]);
-                    const osmVenues = injectChatVenueSeeds(center, osmRaw);
-                    if (fmnVenues.length || osmVenues.length) {
-                        renderVenueListNearest(center, fmnVenues, osmVenues);
-                    } else {
-                        venueListEl.innerHTML =
-                            '<div class="sidebar-empty">Nessuna discoteca trovata vicino a te. Prova a cercare una città.</div>';
-                    }
-                },
-                () => {
-                    venueListEl.innerHTML =
-                        '<div class="sidebar-empty">Posizione non attiva. Cerca una città per vedere le discoteche nella zona.</div>';
-                }
-            );
-        }
-
-        // Menu mobile (hamburger)
+        // Menu mobile (hamburger) — come index
         (function () {
             const nav = document.getElementById('siteNav');
             const btn = document.getElementById('navMenuBtn');
@@ -2711,14 +986,94 @@ Buon divertimento e buona serata! 🎉
             list.querySelectorAll('a').forEach((a) => {
                 a.addEventListener('click', () => setNavOpen(false));
             });
-            const btnLogoutNav = document.getElementById('btnLogout');
-            if (btnLogoutNav) {
-                btnLogoutNav.addEventListener('click', () => setNavOpen(false));
-            }
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && nav.classList.contains('nav-open')) setNavOpen(false);
             });
         })();
+
+        /** Inbox che riceve l’email (FormSubmit: alla prima richiesta potrebbe chiedere conferma via email). */
+        const CONTACT_FORM_EMAIL = 'findmynight.info@gmail.com';
+
+        function showFormError(msg) {
+            const el = document.getElementById('formError');
+            if (!el) return;
+            el.innerHTML = msg;
+            el.style.display = 'block';
+        }
+        function hideFormError() {
+            const el = document.getElementById('formError');
+            if (!el) return;
+            el.style.display = 'none';
+            el.textContent = '';
+        }
+
+        document.getElementById('contactForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideFormError();
+            const btn = e.target.querySelector('.btn-submit');
+            const name = document.getElementById('cName').value.trim();
+            const email = document.getElementById('cEmail').value.trim();
+            const subjectKey = document.getElementById('cSubject').value;
+            const message = document.getElementById('cMessage').value.trim();
+            const subjectLabels = {
+                feedback: 'Feedback sul sito',
+                locale: 'Registrare il mio locale',
+                collaborazione: 'Proposta di collaborazione',
+                bug: 'Segnalazione bug',
+                altro: 'Altro'
+            };
+            const subjectLabel = subjectLabels[subjectKey] || subjectKey;
+
+            btn.textContent = 'Invio in corso…';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch('https://formsubmit.co/ajax/' + encodeURIComponent(CONTACT_FORM_EMAIL), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _subject: '[FindMyNight Contatti] ' + subjectLabel,
+                        _replyto: email,
+                        _template: 'table',
+                        _captcha: false,
+                        nome: name,
+                        email_utente: email,
+                        motivo: subjectLabel,
+                        messaggio: message
+                    })
+                });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok) {
+                    throw new Error((data && data.message) || 'Invio non riuscito');
+                }
+                if (data.success === false || data.success === 'false') {
+                    throw new Error((data && data.message) || 'Invio rifiutato');
+                }
+
+                const formEl = e.target;
+                const okEl = document.getElementById('formOk');
+                formEl.classList.add('contact-form--leave');
+                window.setTimeout(() => {
+                    formEl.style.display = 'none';
+                    const card = formEl.closest('.form-card');
+                    if (card) card.style.display = 'none';
+                    okEl.classList.remove('form-ok--show');
+                    void okEl.offsetWidth;
+                    okEl.classList.add('form-ok--show');
+                }, 400);
+            } catch (err) {
+                const mailto = 'mailto:' + CONTACT_FORM_EMAIL + '?subject=' + encodeURIComponent('[FindMyNight] ' + subjectLabel) + '&body=' + encodeURIComponent('Da: ' + name + ' <' + email + '>\n\n' + message);
+                showFormError(
+                    'Non siamo riusciti a inviare dal browser. Controlla la connessione o invia manualmente: ' +
+                    '<a href="' + mailto + '">Apri la tua email</a>.'
+                );
+                btn.textContent = 'Invia messaggio';
+                btn.disabled = false;
+            }
+        });
 
     </script>
     <script src="fmn-analytics.js" defer></script>
