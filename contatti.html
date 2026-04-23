@@ -359,11 +359,18 @@
             justify-content: center;
             font-size: 1.3rem;
             flex-shrink: 0;
+            color: rgba(241, 240, 250, 0.92);
         }
 
-        .contact-icon.purple { background: rgba(168, 85, 247, 0.15); }
-        .contact-icon.pink   { background: rgba(236, 72, 153, 0.15); }
-        .contact-icon.cyan   { background: rgba(6, 182, 212, 0.15); }
+        .contact-icon svg {
+            width: 24px;
+            height: 24px;
+            display: block;
+        }
+
+        .contact-icon.purple { background: rgba(168, 85, 247, 0.15); color: rgba(233, 213, 255, 0.98); }
+        .contact-icon.pink   { background: rgba(236, 72, 153, 0.15); color: rgba(253, 242, 248, 0.98); }
+        .contact-icon.cyan   { background: rgba(6, 182, 212, 0.15); color: rgba(207, 250, 254, 0.98); }
 
         .contact-info h3 {
             font-family: 'Syne', sans-serif;
@@ -878,7 +885,12 @@
 
         <div class="contact-cards">
             <div class="contact-card">
-                <div class="contact-icon purple">📧</div>
+                <div class="contact-icon purple" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M4 7.5A3.5 3.5 0 0 1 7.5 4h9A3.5 3.5 0 0 1 20 7.5v9A3.5 3.5 0 0 1 16.5 20h-9A3.5 3.5 0 0 1 4 16.5v-9Z" stroke="currentColor" stroke-width="1.8"/>
+                        <path d="M6.5 8.2 12 12l5.5-3.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
                 <div class="contact-info">
                     <h3>Email</h3>
                     <p>Per proposte, collaborazioni o info generali.</p>
@@ -887,7 +899,13 @@
             </div>
 
             <div class="contact-card">
-                <div class="contact-icon pink">📱</div>
+                <div class="contact-icon pink" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M16.5 4h-9A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9A3.5 3.5 0 0 0 20 16.5v-9A3.5 3.5 0 0 0 16.5 4Z" stroke="currentColor" stroke-width="1.8"/>
+                        <path d="M12 16.2a4.2 4.2 0 1 0 0-8.4 4.2 4.2 0 0 0 0 8.4Z" stroke="currentColor" stroke-width="1.8"/>
+                        <path d="M16.9 7.1h.01" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+                    </svg>
+                </div>
                 <div class="contact-info">
                     <h3>Instagram</h3>
                     <p>Seguici per aggiornamenti e anteprime.</p>
