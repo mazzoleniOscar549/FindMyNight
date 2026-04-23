@@ -87,7 +87,7 @@ if (!window.FMN_FIREBASE_CONFIG) {
                     });
                     if (clubsData.length) {
                         enrichClubsWithFirebase(clubsData);
-                        renderSidebar(clubsData);
+                        renderSidebar(clubsForSidebar(clubsData));
                         loadAndRenderUserReviews();
                         loadAndRenderGoogleReviews();
                         const openPopup = document.getElementById('clubDetailPopup');
@@ -107,7 +107,7 @@ if (!window.FMN_FIREBASE_CONFIG) {
                 (snapshot) => {
                     sponsoredVenues.length = 0;
                     snapshot.forEach(doc => sponsoredVenues.push({ id: doc.id, ...doc.data() }));
-                    if (clubsData.length) renderSidebar(clubsData);
+                    if (clubsData.length) renderSidebar(clubsForSidebar(clubsData));
                 },
                 (err) => {
                     console.warn('[FindMyNight] Sponsored venues non disponibili.', err.message);
@@ -603,6 +603,17 @@ if (!window.FMN_FIREBASE_CONFIG) {
             }));
         }
 
+        function filterClubsWithinRadius(clubs, radiusKm) {
+            const rk = Number(radiusKm);
+            if (!Number.isFinite(rk) || rk <= 0) return clubs || [];
+            // "Rigido ma non rigidissimo": piccolo margine per GPS/arrotondamenti
+            const limit = Math.max(1, rk * 1.12 + 0.4);
+            return (clubs || []).filter((c) => {
+                const d = Number(c && c.distanceKm);
+                return Number.isFinite(d) ? d <= limit : true;
+            });
+        }
+
         const OVERPASS_CACHE_TTL_MS = 30 * 60 * 1000; // 30 minuti
 
         function overpassCacheKey(center, radiusMeters) {
@@ -668,21 +679,24 @@ if (!window.FMN_FIREBASE_CONFIG) {
             const cached = getOverpassCacheFiltered(center, radiusMeters);
             if (cached) return cached;
 
-            const tryParallel = async () => {
-                try {
-                    return await Promise.any(
-                        OVERPASS_ENDPOINTS.map((ep) =>
-                            fetchNightclubsFromOverpass({ endpoint: ep, center, radiusMeters }).then((r) =>
-                                Array.isArray(r) && r.length > 0 ? r : Promise.reject(new Error('empty'))
-                            )
+            const delay = (ms) => new Promise((r) => setTimeout(r, ms));
+
+            // Parallel: prendi il primo risultato NON-vuoto, ma non bloccare la UI troppo.
+            // Se nessun endpoint risponde con dati in poco tempo, passeremo al fallback sotto.
+            const tryParallelNonEmptyFast = async () => {
+                const nonEmptyPromise = Promise.any(
+                    OVERPASS_ENDPOINTS.map((ep) =>
+                        fetchNightclubsFromOverpass({ endpoint: ep, center, radiusMeters }).then((r) =>
+                            (Array.isArray(r) && r.length > 0) ? r : Promise.reject(new Error('empty'))
                         )
-                    );
-                } catch {
-                    return null;
-                }
+                    )
+                ).catch(() => null);
+
+                // Dopo ~2s se non abbiamo dati, non aspettiamo oltre qui.
+                return await Promise.race([nonEmptyPromise, delay(2000).then(() => null)]);
             };
 
-            let result = await tryParallel();
+            let result = await tryParallelNonEmptyFast();
             if (result && result.length) {
                 setOverpassCache(center, radiusMeters, result);
                 return result;
@@ -690,6 +704,7 @@ if (!window.FMN_FIREBASE_CONFIG) {
 
             await new Promise((r) => setTimeout(r, 120));
             const shuffled = [...OVERPASS_ENDPOINTS].sort(() => Math.random() - 0.5);
+            let firstEmpty = null;
             for (const ep of shuffled) {
                 try {
                     const r = await fetchNightclubsFromOverpass({ endpoint: ep, center, radiusMeters });
@@ -697,11 +712,15 @@ if (!window.FMN_FIREBASE_CONFIG) {
                         setOverpassCache(center, radiusMeters, r);
                         return r;
                     }
+                    if (Array.isArray(r) && !firstEmpty) {
+                        firstEmpty = r;
+                    }
                 } catch {
                     /* prova prossimo mirror Overpass */
                 }
             }
-            return null;
+            // Se tutti vuoti, ritorna vuoto (così l'app può reagire subito senza "attese infinite")
+            return firstEmpty || [];
         }
 
         function hashClubSeed(club) {
@@ -1110,6 +1129,16 @@ if (!window.FMN_FIREBASE_CONFIG) {
         async function geocodeItaly(query) {
             const q = (query || '').trim();
             if (!q) return null;
+            const key = `fmn_geocode_it_${normalizeText(q)}`;
+            try {
+                const raw = localStorage.getItem(key);
+                if (raw) {
+                    const o = JSON.parse(raw);
+                    if (o && Number.isFinite(o.lat) && Number.isFinite(o.lng) && o.ts && (Date.now() - o.ts) < (14 * 24 * 60 * 60 * 1000)) {
+                        return { lat: Number(o.lat), lng: Number(o.lng), label: String(o.label || q) };
+                    }
+                }
+            } catch { /* ignore */ }
             const url = `${NOMINATIM_ENDPOINT}?format=json&limit=5&countrycodes=it&q=${encodeURIComponent(q)}`;
             const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
             if (!res.ok) throw new Error('Geocoding non disponibile');
@@ -1119,7 +1148,11 @@ if (!window.FMN_FIREBASE_CONFIG) {
             const best = data.reduce((prev, curr) =>
                 geocodeScoreResult(curr) < geocodeScoreResult(prev) ? curr : prev
             );
-            return { lat: Number(best.lat), lng: Number(best.lon), label: best.display_name };
+            const out = { lat: Number(best.lat), lng: Number(best.lon), label: best.display_name };
+            try {
+                localStorage.setItem(key, JSON.stringify({ ...out, ts: Date.now() }));
+            } catch { /* ignore */ }
+            return out;
         }
 
         function applySearchFilter(query) {
@@ -1672,6 +1705,12 @@ if (!window.FMN_FIREBASE_CONFIG) {
             });
         }
 
+        function clubsForSidebar(clubs) {
+            // I locali "seed" (bar registrati / coordinate di riserva) li mostriamo solo come marker in mappa,
+            // non nelle card laterali, per evitare che compaiano subito o fuori contesto.
+            return (clubs || []).filter((c) => !String(c && c.id != null ? c.id : '').startsWith('seed:'));
+        }
+
         function initMap() {
             const mapEl = document.getElementById('leafletMap');
             if (!mapEl) return;
@@ -1698,6 +1737,18 @@ if (!window.FMN_FIREBASE_CONFIG) {
                     // Non blocchiamo: il sito resta usabile con la vista predefinita.
                     console.warn('Geolocation richiede HTTPS/localhost (secure context).');
                     return;
+                }
+
+                // Warm-start immediato: appena l’utente accetta, usa l’ultima posizione salvata per mostrare subito i locali
+                // (poi viene sostituita dal fix GPS reale quando arriva).
+                if (preferGpsAsSearchCenter && !userLocation && !manualCenter) {
+                    const warm = peekLastLocationForWarmStart();
+                    if (warm && Number.isFinite(warm.lat) && Number.isFinite(warm.lng)) {
+                        userLocation = warm;
+                        discoveryCenter = null;
+                        currentRadiusKm = Math.max(currentRadiusKm, 18);
+                        loadClubs();
+                    }
                 }
 
                 function applyPosition(pos, preferForCenter) {
@@ -1731,6 +1782,17 @@ if (!window.FMN_FIREBASE_CONFIG) {
                     const useGpsAsCenter = preferGpsAsSearchCenter || !manualCenter;
                     if (!useGpsAsCenter) {
                         return;
+                    }
+
+                    // Quando l'utente usa la posizione attuale, imposta raggio predefinito 5 km
+                    if (preferGpsAsSearchCenter) {
+                        currentRadiusKm = 5;
+                        try {
+                            const rr = document.getElementById('radiusKmRange');
+                            const rp = document.getElementById('radiusKmPill');
+                            if (rr) rr.value = '5';
+                            if (rp) rp.textContent = '5 km';
+                        } catch { /* ignore */ }
                     }
 
                     manualCenter = null;
@@ -1824,6 +1886,7 @@ if (!window.FMN_FIREBASE_CONFIG) {
             const lat = Number(center.lat);
             const lng = Number(center.lng);
             const r = Math.max(1000, Math.min(50000, Math.round(radiusMeters)));
+            const includeBars = r <= 20000; // bar solo su raggi "umani" per restare veloce
             const query = `
               [out:json][timeout:10];
               (
@@ -1836,6 +1899,11 @@ if (!window.FMN_FIREBASE_CONFIG) {
                 node["leisure"="nightclub"](around:${r},${lat},${lng});
                 way["leisure"="nightclub"](around:${r},${lat},${lng});
                 relation["leisure"="nightclub"](around:${r},${lat},${lng});
+                ${includeBars ? `
+                node["amenity"="bar"]["name"](around:${r},${lat},${lng});
+                way["amenity"="bar"]["name"](around:${r},${lat},${lng});
+                relation["amenity"="bar"]["name"](around:${r},${lat},${lng});
+                ` : ``}
               );
               out center tags;
             `.replace(/\s+/g, ' ').trim();
@@ -1913,6 +1981,76 @@ if (!window.FMN_FIREBASE_CONFIG) {
                 ingresso: 0
             }
         ];
+
+        // ─────────────────────────────────────────────────────────────────────────────
+        // Pacchetto "BG" automatico (≈100 locali reali) salvato in cache locale
+        // ─────────────────────────────────────────────────────────────────────────────
+        const BG_PACK_KEY = 'fmn_seed_pack_bg_v1';
+        const BG_PACK_TTL_MS = 14 * 24 * 60 * 60 * 1000; // 14 giorni
+        const BG_CENTER = { lat: 45.6983, lng: 9.6773 }; // Bergamo
+
+        function getBgPack() {
+            try {
+                const raw = localStorage.getItem(BG_PACK_KEY);
+                if (!raw) return null;
+                const o = JSON.parse(raw);
+                if (!o || !Array.isArray(o.items) || !o.ts) return null;
+                if (Date.now() - o.ts > BG_PACK_TTL_MS) return null;
+                return o.items;
+            } catch {
+                return null;
+            }
+        }
+
+        function setBgPack(items) {
+            try {
+                if (!Array.isArray(items) || !items.length) return;
+                localStorage.setItem(BG_PACK_KEY, JSON.stringify({ ts: Date.now(), items }));
+            } catch { /* ignore */ }
+        }
+
+        function isNearBergamo(center) {
+            try {
+                if (!center || !Number.isFinite(center.lat) || !Number.isFinite(center.lng)) return false;
+                return kmBetween(center, BG_CENTER) <= 28;
+            } catch {
+                return false;
+            }
+        }
+
+        async function prefetchBgPackIfNeeded(center) {
+            if (!isNearBergamo(center)) return;
+            if (getBgPack()) return;
+            try {
+                const rm = 42000; // abbastanza ampio da coprire zona BG
+                const clubs = await fetchClubsOverpassAnyEndpoint(BG_CENTER, rm);
+                if (!Array.isArray(clubs) || !clubs.length) return;
+                // Salviamo fino a ~120 per avere margine, poi verranno filtrati per raggio.
+                const slim = clubs
+                    .slice(0, 140)
+                    .map((c) => ({
+                        id: `seedbg:${String(c.id || '')}`,
+                        name: c.name || 'Locale',
+                        address: c.address || '',
+                        lat: c.lat,
+                        lng: c.lng,
+                        ratingText: '—',
+                        starsText: '—',
+                        crowdText: 'Non impostata',
+                        crowdPercent: null,
+                        ageText: '—',
+                        source: 'Seed',
+                        osmAmenity: c.osmAmenity || '',
+                        osmClub: c.osmClub || '',
+                        osmLeisure: c.osmLeisure || '',
+                        isBar: Boolean(c.isBar)
+                    }))
+                    .filter((x) => Number.isFinite(x.lat) && Number.isFinite(x.lng));
+                setBgPack(slim);
+            } catch {
+                /* ignore */
+            }
+        }
 
         /** Esclude da OSM luoghi marcati come chiusi/dismessi (es. Estasi abandoned=yes). */
         function isOsmVenueLikelyClosed(tags) {
@@ -2056,6 +2194,24 @@ if (!window.FMN_FIREBASE_CONFIG) {
             // Applichiamo un margine piccolo per arrotondamenti/distorsioni del raggio.
             const rk = Number(radiusKm);
             const seedMaxKm = Number.isFinite(rk) ? Math.max(1, rk * 1.12 + 0.35) : 1;
+
+            // BG pack (≈100 locali): solo in zona Bergamo, solo entro il raggio effettivo
+            if (isNearBergamo(center)) {
+                const bg = getBgPack();
+                if (Array.isArray(bg) && bg.length) {
+                    for (const seed of bg) {
+                        const d = kmBetween(center, { lat: seed.lat, lng: seed.lng });
+                        if (d > seedMaxKm) continue;
+                        results.push({
+                            ...seed,
+                            distanceKm: d,
+                            seedTipo: seed.isBar ? 'Locale' : (seed.seedTipo || null),
+                            seedIngresso: seed.seedIngresso ?? null
+                        });
+                    }
+                }
+            }
+
             for (const seed of SEED_VENUES) {
                 const d = kmBetween(center, { lat: seed.lat, lng: seed.lng });
                 if (d > seedMaxKm) continue;
@@ -2127,12 +2283,16 @@ if (!window.FMN_FIREBASE_CONFIG) {
                 try {
                     const cachedInstant = getOverpassCacheFiltered(centerPrimary, radiusMeters);
                     if (cachedInstant && cachedInstant.length && runId === loadClubsRunId) {
-                        clubsData = recomputeClubDistancesFrom(cachedInstant, listRef)
+                        clubsData = filterClubsWithinRadius(
+                            recomputeClubDistancesFrom(cachedInstant, listRef),
+                            currentRadiusKm
+                        )
                             .sort((a, b) => a.distanceKm - b.distanceKm)
                             .slice(0, MAP_MAX_VENUES_SHOWN);
                         enrichClubsWithFirebase(clubsData);
                         renderMarkers(clubsData);
-                        renderSidebar(clubsData);
+                        // Sidebar: la cache è già “reale” (OSM) e filtrata (niente seed), quindi possiamo mostrarla subito.
+                        renderSidebar(clubsForSidebar(clubsData));
                     }
                 } catch { /* ignore */ }
 
@@ -2145,7 +2305,7 @@ if (!window.FMN_FIREBASE_CONFIG) {
                     clubsData = seedInstant;
                     enrichClubsWithFirebase(clubsData);
                     renderMarkers(clubsData);
-                    renderSidebar(clubsData);
+                    // Sidebar: non mostrare seed/bar prima del fetch reale.
                 }
 
                 const applyOverpassClubsAndRender = async (rawClubs, radiusMetersUsed) => {
@@ -2163,7 +2323,8 @@ if (!window.FMN_FIREBASE_CONFIG) {
                         );
                         if (!exists) mergedClubs.push(s);
                     }
-                    mergedClubs = recomputeClubDistancesFrom(mergedClubs, listRef)
+                    mergedClubs = recomputeClubDistancesFrom(mergedClubs, listRef);
+                    mergedClubs = filterClubsWithinRadius(mergedClubs, currentRadiusKm)
                         .sort((a, b) => a.distanceKm - b.distanceKm)
                         .slice(0, MAP_MAX_VENUES_SHOWN);
 
@@ -2177,7 +2338,8 @@ if (!window.FMN_FIREBASE_CONFIG) {
                             if (runId !== loadClubsRunId) return;
                             if (nearMe && nearMe.length) {
                                 const merged = mergeClubListsById(mergedClubs, nearMe);
-                                mergedClubs = recomputeClubDistancesFrom(merged, listRef)
+                                mergedClubs = recomputeClubDistancesFrom(merged, listRef);
+                                mergedClubs = filterClubsWithinRadius(mergedClubs, currentRadiusKm)
                                     .sort((a, b) => a.distanceKm - b.distanceKm)
                                     .slice(0, MAP_MAX_VENUES_SHOWN);
                             }
@@ -2202,7 +2364,7 @@ if (!window.FMN_FIREBASE_CONFIG) {
 
                     enrichClubsWithFirebase(clubsData);
                     renderMarkers(clubsData);
-                    renderSidebar(clubsData);
+                    renderSidebar(clubsForSidebar(clubsData));
                     loadAndRenderUserReviews();
                     loadAndRenderGoogleReviews();
 
@@ -2214,7 +2376,7 @@ if (!window.FMN_FIREBASE_CONFIG) {
                                 clubsData = enriched;
                                 enrichClubsWithFirebase(clubsData);
                                 renderMarkers(clubsData);
-                                renderSidebar(clubsData);
+                                renderSidebar(clubsForSidebar(clubsData));
                                 loadAndRenderUserReviews();
                                 loadAndRenderGoogleReviews();
                             })
@@ -2231,24 +2393,41 @@ if (!window.FMN_FIREBASE_CONFIG) {
                                 }));
                                 enrichClubsWithFirebase(clubsData);
                                 renderMarkers(clubsData);
-                                renderSidebar(clubsData);
+                                renderSidebar(clubsForSidebar(clubsData));
                                 loadAndRenderUserReviews();
                                 loadAndRenderGoogleReviews();
                             });
                     }
                 };
 
-                // GPS: prima pass veloce a raggio piccolo, poi raggio completo in background.
-                if (isGpsMode && currentRadiusKm > 12) {
-                    const fastKm = 12;
-                    const fastMeters = Math.max(1000, Math.min(100000, Math.round(fastKm * 1000)));
-                    const fastClubs = await fetchClubsOverpassAnyEndpoint(centerPrimary, fastMeters);
-                    if (runId !== loadClubsRunId) return;
-                    if (fastClubs && fastClubs.length) {
-                        clubs = fastClubs;
-                        await applyOverpassClubsAndRender(fastClubs, fastMeters);
+                // GPS: primo risultato più veloce possibile (anche quando nel raggio piccolo OSM è scarso).
+                // Facciamo 12km e 25km in parallelo e rendiamo appena arriva la prima lista non-vuota.
+                if (isGpsMode) {
+                    const m12 = Math.max(1000, Math.min(100000, Math.round(12 * 1000)));
+                    const m25 = Math.max(1000, Math.min(100000, Math.round(25 * 1000)));
+                    const want = [m12, m25, radiusMeters]
+                        .filter((v, i, a) => a.indexOf(v) === i)
+                        .filter((v) => v > 0);
 
-                        // Avvia raggio completo in background (non blocca la prima lista)
+                    const firstNonEmpty = async () => {
+                        try {
+                            return await Promise.any(want.map((rm) =>
+                                fetchClubsOverpassAnyEndpoint(centerPrimary, rm).then((r) =>
+                                    (Array.isArray(r) && r.length) ? ({ rm, r }) : Promise.reject(new Error('empty'))
+                                )
+                            ));
+                        } catch {
+                            return null;
+                        }
+                    };
+
+                    const first = await firstNonEmpty();
+                    if (runId !== loadClubsRunId) return;
+                    if (first && first.r && first.r.length) {
+                        clubs = first.r;
+                        await applyOverpassClubsAndRender(first.r, first.rm);
+
+                        // In background: aggiorna al raggio completo attuale (slider)
                         Promise.resolve()
                             .then(() => fetchClubsOverpassAnyEndpoint(centerPrimary, radiusMeters))
                             .then((full) => applyOverpassClubsAndRender(full, radiusMeters))
@@ -2287,10 +2466,13 @@ if (!window.FMN_FIREBASE_CONFIG) {
                         }
                         throw lastErr || new Error('Nessun locale trovato in quest\'area (prova a ingrandire il raggio).');
                     }
-                    clubsData = clubs;
+                    clubsData = filterClubsWithinRadius(
+                        recomputeClubDistancesFrom(clubs, listRef),
+                        currentRadiusKm
+                    );
                     enrichClubsWithFirebase(clubsData);
                     renderMarkers(clubsData);
-                    renderSidebar(clubsData);
+                    renderSidebar(clubsForSidebar(clubsData));
                     loadAndRenderUserReviews();
                     loadAndRenderGoogleReviews();
                 }
@@ -2299,6 +2481,9 @@ if (!window.FMN_FIREBASE_CONFIG) {
                 if (!isDiscoveryMode && prefetchCenter && clubsData && clubsData.length) {
                     scheduleLocaliOverpassPrefetch(prefetchCenter);
                 }
+                // In background: se l'utente è in zona BG, prepara un pacchetto ~100 locali per rendere il "vicino a me"
+                // sempre veloce e più completo anche quando Overpass è lento o scarso.
+                prefetchBgPackIfNeeded(prefetchCenter);
             } catch (err) {
                 hideMapFetchLoading();
                 const sidebar = document.querySelector('.map-sidebar');
