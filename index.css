@@ -1788,7 +1788,10 @@ nav ul.nav-main-list a:hover {
 
 @media (min-width: 1025px) {
     #features details.feature-card>summary {
-        display: contents;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        pointer-events: none;
     }
 
     #features details.feature-card--soon>summary {
@@ -1813,7 +1816,7 @@ nav ul.nav-main-list a:hover {
     }
 
     #features details.feature-card .feature-desc-animate {
-        display: contents;
+        display: block;
     }
 
     #features details.feature-card .feature-desc-animate>.feature-desc {
