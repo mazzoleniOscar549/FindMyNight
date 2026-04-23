@@ -4,6 +4,26 @@ if (!window.FMN_FIREBASE_CONFIG) {
         firebase.initializeApp(window.FMN_FIREBASE_CONFIG);
         const db = firebase.firestore();
 
+// Funzionalità (desktop): card statiche sempre aperte, niente toggle
+(function () {
+    try {
+        var mqDesktop = window.matchMedia('(min-width: 1025px)');
+        function applyDesktopStaticFeatures() {
+            if (!mqDesktop.matches) return;
+            document.querySelectorAll('#features details.feature-card').forEach(function (d) {
+                d.open = true;
+                var summary = d.querySelector('summary');
+                if (summary && !summary.__fmnDesktopStaticBound) {
+                    summary.__fmnDesktopStaticBound = true;
+                    summary.addEventListener('click', function (e) { e.preventDefault(); });
+                }
+            });
+        }
+        applyDesktopStaticFeatures();
+        mqDesktop.addEventListener('change', applyDesktopStaticFeatures);
+    } catch { /* ignore */ }
+})();
+
         /**
          * Mappa normalizzata-name → dati live dal bot Telegram / dashboard.
          * Struttura documento Firestore (collezione "venues"):
@@ -253,7 +273,7 @@ if (!window.FMN_FIREBASE_CONFIG) {
                 }
             });
         }, { threshold: 0.1 });
-        document.querySelectorAll('.feature-card, .step, .plan-card, .stat-item').forEach(el => {
+        document.querySelectorAll('.step, .plan-card, .stat-item').forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(20px)';
             el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
