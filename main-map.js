@@ -319,6 +319,7 @@ if (!window.FMN_FIREBASE_CONFIG) {
         let discoveryCenter = null; // {lat,lng,label} usato quando non c'è posizione né ricerca
         let discoveryRetryCount = 0;
         let gpsRetryCount = 0;
+        let loadClubsRunId = 0;
 
         const LAST_LOCATION_KEY = 'fmn_last_location';
         const LAST_LOCATION_TTL_MS = 30 * 60 * 1000; // 30 minuti
@@ -2051,7 +2052,10 @@ if (!window.FMN_FIREBASE_CONFIG) {
 
         function fetchSeedPlacesWithinRadius(center, radiusKm) {
             const results = [];
-            const seedMaxKm = Math.max(radiusKm, 48);
+            // I seed servono solo come fallback locale: non devono “inquinare” ricerche lontane (es. Venezia + 1km).
+            // Applichiamo un margine piccolo per arrotondamenti/distorsioni del raggio.
+            const rk = Number(radiusKm);
+            const seedMaxKm = Number.isFinite(rk) ? Math.max(1, rk * 1.12 + 0.35) : 1;
             for (const seed of SEED_VENUES) {
                 const d = kmBetween(center, { lat: seed.lat, lng: seed.lng });
                 if (d > seedMaxKm) continue;
@@ -2078,6 +2082,7 @@ if (!window.FMN_FIREBASE_CONFIG) {
         }
 
         async function loadClubs() {
+            const runId = ++loadClubsRunId;
             const sidebar = document.querySelector('.map-sidebar');
             const hasActive = Boolean(getSearchCenter() && (manualCenter || userLocation));
             const mobileMap = isMapSidebarMobileLayout();
@@ -2118,6 +2123,19 @@ if (!window.FMN_FIREBASE_CONFIG) {
                 const centerPrimary = getSearchCenter();
                 const listRef = getVenueListReferenceCenter();
 
+                // Se abbiamo cache locale per questo centro, mostriamola subito (zero rete).
+                try {
+                    const cachedInstant = getOverpassCacheFiltered(centerPrimary, radiusMeters);
+                    if (cachedInstant && cachedInstant.length && runId === loadClubsRunId) {
+                        clubsData = recomputeClubDistancesFrom(cachedInstant, listRef)
+                            .sort((a, b) => a.distanceKm - b.distanceKm)
+                            .slice(0, MAP_MAX_VENUES_SHOWN);
+                        enrichClubsWithFirebase(clubsData);
+                        renderMarkers(clubsData);
+                        renderSidebar(clubsData);
+                    }
+                } catch { /* ignore */ }
+
                 // Mostra qualcosa subito (seed) se Overpass tarda: migliora percezione su mobile.
                 const seedInstant = fetchSeedPlacesWithinRadius(listRef, currentRadiusKm)
                     .map((c) => ({ ...c, source: c.source || 'Seed' }))
@@ -2130,43 +2148,46 @@ if (!window.FMN_FIREBASE_CONFIG) {
                     renderSidebar(clubsData);
                 }
 
-                clubs = await fetchClubsOverpassAnyEndpoint(centerPrimary, radiusMeters);
+                const applyOverpassClubsAndRender = async (rawClubs, radiusMetersUsed) => {
+                    if (runId !== loadClubsRunId) return;
+                    if (!rawClubs || !rawClubs.length) return;
 
-                // Merge immediato dei seed locali (sincrono, zero latenza)
-                if (clubs && clubs.length) {
+                    let mergedClubs = rawClubs.slice();
+
+                    // Merge seed locali (sincrono, zero latenza)
                     const seed = fetchSeedPlacesWithinRadius(listRef, currentRadiusKm);
                     for (const s of seed) {
-                        const exists = clubs.some(c => (normalizeText(c.name) === normalizeText(s.name)) || (kmBetween({ lat: c.lat, lng: c.lng }, { lat: s.lat, lng: s.lng }) < 0.15));
-                        if (!exists) clubs.push(s);
+                        const exists = mergedClubs.some(c =>
+                            (normalizeText(c.name) === normalizeText(s.name))
+                            || (kmBetween({ lat: c.lat, lng: c.lng }, { lat: s.lat, lng: s.lng }) < 0.15)
+                        );
+                        if (!exists) mergedClubs.push(s);
                     }
-                    clubs = recomputeClubDistancesFrom(clubs, listRef)
+                    mergedClubs = recomputeClubDistancesFrom(mergedClubs, listRef)
                         .sort((a, b) => a.distanceKm - b.distanceKm)
                         .slice(0, MAP_MAX_VENUES_SHOWN);
 
-                    // Unisce i locali intorno al GPS (stesso flusso di prima) ma in await così la lista finale
-                    // coincide con quella passata a enrich — evita race che faceva sparire rating o merge.
+                    // Merge extra intorno al GPS quando hai cercato un luogo lontano (opzionale)
                     const dPlaceGpsMerge = (manualCenter && userLocation) ? kmBetween(manualCenter, userLocation) : 0;
                     if (manualCenter && userLocation
                         && dPlaceGpsMerge > SAME_AREA_GPS_VS_PLACE_KM
                         && dPlaceGpsMerge < MERGE_GPS_SECOND_QUERY_MAX_KM) {
                         try {
-                            const nearMe = await fetchClubsOverpassAnyEndpoint(userLocation, radiusMeters);
+                            const nearMe = await fetchClubsOverpassAnyEndpoint(userLocation, radiusMetersUsed);
+                            if (runId !== loadClubsRunId) return;
                             if (nearMe && nearMe.length) {
-                                const merged = mergeClubListsById(clubs, nearMe);
-                                clubs = recomputeClubDistancesFrom(merged, listRef)
+                                const merged = mergeClubListsById(mergedClubs, nearMe);
+                                mergedClubs = recomputeClubDistancesFrom(merged, listRef)
                                     .sort((a, b) => a.distanceKm - b.distanceKm)
                                     .slice(0, MAP_MAX_VENUES_SHOWN);
                             }
-                        } catch (e) {
-                            /* merge facoltativo: ignora */
+                        } catch {
+                            /* merge facoltativo */
                         }
                     }
-                }
 
-                // Se Overpass ha risposto, mostriamo subito i risultati
-                if (clubs && clubs.length) {
                     const wantsAutoRatings = Boolean(GOOGLE_PLACES_API_KEY);
-                    clubsData = clubs.map((c) => (wantsAutoRatings ? {
+                    clubsData = mergedClubs.map((c) => (wantsAutoRatings ? {
                         ...c,
                         ratingsPending: true,
                         ratingText: 'Recensioni in aggiornamento…',
@@ -2178,16 +2199,18 @@ if (!window.FMN_FIREBASE_CONFIG) {
                         ratingText: c.ratingText != null ? c.ratingText : '—',
                         starsText: c.starsText != null ? c.starsText : '—'
                     }));
+
                     enrichClubsWithFirebase(clubsData);
                     renderMarkers(clubsData);
                     renderSidebar(clubsData);
                     loadAndRenderUserReviews();
                     loadAndRenderGoogleReviews();
 
-                    // In background: arricchisci con rating Google (sequenziale: PlacesService non regge bene il parallelismo)
+                    // In background: rating Google
                     if (wantsAutoRatings) {
                         enrichClubsWithGoogleRatings(clubsData)
                             .then((enriched) => {
+                                if (runId !== loadClubsRunId) return;
                                 clubsData = enriched;
                                 enrichClubsWithFirebase(clubsData);
                                 renderMarkers(clubsData);
@@ -2197,6 +2220,7 @@ if (!window.FMN_FIREBASE_CONFIG) {
                             })
                             .catch((err) => {
                                 console.warn('Arricchimento Google sulle card:', err);
+                                if (runId !== loadClubsRunId) return;
                                 clubsData = clubsData.map((c) => ({
                                     ...c,
                                     ratingsPending: false,
@@ -2212,6 +2236,33 @@ if (!window.FMN_FIREBASE_CONFIG) {
                                 loadAndRenderGoogleReviews();
                             });
                     }
+                };
+
+                // GPS: prima pass veloce a raggio piccolo, poi raggio completo in background.
+                if (isGpsMode && currentRadiusKm > 12) {
+                    const fastKm = 12;
+                    const fastMeters = Math.max(1000, Math.min(100000, Math.round(fastKm * 1000)));
+                    const fastClubs = await fetchClubsOverpassAnyEndpoint(centerPrimary, fastMeters);
+                    if (runId !== loadClubsRunId) return;
+                    if (fastClubs && fastClubs.length) {
+                        clubs = fastClubs;
+                        await applyOverpassClubsAndRender(fastClubs, fastMeters);
+
+                        // Avvia raggio completo in background (non blocca la prima lista)
+                        Promise.resolve()
+                            .then(() => fetchClubsOverpassAnyEndpoint(centerPrimary, radiusMeters))
+                            .then((full) => applyOverpassClubsAndRender(full, radiusMeters))
+                            .catch(() => { /* ignore */ });
+                    }
+                }
+
+                if (!clubs) {
+                    clubs = await fetchClubsOverpassAnyEndpoint(centerPrimary, radiusMeters);
+                }
+                if (runId !== loadClubsRunId) return;
+
+                if (clubs && clubs.length) {
+                    await applyOverpassClubsAndRender(clubs, radiusMeters);
                 } else {
                     // Overpass vuoto: fallback Google Places (bloccante)
                     try {
