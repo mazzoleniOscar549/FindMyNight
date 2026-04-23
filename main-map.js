@@ -287,9 +287,7 @@ if (!window.FMN_FIREBASE_CONFIG) {
         const DEFAULT_CENTER = { lat: 41.8719, lng: 12.5674 };
         const OVERPASS_ENDPOINTS = [
             'https://overpass-api.de/api/interpreter',
-            'https://overpass.kumi.systems/api/interpreter',
-            'https://overpass.openstreetmap.fr/api/interpreter',
-            'https://overpass.openstreetmap.ru/api/interpreter'
+            'https://overpass.kumi.systems/api/interpreter'
         ];
         // Quanti locali mostrare (Overpass può restituirne molti di più nel raggio).
         const OVERPASS_MAX_RESULTS = 100;
@@ -1701,7 +1699,7 @@ if (!window.FMN_FIREBASE_CONFIG) {
                     return;
                 }
 
-                navigator.geolocation.getCurrentPosition((pos) => {
+                function applyPosition(pos, preferForCenter) {
                     const prevLocForReload = userLocation;
                     const here = { lat: pos.coords.latitude, lng: pos.coords.longitude };
                     userLocation = here;
@@ -1748,12 +1746,24 @@ if (!window.FMN_FIREBASE_CONFIG) {
                     if (!skipClubReload) {
                         loadClubs();
                     }
+                }
+
+                // Fast pass (mobile): fix rapido, poi (solo se richiesto) raffina con high accuracy
+                const fastOpts = preferGpsAsSearchCenter
+                    ? { enableHighAccuracy: false, timeout: 4000, maximumAge: 300000 }
+                    : { enableHighAccuracy: false, timeout: 7000, maximumAge: 180000 };
+
+                navigator.geolocation.getCurrentPosition((pos) => {
+                    applyPosition(pos, preferGpsAsSearchCenter);
+                    if (!preferGpsAsSearchCenter) return;
+                    // Refine pass (non blocca): prova GPS preciso dopo il primo fix
+                    navigator.geolocation.getCurrentPosition((pos2) => {
+                        applyPosition(pos2, true);
+                    }, () => { /* ignore */ }, { enableHighAccuracy: true, timeout: 12000, maximumAge: 60000 });
                 }, (err) => {
                     console.warn('Geolocation non disponibile:', err && err.message ? err.message : err);
                     loadClubs();
-                }, preferGpsAsSearchCenter
-                    ? { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 }
-                    : { enableHighAccuracy: false, timeout: 7000, maximumAge: 180000 });
+                }, fastOpts);
             }
 
             // Stesso comportamento del pulsante “Usa la posizione attuale” (anche subito dopo il consenso al prompt).
@@ -1812,9 +1822,9 @@ if (!window.FMN_FIREBASE_CONFIG) {
             }
             const lat = Number(center.lat);
             const lng = Number(center.lng);
-            const r = Math.max(1000, Math.min(100000, Math.round(radiusMeters)));
+            const r = Math.max(1000, Math.min(50000, Math.round(radiusMeters)));
             const query = `
-              [out:json][timeout:22];
+              [out:json][timeout:10];
               (
                 node["amenity"="nightclub"](around:${r},${lat},${lng});
                 way["amenity"="nightclub"](around:${r},${lat},${lng});
@@ -1825,24 +1835,12 @@ if (!window.FMN_FIREBASE_CONFIG) {
                 node["leisure"="nightclub"](around:${r},${lat},${lng});
                 way["leisure"="nightclub"](around:${r},${lat},${lng});
                 relation["leisure"="nightclub"](around:${r},${lat},${lng});
-                node["leisure"="dancing"](around:${r},${lat},${lng});
-                way["leisure"="dancing"](around:${r},${lat},${lng});
-                relation["leisure"="dancing"](around:${r},${lat},${lng});
-                node["amenity"="music_venue"](around:${r},${lat},${lng});
-                way["amenity"="music_venue"](around:${r},${lat},${lng});
-                relation["amenity"="music_venue"](around:${r},${lat},${lng});
-                node["amenity"="bar"]["club"="nightclub"](around:${r},${lat},${lng});
-                way["amenity"="bar"]["club"="nightclub"](around:${r},${lat},${lng});
-                relation["amenity"="bar"]["club"="nightclub"](around:${r},${lat},${lng});
-                node["amenity"="bar"]["name"](around:${r},${lat},${lng});
-                way["amenity"="bar"]["name"](around:${r},${lat},${lng});
-                relation["amenity"="bar"]["name"](around:${r},${lat},${lng});
               );
               out center tags;
             `.replace(/\s+/g, ' ').trim();
 
             const controller = new AbortController();
-            const timeout = setTimeout(() => controller.abort(), 24000);
+            const timeout = setTimeout(() => controller.abort(), 9000);
             let res;
             try {
                 res = await fetch(endpoint, {
@@ -2119,6 +2117,18 @@ if (!window.FMN_FIREBASE_CONFIG) {
                 const radiusMeters = Math.max(1000, Math.min(100000, Math.round(currentRadiusKm * 1000)));
                 const centerPrimary = getSearchCenter();
                 const listRef = getVenueListReferenceCenter();
+
+                // Mostra qualcosa subito (seed) se Overpass tarda: migliora percezione su mobile.
+                const seedInstant = fetchSeedPlacesWithinRadius(listRef, currentRadiusKm)
+                    .map((c) => ({ ...c, source: c.source || 'Seed' }))
+                    .sort((a, b) => a.distanceKm - b.distanceKm)
+                    .slice(0, 18);
+                if (seedInstant.length) {
+                    clubsData = seedInstant;
+                    enrichClubsWithFirebase(clubsData);
+                    renderMarkers(clubsData);
+                    renderSidebar(clubsData);
+                }
 
                 clubs = await fetchClubsOverpassAnyEndpoint(centerPrimary, radiusMeters);
 
