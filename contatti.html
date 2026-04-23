@@ -1629,20 +1629,45 @@
 
         // ─── FILTRO PAROLACCE / BESTEMMIE ───
         const BANNED_WORDS = [
-            // Italiano
-            'cazzo','minchia','stronzo','stronza','vaffanculo','fanculo','fottiti','fottere',
-            'puttana','puttane','troia','troie','merda','merdoso','merdosa','coglione','coglioni',
-            'porco dio','porca madonna','dio cane','dio porco','madonna puttana','dio merda',
-            'dio bastardo','madonna troia','cristo dio','porco gesù','porcodio','porcamadonna',
-            'diocane','dioporco','mannaggia','mannaggia a dio','mannaggia la madonna',
-            'cul0','culo','stocazzo','cazzone','cazzi','mignotta','mignotte','baldracca',
-            'pompinara','segaiolo','segaiola','ricchione','frocio','frocia','negro','negra',
-            'terrone','terrona','zoccola','zoccole','bastardo','bastarda',
-            // Inglese
-            'fuck','shit','bitch','asshole','motherfucker','dick','pussy','cunt','whore',
-            'slut','bastard','nigger','nigga','faggot','retard','retarded','cock','bullshit',
-            'damn','dumbass','jackass'
-        ];
+    // Italiano
+    'cazzo','cazzi','cazzone','cazzoni','cazzata','cazzate','stocazzo','stocazzi',
+    'minchia','minchione','minchioni','stronzo','stronzi','stronza','stronze',
+    'vaffanculo','affanculo','fanculo','fottiti','fottere','fottuto','fottuta',
+    'puttana','puttane','troia','troie','zoccola','zoccole','mignotta','mignotte',
+    'baldracca','baldracche','pompinara','pompinare',
+    'merda','merde','merdoso','merdosa','merdosi','merdose',
+    'coglione','coglioni','cogliona','coglione','coglioni',
+    'culo','culi','cul0','culone','culoni',
+    'bastardo','bastardi','bastarda','bastarde',
+    'ricchione','ricchioni','frocio','froci','frocia','froce',
+    'negro','negri','negra','negre',
+    'terrone','terroni','terrona','terrone',
+    'idiota','idioti','cretino','cretini','deficiente','deficienti',
+    'porco dio','porcodio','porca madonna','porcamadonna','dio cane','diocane',
+    'dio porco','dioporco','dio merda','dio bastardo',
+    'madonna puttana','madonna troia','cristo dio','porco gesù',
+    'mannaggia','mannaggia a dio','mannaggia la madonna',
+
+    // Inglese
+    'fuck','fucks','fucking','fucked','motherfucker','motherfuckers',
+    'shit','shits','shitty','bullshit',
+    'bitch','bitches',
+    'asshole','assholes','ass','dumbass','jackass',
+    'dick','dicks','cock','cocks',
+    'pussy','pussies','cunt','cunts',
+    'whore','whores','slut','sluts',
+    'bastard','bastards',
+    'nigger','niggers','nigga','niggas',
+    'faggot','faggots',
+    'retard','retards','retarded',
+    'damn','goddamn',
+
+    // Varianti “aggiramento filtro”
+    'f*ck','f**k','sh*t','s**t','b*tch','b!tch',
+    'c@zzo','c4zzo','c@zz0','m3rda','merd4',
+    'str0nzo','str0nza','putt@n@','tr0i@',
+    'v4ff4ncul0','vaff4nculo'
+];
 
         function containsBannedWord(text) {
             const lower = text.toLowerCase()
