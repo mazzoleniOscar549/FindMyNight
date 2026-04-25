@@ -6,7 +6,7 @@
     if (document.getElementById('fmnFaqWidget')) return;
 
     var CONTACT_PAGE = 'contatti.html';
-    var CONTACT_EMAIL = 'findmynight.info@gmail.com';
+    var CONTACT_EMAIL = 'findmynight.it@gmail.com';
 
     var root = document.createElement('div');
     root.innerHTML =
