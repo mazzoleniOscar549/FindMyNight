@@ -1,203 +1,314 @@
-/**
- * FindMyNight — widget assistenza FAQ (iniettato su tutte le pagine).
- * Classi/id prefissati fmn-faq- per non collidere con chat.html (#chatMessages, ecc.).
- */
-(function () {
-    if (document.getElementById('fmnFaqWidget')) return;
+/* FindMyNight — widget assistenza FAQ (tutte le pagine). Prefisso fmn-faq- per evitare conflitti (es. chat.html). */
 
-    var CONTACT_PAGE = 'contatti.html';
-    var CONTACT_EMAIL = 'findmynight.it@gmail.com';
+.fmn-faq-widget {
+    position: fixed;
+    right: calc(18px + env(safe-area-inset-right, 0px));
+    bottom: calc(18px + env(safe-area-inset-bottom, 0px) + var(--fmn-faq-bottom-extra, 0px));
+    z-index: 1990;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    /* stacking per pannello mobile sopra al toggle */
+    isolation: isolate;
+}
 
-    var root = document.createElement('div');
-    root.innerHTML =
-        '<div class="fmn-faq-widget" id="fmnFaqWidget" aria-live="polite">' +
-            '<div class="fmn-faq-panel" id="fmnFaqPanel" role="dialog" aria-label="Assistenza FindMyNight">' +
-                '<div class="fmn-faq-head">' +
-                    '<div>' +
-                        '<div class="fmn-faq-head-title">' +
-                            '<strong>Assistenza FindMyNight</strong>' +
-                            '<span class="fmn-faq-head-badge">Automatico</span>' +
-                        '</div>' +
-                        '<span class="fmn-faq-head-desc">Risposte generate in pagina. Comunicazioni ufficiali: ' +
-                        '<a href="' + CONTACT_PAGE + '">modulo contatti</a>.</span>' +
-                    '</div>' +
-                    '<button type="button" class="fmn-faq-close" id="fmnFaqClose" aria-label="Chiudi chat">×</button>' +
-                '</div>' +
-                '<div class="fmn-faq-messages" id="fmnFaqMessages"></div>' +
-                '<div class="fmn-faq-quick" id="fmnFaqQuick"></div>' +
-                '<div class="fmn-faq-input-row">' +
-                    '<input type="text" id="fmnFaqInput" maxlength="500" placeholder="Chiedi informazioni su FindMyNight…" autocomplete="off" />' +
-                    '<button type="button" class="fmn-faq-send" id="fmnFaqSend">Invia</button>' +
-                '</div>' +
-            '</div>' +
-            '<button type="button" class="fmn-faq-toggle" id="fmnFaqToggle" aria-expanded="false" aria-controls="fmnFaqPanel" title="Apri assistenza">' +
-                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-                    '<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>' +
-                '</svg>' +
-            '</button>' +
-        '</div>';
-    document.body.appendChild(root.firstElementChild);
+.fmn-faq-toggle {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 0.5px solid rgba(255, 255, 255, 0.12);
+    cursor: pointer;
+    background: linear-gradient(145deg, #1a1530, #0e0c1c);
+    color: rgba(230, 220, 255, 0.95);
+    line-height: 0;
+    padding: 0;
+    margin: 0;
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.45),
+        0 0 0 1px rgba(168, 85, 247, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
 
-    var widget = document.getElementById('fmnFaqWidget');
-    var toggle = document.getElementById('fmnFaqToggle');
-    var closeBtn = document.getElementById('fmnFaqClose');
-    var box = document.getElementById('fmnFaqMessages');
-    var input = document.getElementById('fmnFaqInput');
-    var sendBtn = document.getElementById('fmnFaqSend');
-    var quick = document.getElementById('fmnFaqQuick');
-    if (!widget || !toggle || !box || !quick) return;
+.fmn-faq-toggle svg {
+    display: block;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    opacity: 0.95;
+    overflow: visible;
+}
 
-    /** Spazio extra in basso quando il banner cookie è visibile (stesso id su tutte le pagine). */
-    function syncFaqBottomExtra() {
-        var banner = document.getElementById('cookieBanner');
-        var extra = 0;
-        if (banner && banner.classList.contains('visible')) {
-            var h = banner.getBoundingClientRect().height;
-            if (h > 0) extra = Math.ceil(h) + 14;
-        }
-        document.documentElement.style.setProperty('--fmn-faq-bottom-extra', extra + 'px');
+.fmn-faq-toggle:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow:
+        0 16px 48px rgba(168, 85, 247, 0.35),
+        0 0 0 1px rgba(168, 85, 247, 0.4);
+}
+
+.fmn-faq-panel {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    right: 0;
+    bottom: 68px;
+    width: min(392px, calc(100vw - 36px));
+    max-height: min(540px, 72vh);
+    max-height: min(540px, 72dvh);
+    min-height: 0;
+    background: rgba(10, 8, 22, 0.98);
+    border: 0.5px solid rgba(168, 85, 247, 0.28);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow:
+        0 28px 90px rgba(0, 0, 0, 0.6),
+        0 0 1px rgba(255, 255, 255, 0.06) inset;
+    backdrop-filter: blur(20px);
+}
+
+.fmn-faq-widget.fmn-faq-open .fmn-faq-panel {
+    display: flex;
+}
+
+.fmn-faq-head {
+    padding: 0.95rem 1rem 0.85rem;
+    background: linear-gradient(180deg, rgba(168, 85, 247, 0.14), transparent);
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.fmn-faq-head-title {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    flex-wrap: wrap;
+}
+
+.fmn-faq-head strong {
+    font-family: 'Syne', system-ui, sans-serif;
+    font-size: 0.98rem;
+    letter-spacing: -0.02em;
+    color: #f1f0fa;
+}
+
+.fmn-faq-head-badge {
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.22rem 0.5rem;
+    border-radius: 999px;
+    background: rgba(74, 222, 128, 0.12);
+    color: #86efac;
+    border: 0.5px solid rgba(74, 222, 128, 0.35);
+}
+
+.fmn-faq-head-desc {
+    font-size: 0.74rem;
+    color: rgba(136, 128, 168, 0.95);
+    display: block;
+    margin-top: 0.35rem;
+    line-height: 1.45;
+}
+
+.fmn-faq-head-desc a {
+    color: #d8b4fe;
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 0.5px solid rgba(168, 85, 247, 0.45);
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.fmn-faq-head-desc a:hover {
+    color: #f0abfc;
+    border-bottom-color: rgba(236, 72, 153, 0.55);
+}
+
+.fmn-faq-close {
+    background: rgba(255, 255, 255, 0.06);
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    color: #f1f0fa;
+    width: 34px;
+    height: 34px;
+    border-radius: 11px;
+    cursor: pointer;
+    font-size: 1.15rem;
+    line-height: 1;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.fmn-faq-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(168, 85, 247, 0.35);
+}
+
+.fmn-faq-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem 1rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-height: 232px;
+}
+
+.fmn-faq-bubble {
+    max-width: 92%;
+    padding: 0.72rem 0.95rem;
+    border-radius: 16px;
+    font-size: 0.87rem;
+    line-height: 1.5;
+}
+
+.fmn-faq-bubble.fmn-faq-bot {
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.045);
+    border: 0.5px solid rgba(255, 255, 255, 0.08);
+    color: rgba(241, 240, 250, 0.94);
+}
+
+.fmn-faq-bubble.fmn-faq-user {
+    align-self: flex-end;
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.28), rgba(236, 72, 153, 0.18));
+    border: 0.5px solid rgba(168, 85, 247, 0.32);
+}
+
+.fmn-faq-bubble a {
+    color: #d8b4fe;
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 0.5px solid rgba(168, 85, 247, 0.5);
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.fmn-faq-bubble a:hover {
+    color: #f0abfc;
+    border-bottom-color: rgba(236, 72, 153, 0.6);
+}
+
+.fmn-faq-quick {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    padding: 0.35rem 1rem 0.75rem;
+}
+
+.fmn-faq-chip {
+    font-size: 0.72rem;
+    font-weight: 500;
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.04);
+    color: rgba(200, 195, 220, 0.95);
+    cursor: pointer;
+    font-family: inherit;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.fmn-faq-chip:hover {
+    color: #f1f0fa;
+    border-color: rgba(168, 85, 247, 0.45);
+    background: rgba(168, 85, 247, 0.1);
+}
+
+.fmn-faq-input-row {
+    display: flex;
+    gap: 0.55rem;
+    padding: 0.75rem 0.85rem;
+    border-top: 0.5px solid rgba(255, 255, 255, 0.06);
+    background: rgba(0, 0, 0, 0.28);
+}
+
+.fmn-faq-input-row input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.62rem 0.85rem;
+    border-radius: 12px;
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    background: rgba(8, 6, 18, 0.75);
+    color: #f1f0fa;
+    font-size: 0.87rem;
+    outline: none;
+    font-family: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.fmn-faq-input-row input:focus {
+    border-color: rgba(168, 85, 247, 0.5);
+    box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.12);
+}
+
+.fmn-faq-send {
+    padding: 0 1rem;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.82rem;
+    font-family: inherit;
+    background: linear-gradient(135deg, #a855f7, #ec4899);
+    color: #fff;
+    box-shadow: 0 4px 18px rgba(168, 85, 247, 0.28);
+    transition: transform 0.15s ease, opacity 0.2s;
+}
+
+.fmn-faq-send:hover {
+    transform: translateY(-1px);
+}
+
+.fmn-faq-send:disabled {
+    opacity: 0.55;
+    cursor: wait;
+    transform: none;
+}
+
+/* ─── Mobile: pannello quasi full-screen, messaggi scrollabili, niente zoom su focus iOS ─── */
+@media (max-width: 720px) {
+    .fmn-faq-widget.fmn-faq-open .fmn-faq-toggle {
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(0.9);
+        transition: opacity 0.2s ease, transform 0.2s ease;
     }
 
-    syncFaqBottomExtra();
-    if (typeof MutationObserver !== 'undefined') {
-        var cookieEl = document.getElementById('cookieBanner');
-        if (cookieEl) {
-            new MutationObserver(syncFaqBottomExtra).observe(cookieEl, {
-                attributes: true,
-                attributeFilter: ['class']
-            });
-        }
-    }
-    window.addEventListener('resize', syncFaqBottomExtra, { passive: true });
-
-    var CHIPS = [
-        { t: 'Come funziona', q: 'come funziona' },
-        { t: 'App e tempistiche', q: 'app quando disponibile' },
-        { t: 'Area Partner', q: 'partner' },
-        { t: 'Registrare un locale', q: 'locale' },
-        { t: 'Privacy', q: 'privacy' },
-        { t: 'Scrivere via email', q: 'email' }
-    ];
-
-    function escapeHtml(s) {
-        return String(s || '')
-            .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;');
+    .fmn-faq-widget.fmn-faq-open .fmn-faq-panel {
+        position: fixed;
+        left: max(10px, env(safe-area-inset-left, 0px));
+        right: max(10px, env(safe-area-inset-right, 0px));
+        top: max(10px, env(safe-area-inset-top, 0px));
+        bottom: calc(max(10px, env(safe-area-inset-bottom, 0px)) + var(--fmn-faq-bottom-extra, 0px));
+        width: auto;
+        max-height: none;
+        height: auto;
+        min-height: 0;
+        border-radius: 18px;
+        z-index: 2;
     }
 
-    function mailtoHref() {
-        return 'mailto:' + CONTACT_EMAIL;
+    .fmn-faq-widget.fmn-faq-open .fmn-faq-head,
+    .fmn-faq-widget.fmn-faq-open .fmn-faq-quick,
+    .fmn-faq-widget.fmn-faq-open .fmn-faq-input-row {
+        flex-shrink: 0;
     }
 
-    function wantsAppOrTiming(q) {
-        if (/di\s+appena|appena\s+possibl|il\s+prima\s+possibl|asap/i.test(q) && /(\bapp\b|applicazione|mobile|findmynight)/i.test(q)) return true;
-        var timing = /(tra\s+quanto|quando\s+(esce|sarà|usc)|uscita|disponib|scaric|download|play\s*store|app\s*store|subito|presto)/i.test(q);
-        var appish = /(\bapp\b|applicazione|mobile|findmynight)/i.test(q);
-        if (timing && appish) return true;
-        if (/\bapp\b/i.test(q) && /(quando|disponibil|tra\s+quanto|uscir|uscita|presto|subito|download|store)/i.test(q)) return true;
-        if (/(tra\s+quanto|quando).*(disponibil|usc)/i.test(q) && appish) return true;
-        return false;
+    .fmn-faq-widget.fmn-faq-open .fmn-faq-messages {
+        flex: 1;
+        min-height: 0;
+        -webkit-overflow-scrolling: touch;
     }
 
-    function replyFor(text) {
-        var q = String(text || '').toLowerCase().trim();
-        if (!q) {
-            return 'Inserisci una domanda nel campo sottostante oppure seleziona una delle scorciatoie suggerite.';
-        }
-
-        if (wantsAppOrTiming(q)) {
-            return 'Al momento FindMyNight è pensato come <strong>sito web</strong> (mappa, locali, partner). Eventuali app native per iOS/Android sono in valutazione: non è possibile indicare una data certa. Resta aggiornato sui canali ufficiali oppure scrivi tramite <a href="' + CONTACT_PAGE + '">modulo contatti</a> o <a href="' + mailtoHref() + '">' + escapeHtml(CONTACT_EMAIL) + '</a> per urgenze o proposte.';
-        }
-
-        if (/come\s+funziona|cosa\s+è\s+findmynight|che\s+cos|come\s+usare\s+findmynight/i.test(q)) {
-            return 'FindMyNight ti aiuta a <strong>scoprire locali notturni partner</strong>: sulla <a href="index.html#map">home</a> trovi la mappa; in <a href="locali.html">locali.html</a> l’elenco con filtri. I gestori aggiornano affluenza ed eventi dall’<a href="partner.html">Area Partner</a>. Le <a href="recensioni.html">recensioni</a> sono pubbliche (una per locale per dispositivo). Per richieste al team: <a href="' + CONTACT_PAGE + '">modulo contatti</a>.';
-        }
-
-        if (/partner|dashboard|locale.*gest/.test(q)) {
-            return 'L’<strong>Area Partner</strong> è disponibile in <a href="partner.html">partner.html</a>. Da lì, con l’account associato al locale, è possibile aggiornare affluenza in tempo reale, sticker e recensioni.';
-        }
-        if (/registr|locale|discotec|club|venue/.test(q)) {
-            return 'Per valutare l’inserimento di un nuovo locale sulla mappa, utilizza il <a href="' + CONTACT_PAGE + '">modulo contatti</a> selezionando «Registrare il mio locale». In alternativa: <a href="' + mailtoHref() + '">' + escapeHtml(CONTACT_EMAIL) + '</a>.';
-        }
-        if (/privacy|cookie|dati/.test(q)) {
-            return 'Le informazioni sul trattamento dei dati sono nella <a href="privacy.html">Privacy Policy</a>. Il sito utilizza cookie essenziali e, dove applicabile, servizi Firebase per contenuti in tempo reale.';
-        }
-        if (/mail|email|contatt|scriv/.test(q)) {
-            return 'Per contattare il team in modo strutturato si consiglia il <a href="' + CONTACT_PAGE + '">modulo contatti</a>. Per comunicazioni dirette: <a href="' + mailtoHref() + '">' + escapeHtml(CONTACT_EMAIL) + '</a>.';
-        }
-        if (/mappa|home|locali/.test(q)) {
-            return 'La mappa interattiva è nella sezione dedicata della <a href="index.html#map">home</a>. L’elenco dei locali è consultabile in <a href="locali.html">locali.html</a>.';
-        }
-        if (/recension/.test(q)) {
-            return 'Le recensioni pubbliche sono gestite in <a href="recensioni.html">recensioni.html</a>, con limite di una recensione per locale e per dispositivo.';
-        }
-        if (/ciao|hey|salve|buongiorno|buonasera/.test(q)) {
-            return 'Buongiorno. Sono l’assistente informativo di FindMyNight. Posso indicarti come funziona il sito, tempistiche su eventuali app, Area Partner, privacy, mappa o contatti.';
-        }
-        return 'Non dispongo di una risposta dedicata a questa richiesta. Prova le scorciatoie (es. «Come funziona» o «App e tempistiche») oppure scrivi dal <a href="' + CONTACT_PAGE + '">modulo contatti</a>.';
+    .fmn-faq-input-row input {
+        font-size: 16px;
     }
 
-    function addBubble(html, who) {
-        var div = document.createElement('div');
-        div.className = 'fmn-faq-bubble fmn-faq-' + (who === 'user' ? 'user' : 'bot');
-        div.innerHTML = html;
-        box.appendChild(div);
-        box.scrollTop = box.scrollHeight;
+    .fmn-faq-quick {
+        max-height: 5.5rem;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
     }
-
-    function openChat() {
-        syncFaqBottomExtra();
-        widget.classList.add('fmn-faq-open');
-        toggle.setAttribute('aria-expanded', 'true');
-        if (input) input.focus();
-    }
-    function closeChat() {
-        widget.classList.remove('fmn-faq-open');
-        toggle.setAttribute('aria-expanded', 'false');
-    }
-
-    addBubble('Benvenuto in FindMyNight. Posso spiegare <strong>come funziona</strong> il sito, tempistiche su eventuali <strong>app</strong>, oppure orientarti su partner, mappa, privacy e contatti. Come posso aiutarti?', 'bot');
-
-    function withTyping(fn) {
-        if (sendBtn) sendBtn.disabled = true;
-        if (input) input.readOnly = true;
-        window.setTimeout(function () {
-            try { fn(); } finally {
-                if (sendBtn) sendBtn.disabled = false;
-                if (input) input.readOnly = false;
-                if (input && widget.classList.contains('fmn-faq-open')) input.focus();
-            }
-        }, 260);
-    }
-
-    CHIPS.forEach(function (c) {
-        var b = document.createElement('button');
-        b.type = 'button';
-        b.className = 'fmn-faq-chip';
-        b.textContent = c.t;
-        b.addEventListener('click', function () {
-            addBubble(escapeHtml(c.t), 'user');
-            withTyping(function () { addBubble(replyFor(c.q), 'bot'); });
-        });
-        quick.appendChild(b);
-    });
-
-    function sendUser() {
-        if (!input) return;
-        var t = input.value.trim();
-        if (!t) return;
-        input.value = '';
-        addBubble(escapeHtml(t), 'user');
-        withTyping(function () { addBubble(replyFor(t), 'bot'); });
-    }
-
-    toggle.addEventListener('click', function () {
-        if (widget.classList.contains('fmn-faq-open')) closeChat();
-        else openChat();
-    });
-    if (closeBtn) closeBtn.addEventListener('click', closeChat);
-    if (sendBtn) sendBtn.addEventListener('click', sendUser);
-    if (input) input.addEventListener('keydown', function (ev) {
-        if (ev.key === 'Enter') { ev.preventDefault(); sendUser(); }
-    });
-})();
+}
