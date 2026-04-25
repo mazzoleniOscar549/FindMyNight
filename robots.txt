@@ -1,5 +1,4 @@
-# FindMyNight — https://findmynight.info
-# Aggiorna il dominio in sitemap se usi un host canonico diverso (es. www).
+# FindMyNight — https://findmynight.it/
 
 User-agent: *
 Allow: /
@@ -8,4 +7,4 @@ Allow: /
 Disallow: /chat.html
 Disallow: /valutazione-stats.html
 
-Sitemap: https://findmynight.info/sitemap.xml
+Sitemap: https://findmynight.it/sitemap.xml
