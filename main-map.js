@@ -1920,9 +1920,22 @@ function fetchSeedPlacesWithinRadius(center, radiusKm) {
 // LOAD CLUBS — versione ottimizzata
 // ─────────────────────────────────────────────────────────────────────────────
 
-async function loadClubs() {
+async function loadClubs() {async function loadClubs() {
     const runId = ++loadClubsRunId;
+    if (overpassAbortController) overpassAbortController.abort();
+    overpassAbortController = new AbortController();
+    const signal = overpassAbortController.signal;
 
+    // ✅ SEED IMMEDIATO — zero attesa, appare in <50ms
+    const listRef = getVenueListReferenceCenter();
+    const seedInstant = fetchSeedPlacesWithinRadius(listRef, currentRadiusKm)
+        .sort((a, b) => a.distanceKm - b.distanceKm).slice(0, 18);
+    if (seedInstant.length) {
+        clubsData = seedInstant;
+        enrichClubsWithFirebase(clubsData);
+        renderMarkers(clubsData);
+        renderSidebar(clubsForSidebar(clubsData));
+    }
     // ─── FIX #5: annulla le fetch Overpass del runId precedente ───────────────
     if (overpassAbortController) {
         overpassAbortController.abort();
