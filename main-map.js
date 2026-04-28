@@ -1792,9 +1792,9 @@ const SEED_VENUES = [
     { id: 'piccolo-bar-2-clusone', name: 'Piccolo Bar 2.0', query: 'Piccolo Bar 2.0 Via Luigi Carrara 1 Clusone', lat: 45.8877922, lng: 9.9329784, address: 'Via Luigi Carrara 1, 24023 Clusone (BG)', tipo: 'Locale', ingresso: 0 }
 ];
 
-const BG_PACK_KEY = 'fmn_seed_pack_bg_v1';
+const BG_PACK_KEY = 'fmn_seed_pack_bg_v2'; // versione nuova forza riscaricare
 const BG_PACK_TTL_MS = 14 * 24 * 60 * 60 * 1000;
-const BG_CENTER = { lat: 45.6983, lng: 9.6773 };
+const BG_CENTER = { lat: 45.7566, lng: 9.7542 }; // Bergamo città
 const BG_CITY_CENTER = { lat: 45.6983, lng: 9.6773 }; // aggiorna con coord esatte città
 
 
@@ -1819,19 +1819,19 @@ function setBgPack(items) {
 function isNearBergamo(center) {
     try {
         if (!center || !Number.isFinite(center.lat) || !Number.isFinite(center.lng)) return false;
-        return kmBetween(center, BG_CENTER) <= 45; // era 28, aumentato per coprire città+provincia
+        return kmBetween(center, BG_CENTER) <= 55; // era 28, copre tutta la provincia BG
     } catch { return false; }
 }
 
 async function prefetchBgPackIfNeeded(center) {
     if (!isNearBergamo(center)) return;
-    const existing = getBgPack();
-    // Rigenera se il pack esiste ma il centro cercato è lontano dal centro del pack
-    if (existing) {
-        const packCenter = BG_CENTER;
-        if (center && kmBetween(center, packCenter) < 20) return; // pack valido
-        // centro diverso (es. Bergamo città vs provincia) → rigenera
-    }
+    if (getBgPack()) return;
+
+    const allThrottled = OVERPASS_ENDPOINTS.every(ep => isOverpassEndpointThrottled(ep));
+    if (allThrottled) return;
+
+    try {
+        const clubs = await fetchClubsOverpassAnyEndpoint(BG_CENTER, 55000); // era 42000, copre tutta la provincia
 
     // ✅ AGGIUNTO
     const allThrottled = OVERPASS_ENDPOINTS.every(ep => isOverpassEndpointThrottled(ep));
