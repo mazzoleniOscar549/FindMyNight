@@ -364,6 +364,9 @@ let clubsData = [];
 let tempSearchMarker = null;
 let userLocation = null;
 let manualCenter = null;
+// Se l’utente sceglie un luogo dalla search, quel luogo deve diventare il centro
+// anche se è vicino alla posizione GPS (priorità all’intento dell’utente).
+let forceManualCenter = false;
 let userLocationMarker = null;
 let currentRadiusKm = 12;
 let discoveryCenter = null;
@@ -583,6 +586,7 @@ function wireMapsChooserModal() {
 }
 
 function getSearchCenter() {
+    if (forceManualCenter && manualCenter) return manualCenter;
     if (manualCenter && userLocation) {
         const d = kmBetween(manualCenter, userLocation);
         if (d <= SAME_AREA_GPS_VS_PLACE_KM) return userLocation;
@@ -591,6 +595,7 @@ function getSearchCenter() {
 }
 
 function getVenueListReferenceCenter() {
+    if (forceManualCenter && manualCenter) return manualCenter;
     if (manualCenter && userLocation) {
         const d = kmBetween(manualCenter, userLocation);
         if (d > SAME_AREA_GPS_VS_PLACE_KM) return manualCenter;
@@ -1723,6 +1728,7 @@ function initMap() {
             if (!useGpsAsCenter) return;
 
             if (preferGpsAsSearchCenter) {
+                forceManualCenter = false;
                 currentRadiusKm = 5;
                 try {
                     const rr = document.getElementById('radiusKmRange');
@@ -1733,6 +1739,7 @@ function initMap() {
             }
 
             manualCenter = null;
+            forceManualCenter = false;
             if (tempSearchMarker) { tempSearchMarker.remove(); tempSearchMarker = null; }
 
             const skipClubReload = Boolean(
@@ -2273,6 +2280,7 @@ if (searchInput) {
                 if (leafletMap) leafletMap.flyTo([place.lat, place.lng], 13, { duration: 0.65, easeLinearity: 0.25 });
                 setTempSearchMarker(place.lat, place.lng, place.label);
                 manualCenter = { lat: place.lat, lng: place.lng };
+                forceManualCenter = true;
                 persistMapFocusForLocali({ type: 'place', lat: place.lat, lng: place.lng, label: place.label || q });
                 loadClubs();
                 return;
@@ -2310,6 +2318,7 @@ if (searchClear && searchInput) {
         // reset place-mode so typing filters again
         // (scoped var exists only if searchInput block ran)
         manualCenter = null;
+        forceManualCenter = false;
         if (tempSearchMarker) { tempSearchMarker.remove(); tempSearchMarker = null; }
         if (leafletMap) {
             if (userLocation) {
