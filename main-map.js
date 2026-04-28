@@ -1,14 +1,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // FINDMYNIGHT — mappa ottimizzata per velocità di caricamento locali
+// Sostituisce il blocco da "MAPPA REALE" in poi nel file originale.
 // ─────────────────────────────────────────────────────────────────────────────
 
-if (!window.FMN_FIREBASE_CONFIG) {
-    throw new Error('FindMyNight: carica fmn-firebase-public.js prima di questo script.');
-}
-firebase.initializeApp(window.FMN_FIREBASE_CONFIG);
-const db = firebase.firestore();
-
-// Funzionalità (desktop): card statiche sempre aperte, niente toggle
+// Funzionalità (desktop): card statiche sempre aperte, niente toggle.
+// Nota: su desktop il CSS disabilita il click sul <summary>, quindi questa parte
+// deve girare anche se Firebase non è configurato.
 (function () {
     try {
         var mqDesktop = window.matchMedia('(min-width: 1025px)');
@@ -28,6 +25,22 @@ const db = firebase.firestore();
     } catch { /* ignore */ }
 })();
 
+// Firebase è opzionale: se manca la config, non blocchiamo tutto il resto del sito.
+let db = null;
+try {
+    if (!window.FMN_FIREBASE_CONFIG || !window.firebase) {
+        console.warn('[FindMyNight] Firebase config non trovata: continuo senza dati Firestore.');
+    } else {
+        if (!firebase.apps || !firebase.apps.length) {
+            firebase.initializeApp(window.FMN_FIREBASE_CONFIG);
+        }
+        db = firebase.firestore();
+    }
+} catch (e) {
+    console.warn('[FindMyNight] Errore inizializzazione Firebase: continuo senza Firestore.', e && e.message ? e.message : e);
+    db = null;
+}
+
 const fbVenueData = new Map();
 let nearReviews = [];
 const sponsoredVenues = [];
@@ -41,6 +54,7 @@ function normalizeName(name) {
 }
 
 function loadFirebaseVenues() {
+    if (!db) return;
     db.collection('venues').onSnapshot(
         (snapshot) => {
             fbVenueData.clear();
@@ -92,6 +106,12 @@ async function loadAndRenderUserReviews() {
     const grid = document.getElementById('userReviewsGrid');
     const hint = document.getElementById('userReviewsHint');
     if (!grid || !hint) return;
+
+    if (!db) {
+        grid.innerHTML = '';
+        hint.textContent = 'Recensioni community non disponibili (Firebase non configurato).';
+        return;
+    }
 
     hint.textContent = 'Carico recensioni della community…';
     grid.innerHTML = `
@@ -250,14 +270,15 @@ document.querySelectorAll('.step, .plan-card, .stat-item').forEach(el => {
 // ─────────────────────────────────────────────────────────────────────────────
 
 const DEFAULT_CENTER = { lat: 41.8719, lng: 12.5674 };
+// Prefer kumi first (often more reliable than overpass-api.de)
 const OVERPASS_ENDPOINTS = [
-    'https://overpass-api.de/api/interpreter'
+    'https://overpass-api.de/api/interpreter',
+    'https://overpass.kumi.systems/api/interpreter'
 ];
 const OVERPASS_MAX_RESULTS = 100;
 const GOOGLE_PLACES_MAX_RESULTS = 72;
 const MAP_MAX_VENUES_SHOWN = 60;
-// FIX PERF: ridotto da 40 a 15 — il 90% degli utenti non scrolla oltre i primi 15
-const GOOGLE_ENRICH_MAX_CLUBS = 15;
+const GOOGLE_ENRICH_MAX_CLUBS = 40;
 const SAME_AREA_GPS_VS_PLACE_KM = 14;
 const MERGE_GPS_SECOND_QUERY_MAX_KM = 200;
 const NOMINATIM_ENDPOINT = 'https://nominatim.openstreetmap.org/search';
@@ -267,6 +288,7 @@ const GOOGLE_PLACES_API_KEY =
         ? window.FMN_GOOGLE_PLACES_API_KEY.trim()
         : '';
 
+// ▶ QUI INCOLLI FIX #1
 (function injectPreconnects() {
     const preconnectDomains = [
         'https://maps.googleapis.com',
@@ -292,11 +314,12 @@ const GOOGLE_PLACES_API_KEY =
     });
 })();
 
+/*COSTANTI*/
 const _overpassRateLimit = new Map();
 const OVERPASS_429_BACKOFF_MS = 60000;
 const OVERPASS_FAIL_BASE_BACKOFF_MS = 15000;
 const OVERPASS_FAIL_MAX_BACKOFF_MS = 120000;
-const OVERPASS_INFLIGHT = new Map();
+const OVERPASS_INFLIGHT = new Map(); // cache promises by (center,radius)
 
 function isOverpassEndpointThrottled(endpoint) {
     const entry = _overpassRateLimit.get(endpoint);
@@ -332,6 +355,9 @@ function markOverpassEndpointFail(endpoint, reason) {
     }
 }
 
+/**/ 
+
+
 let leafletMap;
 let leafletMarkers = [];
 let clubsData = [];
@@ -345,6 +371,7 @@ let discoveryRetryCount = 0;
 let gpsRetryCount = 0;
 let loadClubsRunId = 0;
 
+// ─── FIX #5: AbortController per fetch Overpass obsolete ──────────────────────
 let overpassAbortController = null;
 
 const LAST_LOCATION_KEY = 'fmn_last_location';
@@ -586,9 +613,10 @@ function recomputeClubDistancesFrom(clubs, ref) {
 function filterClubsWithinRadius(clubs, radiusKm) {
     const rk = Number(radiusKm);
     if (!Number.isFinite(rk) || rk <= 0) return clubs || [];
+    const limit = Math.max(1, rk * 1.12 + 0.4);
     return (clubs || []).filter((c) => {
         const d = Number(c && c.distanceKm);
-        return Number.isFinite(d) ? d <= rk : true;
+        return Number.isFinite(d) ? d <= limit : true;
     });
 }
 
@@ -597,7 +625,9 @@ function filterClubsWithinRadius(clubs, radiusKm) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 const OVERPASS_CACHE_TTL_MS = 30 * 60 * 1000;
-const overpassMemCache = new Map();
+
+// ─── FIX #1: Cache in memoria (Map) per accesso istantaneo senza JSON.parse ───
+const overpassMemCache = new Map(); // key → { ts, data }
 
 function overpassCacheKey(center, radiusMeters) {
     return `fmn_overpass_${center.lat.toFixed(3)}_${center.lng.toFixed(3)}_${radiusMeters}`;
@@ -605,11 +635,14 @@ function overpassCacheKey(center, radiusMeters) {
 
 function getOverpassCache(center, radiusMeters) {
     const key = overpassCacheKey(center, radiusMeters);
+
+    // Controlla prima la cache in memoria (istantanea)
     const mem = overpassMemCache.get(key);
     if (mem) {
         if (Date.now() - mem.ts <= OVERPASS_CACHE_TTL_MS) return mem.data;
         overpassMemCache.delete(key);
     }
+
     try {
         const raw = localStorage.getItem(key);
         if (!raw) return null;
@@ -618,6 +651,7 @@ function getOverpassCache(center, radiusMeters) {
             localStorage.removeItem(key);
             return null;
         }
+        // Popola la cache in memoria per i prossimi accessi
         overpassMemCache.set(key, { ts: cached.ts, data: cached.data });
         return cached.data;
     } catch { return null; }
@@ -634,7 +668,7 @@ function setOverpassCache(center, radiusMeters, data) {
 function getOverpassCacheFiltered(center, radiusMeters) {
     const wantKm = radiusMeters / 1000;
     try {
-        const localiPre = getLocaliPageOverpassCache(center, 8000);
+        const localiPre = getLocaliPageOverpassCache(center, 28000);
         if (Array.isArray(localiPre) && localiPre.length > 0) {
             const mapped = mapOsmElementsToClubs(localiPre, center);
             const filtered = mapped.filter((club) => {
@@ -662,19 +696,20 @@ function getOverpassCacheFiltered(center, radiusMeters) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// FETCH OVERPASS
-// FIX PERF: timeout ridotto da 9s→5s e 15s→8s per fallire prima e passare
-//           al fallback Google Places più velocemente
+// FETCH OVERPASS — FIX #1 + #2: vero parallelo, timeout aggressivo, abort
 // ─────────────────────────────────────────────────────────────────────────────
 
 async function fetchClubsOverpassAnyEndpoint(center, radiusMeters, signal) {
     const cached = getOverpassCacheFiltered(center, radiusMeters);
     if (cached) return cached;
 
+    // In-flight caching: avoid duplicate requests for same center/radius.
     const inflightKey = overpassCacheKey(center, radiusMeters);
     const inflight = OVERPASS_INFLIGHT.get(inflightKey);
     if (inflight) return inflight;
 
+    // Sequential strategy: avoids firing requests to a down endpoint in parallel
+    // (which would spam console with timeouts).
     const promise = (async () => {
         const endpointsToTry = OVERPASS_ENDPOINTS.filter((ep) => !isOverpassEndpointThrottled(ep));
         const list = endpointsToTry.length ? endpointsToTry : OVERPASS_ENDPOINTS;
@@ -683,8 +718,7 @@ async function fetchClubsOverpassAnyEndpoint(center, radiusMeters, signal) {
         for (let i = 0; i < list.length; i++) {
             const ep = list[i];
             try {
-                // FIX PERF: timeout più aggressivi — 5s primo, 8s secondo
-                const timeoutMs = i === 0 ? 5000 : 8000;
+                const timeoutMs = i === 0 ? 9000 : 15000;
                 const r = await fetchNightclubsFromOverpass({ endpoint: ep, center, radiusMeters, signal, timeoutMs });
                 if (Array.isArray(r) && r.length > 0) { results = r; break; }
             } catch {
@@ -757,8 +791,7 @@ function mapOsmElementsToClubs(elements, center) {
         .sort((a, b) => a.distanceKm - b.distanceKm)
         .slice(0, OVERPASS_MAX_RESULTS);
 }
-
-async function fetchNightclubsFromOverpass({ endpoint, center, radiusMeters, signal, timeoutMs = 5000 }) {
+async function fetchNightclubsFromOverpass({ endpoint, center, radiusMeters, signal, timeoutMs = 9000 }) {
     if (isOverpassEndpointThrottled(endpoint)) {
         throw new Error(`Overpass endpoint in backoff: ${endpoint}`);
     }
@@ -767,6 +800,7 @@ async function fetchNightclubsFromOverpass({ endpoint, center, radiusMeters, sig
     const lng = Number(center.lng);
     const r = Math.max(1000, Math.min(50000, Math.round(radiusMeters)));
 
+    // Wider query: many venues are mapped as ways/relations or via club/leisure tags
     const query = `
       [out:json][timeout:10];
       (
@@ -795,7 +829,7 @@ async function fetchNightclubsFromOverpass({ endpoint, center, radiusMeters, sig
         relation["amenity"="bar"]["club"="nightclub"](around:${r},${lat},${lng});
       );
       out center tags;
-    `.replace(/\s+/g, ' ').trim();
+    `.replace(/\\s+/g, ' ').trim();
 
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), timeoutMs);
@@ -809,6 +843,7 @@ async function fetchNightclubsFromOverpass({ endpoint, center, radiusMeters, sig
             signal: controller.signal
         });
     } catch (e) {
+        // Network errors / timeouts should temporarily remove the endpoint from rotation
         const msg = e && e.name === 'AbortError' ? 'timeout' : (e && e.message ? e.message : String(e));
         markOverpassEndpointFail(endpoint, msg);
         throw e;
@@ -860,7 +895,7 @@ function lookupPublishedVenuePrices(club) {
     if (n.includes('oronero') || n.includes('oro nero')) return { entryEuro: 12, drinkEuro: 10 };
     if (n.includes('setai')) return { entryEuro: 12, drinkEuro: 8 };
     if (n.includes('vog club') || (n.includes('vog') && n.includes('seriate'))) return { entryEuro: 15, drinkEuro: 10 };
-    // FIX CLASSIFICAZIONE: rimosso "open space" — troppo generico, colpisce qualsiasi locale
+    if (n.includes('open space') || n.includes('openspace')) return { entryEuro: 15, drinkEuro: 10 };
     if (n.includes('piccolo bar')) return { entryEuro: 0, drinkEuro: 8 };
     if (n.includes('bar da spicchio') || (n.includes('spicchio') && n.includes('bar'))) return { entryEuro: 0, drinkEuro: 8 };
     return null;
@@ -878,47 +913,21 @@ function formatProssimoEventoDisplay(raw) {
     const s = String(raw).trim(); return s && s !== '—' ? s : '';
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// FIX CLASSIFICAZIONE: isNightclub() più preciso
-// Modifiche:
-//   1. Rimosso "open space" dalla whitelist nomi (troppo generico)
-//   2. leisure=dancing richiede ora anche keyword "club/disco/night" nel nome
-//      per escludere scuole di ballo e sale da ballo
-//   3. Guard Google Places (gTypes) già corretto, lasciato invariato
-// ─────────────────────────────────────────────────────────────────────────────
 function isNightclub(club) {
+    // Explicit override for known venues (seed ids may vary: seed:, seedbg:, osm ids)
     const rawId = String(club && club.id != null ? club.id : '').toLowerCase();
     if (rawId.includes('life-club-rovetta')) return true;
-
     const am = (club && club.osmAmenity ? String(club.osmAmenity) : '').toLowerCase();
     const cl = (club && club.osmClub ? String(club.osmClub) : '').toLowerCase();
     const le = (club && club.osmLeisure ? String(club.osmLeisure) : '').toLowerCase();
-
-    if (am === 'nightclub' || cl === 'nightclub' || le === 'nightclub') return true;
-
-    // FIX: leisure=dancing include scuole di ballo — richiede keyword nel nome
-    if (le === 'dancing') {
-        const n = normalizeText(club && club.name ? club.name : '');
-        const clubKeywords = ['club', 'disco', 'night', 'danceclub'];
-        return clubKeywords.some(k => n.includes(k));
-    }
-
+    if (am === 'nightclub' || cl === 'nightclub' || le === 'nightclub' || le === 'dancing') return true;
     const n = normalizeText(club && club.name ? club.name : '');
-    // FIX: rimosso "open space" e "openspace" — troppo generico
-    if (
-        n.includes('life club') ||
-        n.includes('amnesia') ||
-        n.includes('vog club') ||
-        n.includes('setai') ||
-        n.includes('bolgia') ||
-        n.includes('oro nero') ||
-        n.includes('oronero')
-    ) return true;
-
+    if (n.includes('life club') || n.includes('amnesia') || n.includes('vog club') || n.includes('setai') || n.includes('open space') || n.includes('bolgia') || n.includes('oro nero')) return true;
     const gTypes = Array.isArray(club && club.googlePlaceTypes) ? club.googlePlaceTypes : [];
-    // FIX: se Firebase ha già marcato isBar=true, ignoriamo il tipo Google
+    // Google types can be noisy (some bars get tagged as night_club). If this venue
+    // is explicitly marked as bar in our model, do not flip it to nightclub just
+    // because of Google types.
     if (gTypes.includes('night_club')) return club && club.isBar ? false : true;
-
     return false;
 }
 
@@ -1140,7 +1149,14 @@ function geocodeScoreResult(r) {
     return 50;
 }
 
+// ─── FIX geocoding: cache in memoria + localStorage ───────────────────────────
 const geocodeMemCache = new Map();
+
+function isLikelyInItaly(lat, lng) {
+    const la = Number(lat), lo = Number(lng);
+    // BBox “larga” Italia (include isole). Serve solo a evitare cache palesemente sbagliate.
+    return Number.isFinite(la) && Number.isFinite(lo) && la >= 35.0 && la <= 47.8 && lo >= 6.0 && lo <= 19.5;
+}
 
 async function geocodeItaly(query) {
     const q = (query || '').trim();
@@ -1153,7 +1169,7 @@ async function geocodeItaly(query) {
         const raw = localStorage.getItem(key);
         if (raw) {
             const o = JSON.parse(raw);
-            if (o && Number.isFinite(o.lat) && Number.isFinite(o.lng) && o.ts && (Date.now() - o.ts) < (14 * 24 * 60 * 60 * 1000)) {
+            if (o && Number.isFinite(o.lat) && Number.isFinite(o.lng) && isLikelyInItaly(o.lat, o.lng) && o.ts && (Date.now() - o.ts) < (14 * 24 * 60 * 60 * 1000)) {
                 const result = { lat: Number(o.lat), lng: Number(o.lng), label: String(o.label || q) };
                 geocodeMemCache.set(key, result);
                 return result;
@@ -1169,6 +1185,7 @@ async function geocodeItaly(query) {
 
     const best = data.reduce((prev, curr) => geocodeScoreResult(curr) < geocodeScoreResult(prev) ? curr : prev);
     const out = { lat: Number(best.lat), lng: Number(best.lon), label: best.display_name };
+    if (!isLikelyInItaly(out.lat, out.lng)) return null;
     geocodeMemCache.set(key, out);
     try { localStorage.setItem(key, JSON.stringify({ ...out, ts: Date.now() })); } catch { /* ignore */ }
     return out;
@@ -1213,6 +1230,7 @@ function loadGoogleMapsPlacesIfNeeded() {
         };
         const s = document.createElement('script');
         s.id = 'googleMapsJsFmn'; s.async = true; s.defer = true;
+        // Add loading=async to follow Google best practice and remove console warning
         s.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(GOOGLE_PLACES_API_KEY)}&libraries=places&callback=${cbName}&loading=async`;
         s.onerror = () => { try { delete window[cbName]; } catch { window[cbName] = undefined; } reject(new Error('Google Maps JS non caricato')); };
         document.head.appendChild(s);
@@ -1255,7 +1273,7 @@ function placeLatLng(p) {
     return { lat: Number(lat), lng: Number(lng) };
 }
 
-// FIX PERF: enrichment Google in batch paralleli
+// ─── FIX #3: arricchimento Google in batch paralleli invece di seriale ─────────
 async function enrichClubsWithGoogleRatings(clubs) {
     const stripPending = (c, extra = {}) => ({ ...c, ratingsPending: false, ...extra });
     if (!GOOGLE_PLACES_API_KEY) return clubs.map((c) => stripPending(c));
@@ -1276,9 +1294,13 @@ async function enrichClubsWithGoogleRatings(clubs) {
                 return stripPending(club);
             }
             const biasCenter = { lat: club.lat, lng: club.lng };
+            const locationBias = { circle: { center: biasCenter, radius: 2800 } };
+            const textQuery = [club.name, club.address].filter(Boolean).join(' ').trim() || String(club.name || 'Locale');
 
+            // Only use Place.searchNearby (no legacy APIs, no searchText)
             const resp = await lib.Place.searchNearby({
                 locationRestriction: { center: biasCenter, radius: 2800 },
+                // Heuristic: search clubs first, then bars as fallback
                 includedTypes: ['night_club'],
                 maxResultCount: 5,
                 language: 'it',
@@ -1299,7 +1321,6 @@ async function enrichClubsWithGoogleRatings(clubs) {
                 places = resp2 && Array.isArray(resp2.places) ? resp2.places : [];
             }
 
-            const textQuery = [club.name, club.address].filter(Boolean).join(' ').trim() || String(club.name || 'Locale');
             const qn = normalizeText(textQuery);
             const p0 = places
                 .map((p) => ({ p, n: normalizeText(placeDisplayName(p)) }))
@@ -1326,7 +1347,7 @@ async function enrichClubsWithGoogleRatings(clubs) {
         }
     }
 
-    const BATCH_SIZE = 5;
+    const BATCH_SIZE = 5; // 5 richieste in parallelo invece di 1 alla volta con gap artificiale
     const enrichLimit = Math.min(clubs.length, GOOGLE_ENRICH_MAX_CLUBS);
     const enriched = [];
 
@@ -1340,6 +1361,7 @@ async function enrichClubsWithGoogleRatings(clubs) {
         );
         enriched.push(...batchResults);
 
+        // Piccola pausa tra batch per non saturare le Places API (ridotta da 45ms×batch a 80ms ogni 5)
         if (i + BATCH_SIZE < enrichLimit) {
             await new Promise((r) => setTimeout(r, 80));
         }
@@ -1519,6 +1541,8 @@ function loadDeferredThirdPartyScripts() {
                 'script[src*="tidio"], script[src*="crisp.chat"], script[src*="intercom"], script[src*="tawk.to"]'
             );
             if (alreadyLoaded) return;
+
+            // opzionale: aggiungi qui il tuo widget chat
         });
     });
 }
@@ -1566,6 +1590,7 @@ function renderSidebar(clubs) {
         sidebar.appendChild(card);
     });
 
+    // ─── FIX rendering: usa DocumentFragment per un solo reflow DOM ────────────
     const fragment = document.createDocumentFragment();
 
     clubs.forEach((club) => {
@@ -1653,6 +1678,8 @@ function renderSidebar(clubs) {
 }
 
 function clubsForSidebar(clubs) {
+    // Seed venues are real nearby places used both as placeholders and as
+    // additions when OSM data is incomplete. They should be visible in cards.
     return clubs || [];
 }
 
@@ -1668,6 +1695,7 @@ function initMap() {
         maxZoom: 19
     }).addTo(leafletMap);
 
+    // ─── FIX #4: warm-start unificato — una sola chiamata a loadClubs ─────────
     function requestUserLocation(preferGpsAsSearchCenter = false) {
         if (!('geolocation' in navigator)) return;
         if (!window.isSecureContext) { console.warn('Geolocation richiede HTTPS/localhost.'); return; }
@@ -1720,6 +1748,7 @@ function initMap() {
         navigator.geolocation.getCurrentPosition((pos) => {
             applyPosition(pos, preferGpsAsSearchCenter);
             if (!preferGpsAsSearchCenter) return;
+            // Refine pass in background (non blocca)
             navigator.geolocation.getCurrentPosition(
                 (pos2) => applyPosition(pos2, true),
                 () => { /* ignore */ },
@@ -1779,22 +1808,41 @@ function isNearBergamo(center) {
 async function prefetchBgPackIfNeeded(center) {
     if (!isNearBergamo(center)) return;
     if (getBgPack()) return;
+
+    // ✅ AGGIUNTO
+    const allThrottled = OVERPASS_ENDPOINTS.every(ep => isOverpassEndpointThrottled(ep));
+    if (allThrottled) return;
+
     try {
         const clubs = await fetchClubsOverpassAnyEndpoint(BG_CENTER, 42000);
         if (!Array.isArray(clubs) || !clubs.length) return;
+
         const slim = clubs.slice(0, 140).map((c) => ({
             id: `seedbg:${String(c.id || '')}`,
-            name: c.name || 'Locale', address: c.address || '',
-            lat: c.lat, lng: c.lng, ratingText: '—', starsText: '—',
-            crowdText: 'Non impostata', crowdPercent: null, ageText: '—',
-            source: 'Seed', osmAmenity: c.osmAmenity || '', osmClub: c.osmClub || '',
-            osmLeisure: c.osmLeisure || '', isBar: Boolean(c.isBar)
+            name: c.name || 'Locale',
+            address: c.address || '',
+            lat: c.lat,
+            lng: c.lng,
+            ratingText: '—',
+            starsText: '—',
+            crowdText: 'Non impostata',
+            crowdPercent: null,
+            ageText: '—',
+            source: 'Seed',
+            osmAmenity: c.osmAmenity || '',
+            osmClub: c.osmClub || '',
+            osmLeisure: c.osmLeisure || '',
+            isBar: Boolean(c.isBar)
         })).filter((x) => Number.isFinite(x.lat) && Number.isFinite(x.lng));
+
         setBgPack(slim);
-    } catch { /* ignore */ }
+
+    } catch {
+        /* ignore */
+    }
 }
 
-const LOCALI_PREFETCH_RADIUS_M = 8000;
+const LOCALI_PREFETCH_RADIUS_M = 28000;
 
 function localiPageOverpassCacheKey(center, radiusMeters) {
     return `fmn_loc_overpass_${Number(center.lat).toFixed(3)}_${Number(center.lng).toFixed(3)}_${radiusMeters}`;
@@ -1879,10 +1927,13 @@ async function prefetchLocaliOverpassForCenter(center) {
     }
 }
 
+// Sostituisci scheduleLocaliOverpassPrefetch con questa versione
 function scheduleLocaliOverpassPrefetch(center) {
-    const run = () => { prefetchLocaliOverpassForCenter(center).catch(() => { }); };
-    setTimeout(run, 1500);
-    if (typeof requestIdleCallback === 'function') requestIdleCallback(run, { timeout: 3500 });
+    const allThrottled = OVERPASS_ENDPOINTS.every(ep => isOverpassEndpointThrottled(ep));
+    if (allThrottled) return; // non spammare se siamo già in backoff
+    const run = () => { prefetchLocaliOverpassForCenter(center).catch(() => {}); };
+    setTimeout(run, 800); // aumenta il delay da 180ms a 800ms
+    if (typeof requestIdleCallback === 'function') requestIdleCallback(run, { timeout: 5000 });
 }
 
 function fetchSeedPlacesWithinRadius(center, radiusKm) {
@@ -1908,10 +1959,7 @@ function fetchSeedPlacesWithinRadius(center, radiusKm) {
             id: `seed:${seed.id}`, name: seed.name, address: seed.address || '',
             lat: seed.lat, lng: seed.lng, distanceKm: d,
             ratingText: '—', starsText: '—', crowdText: 'Non impostata', crowdPercent: null, ageText: '—',
-            source: 'Seed',
-            // FIX CLASSIFICAZIONE: seed senza tipo esplicito non diventano nightclub di default
-            osmAmenity: seed.tipo ? '' : (seed.id.includes('club') ? 'nightclub' : ''),
-            osmClub: '',
+            source: 'Seed', osmAmenity: seed.tipo ? '' : 'nightclub', osmClub: '',
             seedTipo: seed.tipo || null, seedIngresso: seed.ingresso ?? null
         });
     }
@@ -1920,16 +1968,12 @@ function fetchSeedPlacesWithinRadius(center, radiusKm) {
 
 // ─────────────────────────────────────────────────────────────────────────────
 // LOAD CLUBS — versione ottimizzata
-// FIX PERF principale:
-//   1. Seed mostrati SEMPRE e PRIMA di qualsiasi await (0ms attesa)
-//   2. Overpass e Google Places lanciati in parallelo con Promise.allSettled
-//   3. Timeout Overpass ridotti da 9/15s a 5/8s
-//   4. GOOGLE_ENRICH_MAX_CLUBS ridotto da 40 a 15
 // ─────────────────────────────────────────────────────────────────────────────
 
 async function loadClubs() {
     const runId = ++loadClubsRunId;
 
+    // ─── FIX #5: annulla le fetch Overpass del runId precedente ───────────────
     if (overpassAbortController) {
         overpassAbortController.abort();
     }
@@ -1940,31 +1984,18 @@ async function loadClubs() {
     const hasActive = Boolean(getSearchCenter() && (manualCenter || userLocation));
     const mobileMap = isMapSidebarMobileLayout();
 
-    // ─── FIX PERF #1: Seed IMMEDIATAMENTE — prima di qualsiasi await ─────────
-    // Appare in <50ms, l'utente vede subito qualcosa di utile
-    const listRefEarly = getVenueListReferenceCenter();
-    const seedImmediate = fetchSeedPlacesWithinRadius(listRefEarly, currentRadiusKm)
-        .sort((a, b) => a.distanceKm - b.distanceKm).slice(0, 18);
-    if (seedImmediate.length) {
-        clubsData = seedImmediate;
-        enrichClubsWithFirebase(clubsData);
-        renderMarkers(clubsData);
-        renderSidebar(clubsForSidebar(clubsData));
-    } else {
-        // Mostra solo il loading se non ci sono seed vicini
-        if (sidebar) {
-            if (mobileMap) {
-                sidebar.innerHTML = `<div class="map-sidebar-load-placeholder" aria-hidden="true"><span class="map-sidebar-load-dot"></span><span class="map-sidebar-load-dot"></span><span class="map-sidebar-load-dot"></span></div>`;
-                showMapFetchLoading(hasActive);
-            } else {
-                hideMapFetchLoading();
-                sidebar.innerHTML = `
-                  <div class="club-card active" style="cursor:default;text-align:center;">
-                    <div class="club-name" style="font-size:0.85rem;">Caricamento locali…</div>
-                    <div style="margin:0.8rem 0;"><div style="width:28px;height:28px;border:3px solid rgba(168,85,247,0.2);border-top-color:#a855f7;border-radius:50%;animation:spin .7s linear infinite;margin:0 auto;"></div></div>
-                    <div class="club-meta">${hasActive ? 'Cerco i locali più vicini a te' : 'Ti mostro locali casuali in Italia'}</div>
-                  </div>`;
-            }
+    if (sidebar) {
+        if (mobileMap) {
+            sidebar.innerHTML = `<div class="map-sidebar-load-placeholder" aria-hidden="true"><span class="map-sidebar-load-dot"></span><span class="map-sidebar-load-dot"></span><span class="map-sidebar-load-dot"></span></div>`;
+            showMapFetchLoading(hasActive);
+        } else {
+            hideMapFetchLoading();
+            sidebar.innerHTML = `
+              <div class="club-card active" style="cursor:default;text-align:center;">
+                <div class="club-name" style="font-size:0.85rem;">Caricamento locali…</div>
+                <div style="margin:0.8rem 0;"><div style="width:28px;height:28px;border:3px solid rgba(168,85,247,0.2);border-top-color:#a855f7;border-radius:50%;animation:spin .7s linear infinite;margin:0 auto;"></div></div>
+                <div class="club-meta">${hasActive ? 'Cerco i locali più vicini a te' : 'Ti mostro locali casuali in Italia'}</div>
+              </div>`;
         }
     }
 
@@ -1982,14 +2013,25 @@ async function loadClubs() {
         const centerPrimary = getSearchCenter();
         const listRef = getVenueListReferenceCenter();
 
+        // Warm-up seed pack early (non-blocking) so nearby searches (es. Bergamo) show instantly
         try { prefetchBgPackIfNeeded(listRef); } catch { /* ignore */ }
 
-        // Mostra cache istantanea se disponibile (aggiorna i seed già mostrati)
+        // Mostra cache istantanea se disponibile
         const cachedInstant = getOverpassCacheFiltered(centerPrimary, radiusMeters);
         if (cachedInstant && cachedInstant.length && runId === loadClubsRunId) {
             clubsData = filterClubsWithinRadius(
                 recomputeClubDistancesFrom(cachedInstant, listRef), currentRadiusKm
             ).sort((a, b) => a.distanceKm - b.distanceKm).slice(0, MAP_MAX_VENUES_SHOWN);
+            enrichClubsWithFirebase(clubsData);
+            renderMarkers(clubsData);
+            renderSidebar(clubsForSidebar(clubsData));
+        }
+
+        // Seed come placeholder immediato mentre Overpass risponde
+        const seedInstant = fetchSeedPlacesWithinRadius(listRef, currentRadiusKm)
+            .sort((a, b) => a.distanceKm - b.distanceKm).slice(0, 18);
+        if (seedInstant.length && !cachedInstant) {
+            clubsData = seedInstant;
             enrichClubsWithFirebase(clubsData);
             renderMarkers(clubsData);
             renderSidebar(clubsForSidebar(clubsData));
@@ -2011,6 +2053,7 @@ async function loadClubs() {
                 recomputeClubDistancesFrom(mergedClubs, listRef), currentRadiusKm
             ).sort((a, b) => a.distanceKm - b.distanceKm).slice(0, MAP_MAX_VENUES_SHOWN);
 
+            // Merge GPS secondario se luogo lontano
             const dPlaceGpsMerge = (manualCenter && userLocation) ? kmBetween(manualCenter, userLocation) : 0;
             if (manualCenter && userLocation && dPlaceGpsMerge > SAME_AREA_GPS_VS_PLACE_KM && dPlaceGpsMerge < MERGE_GPS_SECOND_QUERY_MAX_KM) {
                 try {
@@ -2037,7 +2080,7 @@ async function loadClubs() {
             loadAndRenderUserReviews();
             loadAndRenderGoogleReviews();
 
-            // FIX PERF: Rating Google in background, lazy (non blocca il render)
+            // Rating Google in background
             if (wantsAutoRatings) {
                 enrichClubsWithGoogleRatings(clubsData)
                     .then((enriched) => {
@@ -2064,41 +2107,46 @@ async function loadClubs() {
             }
         };
 
-        // ─── FIX PERF #2: Overpass e Google Places in parallelo ──────────────
-        // Se Overpass è lento (>5s), Google Places risponde prima e viene usato
-        const [overpassResult, googleFallbackResult] = await Promise.allSettled([
-            fetchClubsOverpassAnyEndpoint(centerPrimary, radiusMeters, signal),
-            GOOGLE_PLACES_API_KEY
-                ? fetchNightclubsFromGooglePlaces({ center: listRef, radiusMeters })
-                : Promise.resolve([])
-        ]);
+        let clubs = null;
+        let lastErr = null;
 
+        // Ensure only ONE Overpass request per loadClubs run (no parallel radii, no background "second fetch").
+        if (!clubs) {
+            clubs = await fetchClubsOverpassAnyEndpoint(centerPrimary, radiusMeters, signal);
+        }
         if (runId !== loadClubsRunId) return;
-
-        const overpassClubs = overpassResult.status === 'fulfilled' && Array.isArray(overpassResult.value)
-            ? overpassResult.value : [];
-        const googleFallbackClubs = googleFallbackResult.status === 'fulfilled' && Array.isArray(googleFallbackResult.value)
-            ? googleFallbackResult.value : [];
-
-        let clubs = overpassClubs.length ? overpassClubs : googleFallbackClubs;
 
         if (clubs && clubs.length) {
             if (!isGpsMode) await applyOverpassClubsAndRender(clubs, radiusMeters);
         } else {
-            // Nessun risultato da nessuna fonte
-            if (isGpsMode && gpsRetryCount < 2) {
-                gpsRetryCount++;
-                currentRadiusKm = Math.max(currentRadiusKm, gpsRetryCount === 1 ? 25 : 40);
-                return loadClubs();
+            // Fallback Google Places
+            try {
+                const googleClubs = await fetchNightclubsFromGooglePlaces({ center: listRef, radiusMeters });
+                if (googleClubs && googleClubs.length) clubs = googleClubs;
+            } catch (e) { lastErr = e; }
+
+            if (!clubs || !clubs.length) {
+                if (isGpsMode && gpsRetryCount < 2) {
+                    gpsRetryCount++;
+                    currentRadiusKm = Math.max(currentRadiusKm, gpsRetryCount === 1 ? 25 : 40);
+                    return loadClubs();
+                }
+                if (isDiscoveryMode && discoveryRetryCount < 2) {
+                    discoveryRetryCount++;
+                    discoveryCenter = pickDiscoveryCenter();
+                    if (leafletMap && discoveryCenter) leafletMap.setView([discoveryCenter.lat, discoveryCenter.lng], 11);
+                    currentRadiusKm = Math.max(currentRadiusKm, 35);
+                    return loadClubs();
+                }
+                throw lastErr || new Error('Nessun locale trovato (prova ad aumentare il raggio).');
             }
-            if (isDiscoveryMode && discoveryRetryCount < 2) {
-                discoveryRetryCount++;
-                discoveryCenter = pickDiscoveryCenter();
-                if (leafletMap && discoveryCenter) leafletMap.setView([discoveryCenter.lat, discoveryCenter.lng], 11);
-                currentRadiusKm = Math.max(currentRadiusKm, 35);
-                return loadClubs();
-            }
-            throw new Error('Nessun locale trovato (prova ad aumentare il raggio).');
+
+            clubsData = filterClubsWithinRadius(recomputeClubDistancesFrom(clubs, listRef), currentRadiusKm);
+            enrichClubsWithFirebase(clubsData);
+            renderMarkers(clubsData);
+            renderSidebar(clubsForSidebar(clubsData));
+            loadAndRenderUserReviews();
+            loadAndRenderGoogleReviews();
         }
 
         const prefetchCenter = userLocation || manualCenter;
@@ -2108,7 +2156,7 @@ async function loadClubs() {
         prefetchBgPackIfNeeded(prefetchCenter);
 
     } catch (err) {
-        if (runId !== loadClubsRunId) return;
+        if (runId !== loadClubsRunId) return; // abort silenzioso
         hideMapFetchLoading();
         const sidebar = document.querySelector('.map-sidebar');
         if (sidebar) {
@@ -2143,14 +2191,15 @@ function __fmnStartApp() {
                 } catch { /* Safari */ }
 
                 if (!geoDenied && alreadyGranted) {
+                    // ─── FIX #4: warm-start con posizione salvata, poi GPS reale ──────
                     const warm = peekLastLocationForWarmStart();
                     if (warm && !manualCenter) {
                         userLocation = warm;
                         discoveryCenter = null;
                         currentRadiusKm = Math.max(currentRadiusKm, 18);
-                        loadClubs();
+                        loadClubs(); // mostra subito, GPS aggiorna in background
                     }
-                    window.__requestUserLocationAuto();
+                    window.__requestUserLocationAuto(); // raffina con GPS reale
                     return;
                 }
                 if (!geoDenied) {
@@ -2200,6 +2249,8 @@ const useCurrentLocationBtn = document.getElementById('mapUseCurrentLocationBtn'
 const searchClear = document.getElementById('mapSearchClear');
 
 if (searchInput) {
+    // When user selects a place (Enter + geocode), the input becomes a "place label"
+    // and must NOT keep filtering the cards by that string (es. "Clusone" would hide nearby towns).
     let placeMode = false;
     const onType = debounce(() => {
         if (placeMode) return;
@@ -2217,6 +2268,7 @@ if (searchInput) {
             const place = await geocodeItaly(q);
             if (place) {
                 placeMode = true;
+                // Clear any text-filter immediately so cards can show nearby venues in other comuni.
                 applySearchFilter('');
                 if (leafletMap) leafletMap.flyTo([place.lat, place.lng], 13, { duration: 0.65, easeLinearity: 0.25 });
                 setTempSearchMarker(place.lat, place.lng, place.label);
@@ -2255,6 +2307,8 @@ if (searchClear && searchInput) {
     searchClear.addEventListener('click', () => {
         searchInput.value = '';
         applySearchFilter('');
+        // reset place-mode so typing filters again
+        // (scoped var exists only if searchInput block ran)
         manualCenter = null;
         if (tempSearchMarker) { tempSearchMarker.remove(); tempSearchMarker = null; }
         if (leafletMap) {
