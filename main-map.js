@@ -593,10 +593,9 @@ function recomputeClubDistancesFrom(clubs, ref) {
 function filterClubsWithinRadius(clubs, radiusKm) {
     const rk = Number(radiusKm);
     if (!Number.isFinite(rk) || rk <= 0) return clubs || [];
-    const limit = Math.max(1, rk * 1.12 + 0.4);
     return (clubs || []).filter((c) => {
         const d = Number(c && c.distanceKm);
-        return Number.isFinite(d) ? d <= limit : true;
+        return Number.isFinite(d) ? d <= rk : true;
     });
 }
 
