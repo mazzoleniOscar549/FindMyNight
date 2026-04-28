@@ -1794,8 +1794,12 @@ const SEED_VENUES = [
 
 const BG_PACK_KEY = 'fmn_seed_pack_bg_v1';
 const BG_PACK_TTL_MS = 14 * 24 * 60 * 60 * 1000;
-const BG_CENTER = { lat: 45.6983, lng: 9.6773 };
-
+function isNearBergamo(center) {
+    try {
+        if (!center || !Number.isFinite(center.lat) || !Number.isFinite(center.lng)) return false;
+        return kmBetween(center, BG_CENTER) <= 28;
+    } catch { return false; }
+}
 function getBgPack() {
     try {
         const raw = localStorage.getItem(BG_PACK_KEY);
