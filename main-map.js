@@ -1291,7 +1291,7 @@ if (!places.length) {
     });
     places = resp2 && Array.isArray(resp2.places) ? resp2.places : [];
 }
-            }
+            
 
             const qn = normalizeText(textQuery);
             const p0 = places
