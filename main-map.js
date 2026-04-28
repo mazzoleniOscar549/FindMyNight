@@ -1797,7 +1797,7 @@ async function prefetchBgPackIfNeeded(center) {
     } catch { /* ignore */ }
 }
 
-const LOCALI_PREFETCH_RADIUS_M = 28000;
+const LOCALI_PREFETCH_RADIUS_M = 8000;
 
 function localiPageOverpassCacheKey(center, radiusMeters) {
     return `fmn_loc_overpass_${Number(center.lat).toFixed(3)}_${Number(center.lng).toFixed(3)}_${radiusMeters}`;
