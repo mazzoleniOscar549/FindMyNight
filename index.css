@@ -3685,6 +3685,7 @@ footer {
     }
 
     .cookie-banner .cookie-actions {
+        flex-direction: column;
         justify-content: flex-end;
     }
 
