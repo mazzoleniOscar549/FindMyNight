@@ -1865,6 +1865,7 @@ async function prefetchBgPackIfNeeded(center) {
         /* ignore */
     }
 }
+}
 
 const LOCALI_PREFETCH_RADIUS_M = 28000;
 
