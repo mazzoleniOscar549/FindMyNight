@@ -1794,12 +1794,10 @@ const SEED_VENUES = [
 
 const BG_PACK_KEY = 'fmn_seed_pack_bg_v1';
 const BG_PACK_TTL_MS = 14 * 24 * 60 * 60 * 1000;
-function isNearBergamo(center) {
-    try {
-        if (!center || !Number.isFinite(center.lat) || !Number.isFinite(center.lng)) return false;
-        return kmBetween(center, BG_CENTER) <= 28;
-    } catch { return false; }
-}
+const BG_CENTER = { lat: 45.6983, lng: 9.6773 };
+const BG_CITY_CENTER = { lat: 45.6983, lng: 9.6773 }; // aggiorna con coord esatte città
+
+
 function getBgPack() {
     try {
         const raw = localStorage.getItem(BG_PACK_KEY);
@@ -1821,13 +1819,19 @@ function setBgPack(items) {
 function isNearBergamo(center) {
     try {
         if (!center || !Number.isFinite(center.lat) || !Number.isFinite(center.lng)) return false;
-        return kmBetween(center, BG_CENTER) <= 28;
+        return kmBetween(center, BG_CENTER) <= 45; // era 28, aumentato per coprire città+provincia
     } catch { return false; }
 }
 
 async function prefetchBgPackIfNeeded(center) {
     if (!isNearBergamo(center)) return;
-    if (getBgPack()) return;
+    const existing = getBgPack();
+    // Rigenera se il pack esiste ma il centro cercato è lontano dal centro del pack
+    if (existing) {
+        const packCenter = BG_CENTER;
+        if (center && kmBetween(center, packCenter) < 20) return; // pack valido
+        // centro diverso (es. Bergamo città vs provincia) → rigenera
+    }
 
     // ✅ AGGIUNTO
     const allThrottled = OVERPASS_ENDPOINTS.every(ep => isOverpassEndpointThrottled(ep));
