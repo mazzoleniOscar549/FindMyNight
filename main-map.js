@@ -1270,27 +1270,42 @@ async function enrichClubsWithGoogleRatings(clubs) {
             const textQuery = [club.name, club.address].filter(Boolean).join(' ').trim() || String(club.name || 'Locale');
 
             // Only use Place.searchNearby (no legacy APIs, no searchText)
-            const resp = await lib.Place.searchNearby({
-                locationRestriction: { center: biasCenter, radius: 2800 },
-                // Heuristic: search clubs first, then bars as fallback
-                includedTypes: ['night_club'],
-                maxResultCount: 5,
-                language: 'it',
-                region: 'IT',
-                fields: ['id', 'displayName', 'location', 'rating', 'userRatingCount', 'types', 'reviews']
-            });
+            const [resp1, resp2, resp3] = await Promise.allSettled([
+    lib.Place.searchNearby({
+        locationRestriction: { center: biasCenter, radius: 500 },
+        includedTypes: ['night_club'],
+        maxResultCount: 5,
+        language: 'it',
+        region: 'IT',
+        fields: ['id', 'displayName', 'location', 'rating', 'userRatingCount', 'types', 'reviews']
+    }),
+    lib.Place.searchNearby({
+        locationRestriction: { center: biasCenter, radius: 500 },
+        includedTypes: ['bar'],
+        maxResultCount: 5,
+        language: 'it',
+        region: 'IT',
+        fields: ['id', 'displayName', 'location', 'rating', 'userRatingCount', 'types', 'reviews']
+    }),
+    lib.Place.searchNearby({
+        locationRestriction: { center: biasCenter, radius: 500 },
+        includedTypes: ['restaurant', 'cafe', 'food_and_drink'],
+        maxResultCount: 5,
+        language: 'it',
+        region: 'IT',
+        fields: ['id', 'displayName', 'location', 'rating', 'userRatingCount', 'types', 'reviews']
+    })
+]);
 
-            let places = resp && Array.isArray(resp.places) ? resp.places : [];
-            if (!places.length) {
-                const resp2 = await lib.Place.searchNearby({
-                    locationRestriction: { center: biasCenter, radius: 2800 },
-                    includedTypes: ['bar'],
-                    maxResultCount: 5,
-                    language: 'it',
-                    region: 'IT',
-                    fields: ['id', 'displayName', 'location', 'rating', 'userRatingCount', 'types', 'reviews']
-                });
-                places = resp2 && Array.isArray(resp2.places) ? resp2.places : [];
+const allPlaces = new Map();
+for (const r of [resp1, resp2, resp3]) {
+    if (r.status === 'fulfilled' && Array.isArray(r.value?.places)) {
+        for (const p of r.value.places) {
+            if (p?.id && !allPlaces.has(p.id)) allPlaces.set(p.id, p);
+        }
+    }
+}
+let places = [...allPlaces.values()];
             }
 
             const qn = normalizeText(textQuery);
