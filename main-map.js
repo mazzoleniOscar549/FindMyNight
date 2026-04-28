@@ -3,13 +3,9 @@
 // Sostituisce il blocco da "MAPPA REALE" in poi nel file originale.
 // ─────────────────────────────────────────────────────────────────────────────
 
-if (!window.FMN_FIREBASE_CONFIG) {
-    throw new Error('FindMyNight: carica fmn-firebase-public.js prima di questo script.');
-}
-firebase.initializeApp(window.FMN_FIREBASE_CONFIG);
-const db = firebase.firestore();
-
-// Funzionalità (desktop): card statiche sempre aperte, niente toggle
+// Funzionalità (desktop): card statiche sempre aperte, niente toggle.
+// Nota: su desktop il CSS disabilita il click sul <summary>, quindi questa parte
+// deve girare anche se Firebase non è configurato.
 (function () {
     try {
         var mqDesktop = window.matchMedia('(min-width: 1025px)');
@@ -28,6 +24,22 @@ const db = firebase.firestore();
         mqDesktop.addEventListener('change', applyDesktopStaticFeatures);
     } catch { /* ignore */ }
 })();
+
+// Firebase è opzionale: se manca la config, non blocchiamo tutto il resto del sito.
+let db = null;
+try {
+    if (!window.FMN_FIREBASE_CONFIG || !window.firebase) {
+        console.warn('[FindMyNight] Firebase config non trovata: continuo senza dati Firestore.');
+    } else {
+        if (!firebase.apps || !firebase.apps.length) {
+            firebase.initializeApp(window.FMN_FIREBASE_CONFIG);
+        }
+        db = firebase.firestore();
+    }
+} catch (e) {
+    console.warn('[FindMyNight] Errore inizializzazione Firebase: continuo senza Firestore.', e && e.message ? e.message : e);
+    db = null;
+}
 
 const fbVenueData = new Map();
 let nearReviews = [];
@@ -253,7 +265,8 @@ document.querySelectorAll('.step, .plan-card, .stat-item').forEach(el => {
 const DEFAULT_CENTER = { lat: 41.8719, lng: 12.5674 };
 // Prefer kumi first (often more reliable than overpass-api.de)
 const OVERPASS_ENDPOINTS = [
-    'https://overpass-api.de/api/interpreter'
+    'https://overpass-api.de/api/interpreter',
+    'https://overpass.kumi.systems/api/interpreter'
 ];
 const OVERPASS_MAX_RESULTS = 100;
 const GOOGLE_PLACES_MAX_RESULTS = 72;
@@ -593,9 +606,10 @@ function recomputeClubDistancesFrom(clubs, ref) {
 function filterClubsWithinRadius(clubs, radiusKm) {
     const rk = Number(radiusKm);
     if (!Number.isFinite(rk) || rk <= 0) return clubs || [];
+    const limit = Math.max(1, rk * 1.12 + 0.4);
     return (clubs || []).filter((c) => {
         const d = Number(c && c.distanceKm);
-        return Number.isFinite(d) ? d <= rk : true;
+        return Number.isFinite(d) ? d <= limit : true;
     });
 }
 
@@ -647,7 +661,7 @@ function setOverpassCache(center, radiusMeters, data) {
 function getOverpassCacheFiltered(center, radiusMeters) {
     const wantKm = radiusMeters / 1000;
     try {
-        const localiPre = getLocaliPageOverpassCache(center, 8000);
+        const localiPre = getLocaliPageOverpassCache(center, 28000);
         if (Array.isArray(localiPre) && localiPre.length > 0) {
             const mapped = mapOsmElementsToClubs(localiPre, center);
             const filtered = mapped.filter((club) => {
@@ -1271,27 +1285,27 @@ async function enrichClubsWithGoogleRatings(clubs) {
 
             // Only use Place.searchNearby (no legacy APIs, no searchText)
             const resp = await lib.Place.searchNearby({
-    locationRestriction: { center: biasCenter, radius: 2800 },
-    includedTypes: ['night_club'],
-    maxResultCount: 5,
-    language: 'it',
-    region: 'IT',
-    fields: ['id', 'displayName', 'location', 'rating', 'userRatingCount', 'types', 'reviews']
-});
+                locationRestriction: { center: biasCenter, radius: 2800 },
+                // Heuristic: search clubs first, then bars as fallback
+                includedTypes: ['night_club'],
+                maxResultCount: 5,
+                language: 'it',
+                region: 'IT',
+                fields: ['id', 'displayName', 'location', 'rating', 'userRatingCount', 'types', 'reviews']
+            });
 
-let places = resp && Array.isArray(resp.places) ? resp.places : [];
-if (!places.length) {
-    const resp2 = await lib.Place.searchNearby({
-        locationRestriction: { center: biasCenter, radius: 2800 },
-        includedTypes: ['bar'],
-        maxResultCount: 5,
-        language: 'it',
-        region: 'IT',
-        fields: ['id', 'displayName', 'location', 'rating', 'userRatingCount', 'types', 'reviews']
-    });
-    places = resp2 && Array.isArray(resp2.places) ? resp2.places : [];
-}
-            
+            let places = resp && Array.isArray(resp.places) ? resp.places : [];
+            if (!places.length) {
+                const resp2 = await lib.Place.searchNearby({
+                    locationRestriction: { center: biasCenter, radius: 2800 },
+                    includedTypes: ['bar'],
+                    maxResultCount: 5,
+                    language: 'it',
+                    region: 'IT',
+                    fields: ['id', 'displayName', 'location', 'rating', 'userRatingCount', 'types', 'reviews']
+                });
+                places = resp2 && Array.isArray(resp2.places) ? resp2.places : [];
+            }
 
             const qn = normalizeText(textQuery);
             const p0 = places
@@ -1780,22 +1794,41 @@ function isNearBergamo(center) {
 async function prefetchBgPackIfNeeded(center) {
     if (!isNearBergamo(center)) return;
     if (getBgPack()) return;
+
+    // ✅ AGGIUNTO
+    const allThrottled = OVERPASS_ENDPOINTS.every(ep => isOverpassEndpointThrottled(ep));
+    if (allThrottled) return;
+
     try {
         const clubs = await fetchClubsOverpassAnyEndpoint(BG_CENTER, 42000);
         if (!Array.isArray(clubs) || !clubs.length) return;
+
         const slim = clubs.slice(0, 140).map((c) => ({
             id: `seedbg:${String(c.id || '')}`,
-            name: c.name || 'Locale', address: c.address || '',
-            lat: c.lat, lng: c.lng, ratingText: '—', starsText: '—',
-            crowdText: 'Non impostata', crowdPercent: null, ageText: '—',
-            source: 'Seed', osmAmenity: c.osmAmenity || '', osmClub: c.osmClub || '',
-            osmLeisure: c.osmLeisure || '', isBar: Boolean(c.isBar)
+            name: c.name || 'Locale',
+            address: c.address || '',
+            lat: c.lat,
+            lng: c.lng,
+            ratingText: '—',
+            starsText: '—',
+            crowdText: 'Non impostata',
+            crowdPercent: null,
+            ageText: '—',
+            source: 'Seed',
+            osmAmenity: c.osmAmenity || '',
+            osmClub: c.osmClub || '',
+            osmLeisure: c.osmLeisure || '',
+            isBar: Boolean(c.isBar)
         })).filter((x) => Number.isFinite(x.lat) && Number.isFinite(x.lng));
+
         setBgPack(slim);
-    } catch { /* ignore */ }
+
+    } catch {
+        /* ignore */
+    }
 }
 
-const LOCALI_PREFETCH_RADIUS_M = 8000;
+const LOCALI_PREFETCH_RADIUS_M = 28000;
 
 function localiPageOverpassCacheKey(center, radiusMeters) {
     return `fmn_loc_overpass_${Number(center.lat).toFixed(3)}_${Number(center.lng).toFixed(3)}_${radiusMeters}`;
@@ -1880,10 +1913,13 @@ async function prefetchLocaliOverpassForCenter(center) {
     }
 }
 
+// Sostituisci scheduleLocaliOverpassPrefetch con questa versione
 function scheduleLocaliOverpassPrefetch(center) {
-    const run = () => { prefetchLocaliOverpassForCenter(center).catch(() => { }); };
-    setTimeout(run, 1500);
-    if (typeof requestIdleCallback === 'function') requestIdleCallback(run, { timeout: 3500 });
+    const allThrottled = OVERPASS_ENDPOINTS.every(ep => isOverpassEndpointThrottled(ep));
+    if (allThrottled) return; // non spammare se siamo già in backoff
+    const run = () => { prefetchLocaliOverpassForCenter(center).catch(() => {}); };
+    setTimeout(run, 800); // aumenta il delay da 180ms a 800ms
+    if (typeof requestIdleCallback === 'function') requestIdleCallback(run, { timeout: 5000 });
 }
 
 function fetchSeedPlacesWithinRadius(center, radiusKm) {
@@ -1920,22 +1956,9 @@ function fetchSeedPlacesWithinRadius(center, radiusKm) {
 // LOAD CLUBS — versione ottimizzata
 // ─────────────────────────────────────────────────────────────────────────────
 
-async function loadClubs() {async function loadClubs() {
+async function loadClubs() {
     const runId = ++loadClubsRunId;
-    if (overpassAbortController) overpassAbortController.abort();
-    overpassAbortController = new AbortController();
-    const signal = overpassAbortController.signal;
 
-    // ✅ SEED IMMEDIATO — zero attesa, appare in <50ms
-    const listRef = getVenueListReferenceCenter();
-    const seedInstant = fetchSeedPlacesWithinRadius(listRef, currentRadiusKm)
-        .sort((a, b) => a.distanceKm - b.distanceKm).slice(0, 18);
-    if (seedInstant.length) {
-        clubsData = seedInstant;
-        enrichClubsWithFirebase(clubsData);
-        renderMarkers(clubsData);
-        renderSidebar(clubsForSidebar(clubsData));
-    }
     // ─── FIX #5: annulla le fetch Overpass del runId precedente ───────────────
     if (overpassAbortController) {
         overpassAbortController.abort();
