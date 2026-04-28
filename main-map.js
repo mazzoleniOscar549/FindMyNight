@@ -272,9 +272,11 @@ document.querySelectorAll('.step, .plan-card, .stat-item').forEach(el => {
 // ─────────────────────────────────────────────────────────────────────────────
 
 const DEFAULT_CENTER = { lat: 41.8719, lng: 12.5674 };
-// Prefer kumi first (often more reliable than overpass-api.de)
+// Overpass pubblici: alcuni vanno spesso in timeout; tenerne più di uno riduce i "paesi vuoti".
 const OVERPASS_ENDPOINTS = [
+    'https://overpass.kumi.systems/api/interpreter',
     'https://overpass-api.de/api/interpreter',
+    'https://overpass.openstreetmap.fr/api/interpreter',
     'https://overpass.private.coffee/api/interpreter'
 ];
 const OVERPASS_MAX_RESULTS = 100;
@@ -724,9 +726,14 @@ async function fetchClubsOverpassAnyEndpoint(center, radiusMeters, signal) {
         if (signal && signal.aborted) return [];
         let results = [];
         const races = list.map((ep, i) =>
-                    fetchNightclubsFromOverpass({ endpoint: ep, center, radiusMeters, signal, timeoutMs: i === 0 ? 14000 : 10000 })
-                        .catch(() => null)
-                );
+            fetchNightclubsFromOverpass({
+                endpoint: ep,
+                center,
+                radiusMeters,
+                signal,
+                timeoutMs: i === 0 ? 20000 : 16000
+            }).catch(() => null)
+        );
         const settled = await Promise.all(races);
         for (const r of settled) {
             if (Array.isArray(r) && r.length > 0) { results = r; break; }
@@ -807,7 +814,7 @@ async function fetchNightclubsFromOverpass({ endpoint, center, radiusMeters, sig
 
     // Wider query: many venues are mapped as ways/relations or via club/leisure tags
     const query = `
-      [out:json][timeout:10];
+      [out:json][timeout:25];
       (
         node["amenity"="nightclub"](around:${r},${lat},${lng});
         way["amenity"="nightclub"](around:${r},${lat},${lng});
