@@ -54,6 +54,7 @@ function normalizeName(name) {
 }
 
 function loadFirebaseVenues() {
+    if (!db) return;
     db.collection('venues').onSnapshot(
         (snapshot) => {
             fbVenueData.clear();
@@ -105,6 +106,12 @@ async function loadAndRenderUserReviews() {
     const grid = document.getElementById('userReviewsGrid');
     const hint = document.getElementById('userReviewsHint');
     if (!grid || !hint) return;
+
+    if (!db) {
+        grid.innerHTML = '';
+        hint.textContent = 'Recensioni community non disponibili (Firebase non configurato).';
+        return;
+    }
 
     hint.textContent = 'Carico recensioni della community…';
     grid.innerHTML = `
