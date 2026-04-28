@@ -1527,6 +1527,16 @@ function showMapFetchLoading(hasActive) {
     el.setAttribute('aria-hidden', 'false');
 }
 
+function showMapStatusMessage(text) {
+    const el = document.getElementById('mapFetchStatus');
+    if (!el || !isMapSidebarMobileLayout()) return;
+    const t = String(text || '').trim();
+    if (!t) { hideMapFetchLoading(); return; }
+    el.innerHTML = `<span style="display:inline-flex;align-items:center;gap:.55rem;"><span aria-hidden="true">⚠</span><span class="map-fetch-line">${escapeHtml(t)}</span></span>`;
+    el.classList.add('map-fetch-status--on');
+    el.setAttribute('aria-hidden', 'false');
+}
+
 let _fmnThirdPartyDeferred = false;
 
 function loadDeferredThirdPartyScripts() {
@@ -2224,6 +2234,8 @@ async function loadClubs() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 function __fmnStartApp() {
+    if (window.__fmnStarted) return;
+    window.__fmnStarted = true;
     wireMapsChooserModal();
     initMap();
     (async () => {
@@ -2377,6 +2389,15 @@ if (searchClear && searchInput) {
 
 if (useCurrentLocationBtn) {
     useCurrentLocationBtn.addEventListener('click', () => {
+        // Se la mappa è lazy-init e l’utente clicca subito, avviala al volo.
+        try { if (!window.__fmnStarted) __fmnStartApp(); } catch { /* ignore */ }
+
+        // Su mobile, senza HTTPS la geolocalizzazione viene bloccata e sembra "non funzionare".
+        if (!window.isSecureContext) {
+            showMapStatusMessage('Per usare il GPS apri il sito in HTTPS (o localhost).');
+            return;
+        }
+
         if (typeof window.__requestUserLocation === 'function') window.__requestUserLocation();
     });
 }
