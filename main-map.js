@@ -649,7 +649,7 @@ function setOverpassCache(center, radiusMeters, data) {
 function getOverpassCacheFiltered(center, radiusMeters) {
     const wantKm = radiusMeters / 1000;
     try {
-        const localiPre = getLocaliPageOverpassCache(center, 28000);
+        const localiPre = getLocaliPageOverpassCache(center, 8000);
         if (Array.isArray(localiPre) && localiPre.length > 0) {
             const mapped = mapOsmElementsToClubs(localiPre, center);
             const filtered = mapped.filter((club) => {
