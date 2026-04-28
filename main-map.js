@@ -1884,7 +1884,7 @@ async function prefetchLocaliOverpassForCenter(center) {
 
 function scheduleLocaliOverpassPrefetch(center) {
     const run = () => { prefetchLocaliOverpassForCenter(center).catch(() => { }); };
-    setTimeout(run, 180);
+    setTimeout(run, 1500);
     if (typeof requestIdleCallback === 'function') requestIdleCallback(run, { timeout: 3500 });
 }
 
