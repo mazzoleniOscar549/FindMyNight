@@ -167,8 +167,10 @@ async function loadAndRenderGoogleReviews() {
     const hint = document.getElementById('googleReviewsHint');
     if (!grid || !hint) return;
 
-    const isPending = (clubsData || []).some(c => c.ratingsPending);
-    if (isPending) {
+  const readyClubs = (clubsData || []).filter(c => !c.ratingsPending);
+    const stillLoading = readyClubs.length < (clubsData || []).length;
+
+    if (stillLoading && !readyClubs.some(c => c.googleReviews && c.googleReviews.length)) {
         hint.textContent = 'Carico recensioni API Google…';
         grid.innerHTML = `
           <div style="grid-column: 1 / -1; text-align: center; padding: 1.35rem;">
@@ -179,7 +181,7 @@ async function loadAndRenderGoogleReviews() {
     }
 
     const allReviews = [];
-    for (const c of (clubsData || [])) {
+    for (const c of readyClubs) {
         if (c.googleReviews && Array.isArray(c.googleReviews)) {
             for (const rev of c.googleReviews) {
                 allReviews.push({ ...rev, venueName: c.name });
@@ -278,7 +280,7 @@ const OVERPASS_ENDPOINTS = [
 const OVERPASS_MAX_RESULTS = 100;
 const GOOGLE_PLACES_MAX_RESULTS = 72;
 const MAP_MAX_VENUES_SHOWN = 60;
-const GOOGLE_ENRICH_MAX_CLUBS = 40;
+const GOOGLE_ENRICH_MAX_CLUBS = 20;
 const SAME_AREA_GPS_VS_PLACE_KM = 14;
 const MERGE_GPS_SECOND_QUERY_MAX_KM = 200;
 const NOMINATIM_ENDPOINT = 'https://nominatim.openstreetmap.org/search';
@@ -719,17 +721,15 @@ async function fetchClubsOverpassAnyEndpoint(center, radiusMeters, signal) {
         const endpointsToTry = OVERPASS_ENDPOINTS.filter((ep) => !isOverpassEndpointThrottled(ep));
         const list = endpointsToTry.length ? endpointsToTry : OVERPASS_ENDPOINTS;
 
+        if (signal && signal.aborted) return [];
         let results = [];
-        for (let i = 0; i < list.length; i++) {
-            const ep = list[i];
-            try {
-                const timeoutMs = i === 0 ? 9000 : 15000;
-                const r = await fetchNightclubsFromOverpass({ endpoint: ep, center, radiusMeters, signal, timeoutMs });
-                if (Array.isArray(r) && r.length > 0) { results = r; break; }
-            } catch {
-                // continue
-            }
-            if (signal && signal.aborted) return [];
+        const races = list.map((ep) =>
+            fetchNightclubsFromOverpass({ endpoint: ep, center, radiusMeters, signal, timeoutMs: 8000 })
+                .catch(() => null)
+        );
+        const settled = await Promise.all(races);
+        for (const r of settled) {
+            if (Array.isArray(r) && r.length > 0) { results = r; break; }
         }
 
         if (Array.isArray(results) && results.length) {
@@ -932,7 +932,7 @@ function isNightclub(club) {
     // Google types can be noisy (some bars get tagged as night_club). If this venue
     // is explicitly marked as bar in our model, do not flip it to nightclub just
     // because of Google types.
-    if (gTypes.includes('night_club')) return club && club.isBar ? false : true;
+if (gTypes.includes('night_club') && !gTypes.includes('bar') && !gTypes.includes('pub') && !club.isBar) return true;
     return false;
 }
 
@@ -1327,11 +1327,19 @@ async function enrichClubsWithGoogleRatings(clubs) {
             }
 
             const qn = normalizeText(textQuery);
+           const qWords = qn.split(' ').filter(w => w.length > 3);
+            const nameScore = (n) => {
+                if (!n || !qn) return 1;
+                if (n === qn) return 0;
+                if (qWords.length && qWords.every(w => n.includes(w))) return 0;
+                if (n.includes(qn)) return 0;
+                return 1;
+            };
             const p0 = places
                 .map((p) => ({ p, n: normalizeText(placeDisplayName(p)) }))
                 .sort((a, b) => {
-                    const aHit = a.n && qn && a.n.includes(qn) ? 0 : 1;
-                    const bHit = b.n && qn && b.n.includes(qn) ? 0 : 1;
+                    const aHit = nameScore(a.n);
+                    const bHit = nameScore(b.n);
                     const ar = typeof a.p.rating === 'number' ? -a.p.rating : 0;
                     const br = typeof b.p.rating === 'number' ? -b.p.rating : 0;
                     return (aHit - bHit) || (ar - br);
@@ -1352,7 +1360,7 @@ async function enrichClubsWithGoogleRatings(clubs) {
         }
     }
 
-    const BATCH_SIZE = 5; // 5 richieste in parallelo invece di 1 alla volta con gap artificiale
+    const BATCH_SIZE = 8; // 5 richieste in parallelo invece di 1 alla volta con gap artificiale
     const enrichLimit = Math.min(clubs.length, GOOGLE_ENRICH_MAX_CLUBS);
     const enriched = [];
 
@@ -1743,7 +1751,7 @@ function initMap() {
             if (tempSearchMarker) { tempSearchMarker.remove(); tempSearchMarker = null; }
 
             const skipClubReload = Boolean(
-                prevLocForReload && !preferGpsAsSearchCenter && kmBetween(prevLocForReload, here) < 0.12
+                prevLocForReload && !preferGpsAsSearchCenter && kmBetween(prevLocForReload, here) < 0.5
             );
             if (!skipClubReload) loadClubs();
         }
@@ -1880,20 +1888,24 @@ async function fetchLocaliStyleOverpassElements(endpoint, center, radiusMeters) 
     const lat = Number(center.lat); const lng = Number(center.lng);
     const r = Math.max(1000, Math.min(50000, Math.round(radiusMeters)));
     const query = `
-      [out:json][timeout:25];
+      [out:json][timeout:10];
       (
-  node["amenity"="nightclub"](around:${r},${lat},${lng});
-  way["amenity"="nightclub"](around:${r},${lat},${lng});
-  relation["amenity"="nightclub"](around:${r},${lat},${lng});
+        node["amenity"="nightclub"](around:${r},${lat},${lng});
+        way["amenity"="nightclub"](around:${r},${lat},${lng});
+        relation["amenity"="nightclub"](around:${r},${lat},${lng});
 
-  node["amenity"="bar"](around:${r},${lat},${lng});
-  way["amenity"="bar"](around:${r},${lat},${lng});
-  relation["amenity"="bar"](around:${r},${lat},${lng});
+        node["club"="nightclub"](around:${r},${lat},${lng});
+        way["club"="nightclub"](around:${r},${lat},${lng});
+        relation["club"="nightclub"](around:${r},${lat},${lng});
 
-  node["amenity"="pub"](around:${r},${lat},${lng});
-  way["amenity"="pub"](around:${r},${lat},${lng});
-  relation["amenity"="pub"](around:${r},${lat},${lng});
-);
+        node["leisure"="nightclub"](around:${r},${lat},${lng});
+        way["leisure"="nightclub"](around:${r},${lat},${lng});
+        relation["leisure"="nightclub"](around:${r},${lat},${lng});
+
+        node["leisure"="dancing"](around:${r},${lat},${lng});
+        way["leisure"="dancing"](around:${r},${lat},${lng});
+        relation["leisure"="dancing"](around:${r},${lat},${lng});
+      );
       out center tags;
     `.replace(/\s+/g, ' ').trim();
 
