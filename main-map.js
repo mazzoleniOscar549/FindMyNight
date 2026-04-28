@@ -275,8 +275,7 @@ const DEFAULT_CENTER = { lat: 41.8719, lng: 12.5674 };
 // Prefer kumi first (often more reliable than overpass-api.de)
 const OVERPASS_ENDPOINTS = [
     'https://overpass-api.de/api/interpreter',
-    'https://maps.mail.ru/osm/tools/overpass/api/interpreter',
-    'https://overpass.openstreetmap.ru/api/interpreter'
+    'https://overpass.private.coffee/api/interpreter'
 ];
 const OVERPASS_MAX_RESULTS = 100;
 const GOOGLE_PLACES_MAX_RESULTS = 72;
@@ -1758,8 +1757,8 @@ function initMap() {
         }
 
         const fastOpts = preferGpsAsSearchCenter
-            ? { enableHighAccuracy: false, timeout: 4000, maximumAge: 300000 }
-            : { enableHighAccuracy: false, timeout: 7000, maximumAge: 180000 };
+            ? { enableHighAccuracy: false, timeout: 8000, maximumAge: 300000 }
+            : { enableHighAccuracy: false, timeout: 12000, maximumAge: 180000 };
 
         navigator.geolocation.getCurrentPosition((pos) => {
             applyPosition(pos, preferGpsAsSearchCenter);
@@ -2134,23 +2133,27 @@ async function loadClubs() {
        let clubs = null;
         let lastErr = null;
 
-        const overpassPromise = fetchClubsOverpassAnyEndpoint(centerPrimary, radiusMeters, signal);
+        const overpassPromise = fetchClubsOverpassAnyEndpoint(centerPrimary, radiusMeters, signal)
+            .catch(() => null);
+
         const googleFallbackPromise = new Promise((resolve) => {
             setTimeout(async () => {
                 try {
                     const g = await fetchNightclubsFromGooglePlaces({ center: listRef, radiusMeters });
                     resolve(g && g.length ? g : null);
                 } catch { resolve(null); }
-            }, 6000);
+            }, 5000); // parte dopo 5s se Overpass non ha ancora risposto
         });
 
         clubs = await Promise.race([
-            overpassPromise,
-            googleFallbackPromise.then(g => g || overpassPromise)
-        ]).catch(() => null);
+            overpassPromise.then(r => r && r.length ? r : null),
+            googleFallbackPromise
+        ]);
 
+        // Se il race winner è null, aspetta l'altro
         if (!clubs || !clubs.length) {
-            clubs = await googleFallbackPromise.catch(() => null);
+            clubs = await Promise.all([overpassPromise, googleFallbackPromise])
+                .then(([o, g]) => (o && o.length ? o : g));
         }
 
         if (runId !== loadClubsRunId) return;
