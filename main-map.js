@@ -253,7 +253,6 @@ document.querySelectorAll('.step, .plan-card, .stat-item').forEach(el => {
 const DEFAULT_CENTER = { lat: 41.8719, lng: 12.5674 };
 // Prefer kumi first (often more reliable than overpass-api.de)
 const OVERPASS_ENDPOINTS = [
-    'https://overpass.kumi.systems/api/interpreter',
     'https://overpass-api.de/api/interpreter'
 ];
 const OVERPASS_MAX_RESULTS = 100;
