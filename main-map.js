@@ -899,12 +899,9 @@ function isNightclub(club) {
     const am = (club && club.osmAmenity ? String(club.osmAmenity) : '').toLowerCase();
     const cl = (club && club.osmClub ? String(club.osmClub) : '').toLowerCase();
     const le = (club && club.osmLeisure ? String(club.osmLeisure) : '').toLowerCase();
-    if (am === 'nightclub' || cl === 'nightclub' || le === 'nightclub') return true;
-    if (le === 'dancing') {
-    const clubKeywords = ['club', 'disco', 'night', 'dance club', 'danceclub'];
-    return clubKeywords.some(k => n.includes(k));
+    if (am === 'nightclub' || cl === 'nightclub' || le === 'nightclub' || le === 'dancing') return true;
     const n = normalizeText(club && club.name ? club.name : '');
-    if (n.includes('life club') || n.includes('amnesia') || n.includes('vog club') || n.includes('setai') ||n.includes('bolgia') || n.includes('oro nero')) return true;
+    if (n.includes('life club') || n.includes('amnesia') || n.includes('vog club') || n.includes('setai') || n.includes('open space') || n.includes('bolgia') || n.includes('oro nero')) return true;
     const gTypes = Array.isArray(club && club.googlePlaceTypes) ? club.googlePlaceTypes : [];
     // Google types can be noisy (some bars get tagged as night_club). If this venue
     // is explicitly marked as bar in our model, do not flip it to nightclub just
