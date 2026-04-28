@@ -275,7 +275,8 @@ const DEFAULT_CENTER = { lat: 41.8719, lng: 12.5674 };
 // Prefer kumi first (often more reliable than overpass-api.de)
 const OVERPASS_ENDPOINTS = [
     'https://overpass-api.de/api/interpreter',
-    'https://overpass.kumi.systems/api/interpreter'
+    'https://maps.mail.ru/osm/tools/overpass/api/interpreter',
+    'https://overpass.openstreetmap.ru/api/interpreter'
 ];
 const OVERPASS_MAX_RESULTS = 100;
 const GOOGLE_PLACES_MAX_RESULTS = 72;
@@ -723,10 +724,10 @@ async function fetchClubsOverpassAnyEndpoint(center, radiusMeters, signal) {
 
         if (signal && signal.aborted) return [];
         let results = [];
-        const races = list.map((ep) =>
-            fetchNightclubsFromOverpass({ endpoint: ep, center, radiusMeters, signal, timeoutMs: 8000 })
-                .catch(() => null)
-        );
+        const races = list.map((ep, i) =>
+                    fetchNightclubsFromOverpass({ endpoint: ep, center, radiusMeters, signal, timeoutMs: i === 0 ? 14000 : 10000 })
+                        .catch(() => null)
+                );
         const settled = await Promise.all(races);
         for (const r of settled) {
             if (Array.isArray(r) && r.length > 0) { results = r; break; }
@@ -2126,13 +2127,28 @@ async function loadClubs() {
             }
         };
 
-        let clubs = null;
+       let clubs = null;
         let lastErr = null;
 
-        // Ensure only ONE Overpass request per loadClubs run (no parallel radii, no background "second fetch").
-        if (!clubs) {
-            clubs = await fetchClubsOverpassAnyEndpoint(centerPrimary, radiusMeters, signal);
+        const overpassPromise = fetchClubsOverpassAnyEndpoint(centerPrimary, radiusMeters, signal);
+        const googleFallbackPromise = new Promise((resolve) => {
+            setTimeout(async () => {
+                try {
+                    const g = await fetchNightclubsFromGooglePlaces({ center: listRef, radiusMeters });
+                    resolve(g && g.length ? g : null);
+                } catch { resolve(null); }
+            }, 6000);
+        });
+
+        clubs = await Promise.race([
+            overpassPromise,
+            googleFallbackPromise.then(g => g || overpassPromise)
+        ]).catch(() => null);
+
+        if (!clubs || !clubs.length) {
+            clubs = await googleFallbackPromise.catch(() => null);
         }
+
         if (runId !== loadClubsRunId) return;
 
         if (clubs && clubs.length) {
