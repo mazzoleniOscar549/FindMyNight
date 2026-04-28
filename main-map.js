@@ -1831,14 +1831,9 @@ async function prefetchBgPackIfNeeded(center) {
     if (allThrottled) return;
 
     try {
-        const clubs = await fetchClubsOverpassAnyEndpoint(BG_CENTER, 55000); // era 42000, copre tutta la provincia
+        // raggio aumentato per coprire tutta la provincia
+        const clubs = await fetchClubsOverpassAnyEndpoint(BG_CENTER, 55000);
 
-    // ✅ AGGIUNTO
-    const allThrottled = OVERPASS_ENDPOINTS.every(ep => isOverpassEndpointThrottled(ep));
-    if (allThrottled) return;
-
-    try {
-        const clubs = await fetchClubsOverpassAnyEndpoint(BG_CENTER, 42000);
         if (!Array.isArray(clubs) || !clubs.length) return;
 
         const slim = clubs.slice(0, 140).map((c) => ({
@@ -1857,14 +1852,14 @@ async function prefetchBgPackIfNeeded(center) {
             osmClub: c.osmClub || '',
             osmLeisure: c.osmLeisure || '',
             isBar: Boolean(c.isBar)
-        })).filter((x) => Number.isFinite(x.lat) && Number.isFinite(x.lng));
+        }))
+        .filter((x) => Number.isFinite(x.lat) && Number.isFinite(x.lng));
 
         setBgPack(slim);
 
     } catch {
-        /* ignore */
+        // ignore
     }
-}
 }
 
 const LOCALI_PREFETCH_RADIUS_M = 28000;
