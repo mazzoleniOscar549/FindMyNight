@@ -3694,3 +3694,60 @@ footer {
         justify-content: center;
     }
 }
+/* ─── OTTIMIZZAZIONI MOBILE PERFORMANCE ─── */
+@media (max-width: 768px) {
+
+  /* Disabilita blur pesanti su hero (costosi su GPU mobile) */
+  .hero-orb {
+    filter: blur(40px); /* era 80px */
+  }
+  .orb1 { width: 300px; height: 300px; }
+  .orb2 { width: 250px; height: 250px; }
+  .orb3 { display: none; } /* terza orb non visibile su mobile, inutile renderizzarla */
+
+  /* Riduce font hero per evitare layout shift */
+  .hero h1 {
+    font-size: clamp(2rem, 10vw, 3rem);
+  }
+
+  /* Riduci padding hero su mobile: meno spazio = meno lavoro layout */
+  .hero {
+    padding: 6rem 1.25rem 4rem;
+  }
+
+  /* Noise overlay: costoso su mobile, abbassalo ulteriormente */
+  body::before {
+    opacity: 0.15;
+  }
+
+  /* Mappa: su mobile passa a layout verticale (sidebar sotto la mappa) */
+  .map-body {
+    grid-template-columns: 1fr;
+    grid-template-rows: 320px auto;
+    height: auto;
+  }
+
+  .map-sidebar {
+    border-right: none;
+    border-top: 0.5px solid var(--card-border);
+    max-height: 280px;
+  }
+
+  /* Badge early access: spostalo in alto su mobile per non coprire contenuto */
+  #earlyAccessBadge {
+    bottom: auto !important;
+    top: 72px !important;
+    left: 12px !important;
+    max-width: 240px !important;
+  }
+
+  /* Sezioni: riduci padding verticale */
+  .section {
+    padding: 3rem 1.25rem;
+  }
+
+  .map-section {
+    padding: 0 1rem 4rem;
+  }
+}
+
