@@ -3694,8 +3694,14 @@ footer {
         justify-content: center;
     }
 }
+
 @media (max-width: 768px) {
   .orb1 { width: 300px; height: 300px; filter: blur(40px); }
   .orb2 { width: 250px; height: 250px; filter: blur(40px); }
   .orb3 { display: none; }
+
+  /* Noise overlay: disabilitato su mobile, costa troppo in scroll */
+  body::before {
+    display: none;
+  }
 }
