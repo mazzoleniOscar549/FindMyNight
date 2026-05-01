@@ -2389,16 +2389,22 @@ if (searchClear && searchInput) {
 
 if (useCurrentLocationBtn) {
     useCurrentLocationBtn.addEventListener('click', () => {
-        // Se la mappa è lazy-init e l’utente clicca subito, avviala al volo.
-        try { if (!window.__fmnStarted) __fmnStartApp(); } catch { /* ignore */ }
-
-        // Su mobile, senza HTTPS la geolocalizzazione viene bloccata e sembra "non funzionare".
         if (!window.isSecureContext) {
-            showMapStatusMessage('Per usare il GPS apri il sito in HTTPS (o localhost).');
+            alert('Per usare il GPS apri il sito in HTTPS.');
             return;
         }
-
-        if (typeof window.__requestUserLocation === 'function') window.__requestUserLocation();
+        // Avvia la mappa se non ancora avviata
+        if (!window.__fmnStarted) __fmnStartApp();
+        // Scorri alla mappa e aspetta che sia pronta
+        document.getElementById('map')?.scrollIntoView({ behavior: 'smooth' });
+        const tryGps = () => {
+            if (typeof window.__requestUserLocation === 'function') {
+                window.__requestUserLocation();
+            } else {
+                setTimeout(tryGps, 200);
+            }
+        };
+        setTimeout(tryGps, 300);
     });
 }
 
