@@ -1058,13 +1058,35 @@
                 const okEl = document.getElementById('formOk');
                 formEl.classList.add('contact-form--leave');
                 window.setTimeout(() => {
-                    formEl.style.display = 'none';
-                    const card = formEl.closest('.form-card');
-                    if (card) card.style.display = 'none';
-                    okEl.classList.remove('form-ok--show');
-                    void okEl.offsetWidth;
-                    okEl.classList.add('form-ok--show');
-                }, 400);
+    formEl.style.display = 'none';
+    const card = formEl.closest('.form-card');
+    if (card) card.style.display = 'none';
+    okEl.classList.remove('form-ok--show');
+    void okEl.offsetWidth;
+    okEl.classList.add('form-ok--show');
+
+    // Bottone "Invia ancora"
+    const existing = document.getElementById('btnInviaAncora');
+    if (!existing) {
+        const btnAgain = document.createElement('button');
+        btnAgain.id = 'btnInviaAncora';
+        btnAgain.textContent = '↩ Invia un altro messaggio';
+        btnAgain.style.cssText = 'margin-top:1.2rem;background:none;border:0.5px solid rgba(168,85,247,0.4);color:#a855f7;padding:0.65rem 1.4rem;border-radius:100px;font-family:DM Sans,sans-serif;font-size:0.88rem;cursor:pointer;transition:background 0.2s;display:block;margin-left:auto;margin-right:auto;';
+        btnAgain.addEventListener('mouseenter', () => btnAgain.style.background = 'rgba(168,85,247,0.1)');
+        btnAgain.addEventListener('mouseleave', () => btnAgain.style.background = 'none');
+        btnAgain.addEventListener('click', () => {
+            okEl.classList.remove('form-ok--show');
+            if (card) card.style.display = '';
+            formEl.style.display = '';
+            formEl.classList.remove('contact-form--leave');
+            formEl.reset();
+            btn.textContent = 'Invia messaggio';
+            btn.disabled = false;
+            btnAgain.remove();
+        });
+        okEl.appendChild(btnAgain);
+    }
+}, 400);
             } catch (err) {
                 const mailto = 'mailto:' + CONTACT_FORM_EMAIL + '?subject=' + encodeURIComponent('[FindMyNight] ' + subjectLabel) + '&body=' + encodeURIComponent('Da: ' + name + ' <' + email + '>\n\n' + message);
                 showFormError(
