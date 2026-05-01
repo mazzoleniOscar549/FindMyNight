@@ -1052,10 +1052,7 @@
 
             try {
                 // Usa EmailJS (service + template forniti)
-                await emailjs.sendForm('service_4fjo0qj ', 'template_rc8osdp', e.target, {
-                    subject: '[FindMyNight Contatti] ' + subjectLabel,
-                    motivo: subjectLabel
-                });
+                await emailjs.sendForm('service_4fjo0qj', 'template_rc8osdp', e.target);
 
                 const formEl = e.target;
                 const okEl = document.getElementById('formOk');
