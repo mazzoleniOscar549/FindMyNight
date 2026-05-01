@@ -922,7 +922,10 @@
             <div class="form-error" id="formError" role="alert"></div>
 
             <div class="form-card">
-                <form id="contactForm">
+                <form id="contactForm" action="https://formsubmit.co/findmynight.info@gmail.com" method="POST">
+                    <input type="hidden" name="_template" value="table">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_subject" id="cSubjectHidden" value="[FindMyNight Contatti] Messaggio dal sito">
                     <div class="form-row">
                         <div class="form-group">
                             <label for="cName">Nome</label>
@@ -930,7 +933,7 @@
                         </div>
                         <div class="form-group">
                             <label for="cEmail">Email</label>
-                            <input type="email" id="cEmail" name="email" placeholder="nome@esempio.it" required autocomplete="email">
+                            <input type="email" id="cEmail" name="_replyto" placeholder="nome@esempio.it" required autocomplete="email">
                         </div>
                     </div>
 
@@ -1041,11 +1044,20 @@
                 altro: 'Altro'
             };
             const subjectLabel = subjectLabels[subjectKey] || subjectKey;
+            const subjectHidden = document.getElementById('cSubjectHidden');
+            if (subjectHidden) subjectHidden.value = '[FindMyNight Contatti] ' + subjectLabel;
 
             btn.textContent = 'Invio in corso…';
             btn.disabled = true;
 
             try {
+                // Se la pagina è aperta in locale (file://), le richieste cross-origin possono fallire:
+                // in quel caso usiamo direttamente l'invio classico del form.
+                if (window.location && window.location.protocol === 'file:') {
+                    e.target.submit();
+                    return;
+                }
+
                 const res = await fetch('https://formsubmit.co/ajax/' + encodeURIComponent(CONTACT_FORM_EMAIL), {
                     method: 'POST',
                     headers: {
@@ -1083,6 +1095,12 @@
                     okEl.classList.add('form-ok--show');
                 }, 400);
             } catch (err) {
+                // Fallback: prova l'invio classico (molto più compatibile con protezioni anti-bot),
+                // se anche quello non va mostriamo un mailto manuale.
+                try {
+                    e.target.submit();
+                    return;
+                } catch (_) {}
                 const mailto = 'mailto:' + CONTACT_FORM_EMAIL + '?subject=' + encodeURIComponent('[FindMyNight] ' + subjectLabel) + '&body=' + encodeURIComponent('Da: ' + name + ' <' + email + '>\n\n' + message);
                 showFormError(
                     'Non siamo riusciti a inviare dal browser. Controlla la connessione o invia manualmente: ' +
