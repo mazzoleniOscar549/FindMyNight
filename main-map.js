@@ -731,7 +731,7 @@ async function fetchClubsOverpassAnyEndpoint(center, radiusMeters, signal) {
                 center,
                 radiusMeters,
                 signal,
-                timeoutMs: i === 0 ? 20000 : 16000
+            timeoutMs: i === 0 ? 10000 : 8000
             }).catch(() => null)
         );
         const settled = await Promise.all(races);
@@ -2068,9 +2068,9 @@ async function loadClubs() {
         }
 
         // Seed come placeholder immediato mentre Overpass risponde
-        const seedInstant = fetchSeedPlacesWithinRadius(listRef, currentRadiusKm)
-            .sort((a, b) => a.distanceKm - b.distanceKm).slice(0, 18);
-        if (seedInstant.length && !cachedInstant) {
+        cconst seedInstant = fetchSeedPlacesWithinRadius(listRef, currentRadiusKm)
+    .sort((a, b) => a.distanceKm - b.distanceKm).slice(0, 30);
+    if (seedInstant.length) { {
             clubsData = seedInstant;
             enrichClubsWithFirebase(clubsData);
             renderMarkers(clubsData);
@@ -2150,17 +2150,17 @@ async function loadClubs() {
        let clubs = null;
         let lastErr = null;
 
-        const overpassPromise = fetchClubsOverpassAnyEndpoint(centerPrimary, radiusMeters, signal)
-            .catch(() => null);
+       const overpassPromise = fetchClubsOverpassAnyEndpoint(centerPrimary, radiusMeters, signal)
+    .catch(() => null);
 
-        const googleFallbackPromise = new Promise((resolve) => {
-            setTimeout(async () => {
-                try {
-                    const g = await fetchNightclubsFromGooglePlaces({ center: listRef, radiusMeters });
-                    resolve(g && g.length ? g : null);
-                } catch { resolve(null); }
-            }, 5000); // parte dopo 5s se Overpass non ha ancora risposto
-        });
+const googleFallbackPromise = new Promise((resolve) => {
+    setTimeout(async () => {
+        try {
+            const g = await fetchNightclubsFromGooglePlaces({ center: listRef, radiusMeters });
+            resolve(g && g.length ? g : null);
+        } catch { resolve(null); }
+    }, 3000); // ridotto da 5000 a 3000ms
+});
 
         clubs = await Promise.race([
             overpassPromise.then(r => r && r.length ? r : null),
